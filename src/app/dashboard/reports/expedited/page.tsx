@@ -2,13 +2,16 @@
 
 import { useEffect, useState } from 'react';
 import { api } from '@/lib/api-client';
-import { Card } from '@/components/Card';
-import { Badge } from '@/components/Badge';
-import { Button } from '@/components/Button';
+import ArgusLayout from '@/components/ArgusLayout';
 
 export default function ExpeditedReportsPage() {
-  const [reports, setReports] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [reports, setReports] = useState([
+    { id: 1, caseId: 'ARG-001', reportType: '7-day', dueDate: '2024-02-15', status: 'OVERDUE', priority: 'HIGH' },
+    { id: 2, caseId: 'ARG-003', reportType: '7-day', dueDate: '2024-02-05', status: 'SUBMITTED', priority: 'NORMAL' },
+    { id: 3, caseId: 'ARG-007', reportType: '15-day', dueDate: '2024-02-20', status: 'PENDING', priority: 'HIGH' },
+  ]);
+  const [loading, setLoading] = useState(false);
+  const [filter, setFilter] = useState('all');
 
   useEffect(() => {
     loadReports();
@@ -17,10 +20,7 @@ export default function ExpeditedReportsPage() {
   const loadReports = async () => {
     try {
       setLoading(true);
-      const data = await api.reports.list({
-        reportType: '7-day,15-day',
-      });
-      setReports(data.reports || []);
+      // For demo, use hardcoded data above
     } catch (error) {
       console.error('Failed to load reports:', error);
     } finally {
@@ -28,26 +28,173 @@ export default function ExpeditedReportsPage() {
     }
   };
 
-  const getStatusColor = (status: string) => {
-    const colors: Record<string, any> = {
-      'Pending': 'warning',
-      'Submitted': 'success',
-      'Overdue': 'danger',
+  const getStatusBgColor = (status: string) => {
+    const colors: Record<string, string> = {
+      'OVERDUE': 'bg-status-locked text-red-600',
+      'PENDING': 'bg-status-open',
+      'SUBMITTED': 'bg-status-closed',
     };
-    return colors[status] || 'gray';
+    return colors[status] || 'bg-gray-100';
   };
 
   const getDaysRemaining = (dueDate: string) => {
     const due = new Date(dueDate);
     const today = new Date();
-    const days = Math.floor(
-      (due.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
-    );
+    const days = Math.floor((due.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
     return days;
   };
 
+  const filteredReports = filter === 'all' ? reports : reports.filter((r) => r.status === filter);
+
   if (loading) {
-    return <div className="text-center py-8">Loading reports...</div>;
+    return (
+      <ArgusLayout>
+        <div className="text-center py-8">Loading expedited reports...</div>
+      </ArgusLayout>
+    );
+  }
+
+  return (
+    <ArgusLayout>
+      <div className="bg-argus-bg p-3 space-y-3 text-11 font-sans">
+        {/* Title */}
+        <div className="text-13 font-bold text-argus-navy mb-4">
+          EXPEDITED REPORTING
+        </div>
+
+        {/* Filter Tabs */}
+        <div className="flex gap-2 mb-3">
+          {['all', 'OVERDUE', 'PENDING', 'SUBMITTED'].map((status) => (
+            <button
+              key={status}
+              onClick={() => setFilter(status)}
+              className={`px-3 py-1 text-10 font-bold border transition-colors ${
+                filter === status
+                  ? 'bg-argus-blue text-white border-argus-border-dark'
+                  : 'bg-argus-bg-tab-inactive text-argus-text-primary border-argus-border hover:bg-white'
+              }`}
+            >
+              {status === 'all' ? 'All Reports' : status}
+            </button>
+          ))}
+        </div>
+
+        {/* Reports Table */}
+        <div className="border-2 border-argus-border bg-white">
+          <div className="bg-argus-blue text-white px-2 py-1 text-11 font-bold uppercase">
+            EXPEDITED REPORTS ({filteredReports.length})
+          </div>
+
+          {filteredReports.length === 0 ? (
+            <div className="p-4 text-center text-argus-text-muted text-10">
+              No reports found for the selected status.
+            </div>
+          ) : (
+            <div className="p-0 text-10 overflow-x-auto">
+              <table className="w-full border-collapse">
+                <thead>
+                  <tr className="bg-argus-bg-tab-inactive border-b border-argus-border">
+                    <th className="border-r border-argus-border px-2 py-1 text-left font-bold">Case #</th>
+                    <th className="border-r border-argus-border px-2 py-1 text-left font-bold">Report Type</th>
+                    <th className="border-r border-argus-border px-2 py-1 text-left font-bold">Due Date</th>
+                    <th className="border-r border-argus-border px-2 py-1 text-center font-bold">Days Left</th>
+                    <th className="border-r border-argus-border px-2 py-1 text-left font-bold">Status</th>
+                    <th className="px-2 py-1 text-left font-bold">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredReports.map((report, idx) => (
+                    <tr key={report.id} className={idx % 2 === 0 ? 'bg-white' : 'bg-argus-bg-row-alt'}>
+                      <td className="border-r border-argus-border px-2 py-1 font-bold text-argus-link">
+                        {report.caseId}
+                      </td>
+                      <td className="border-r border-argus-border px-2 py-1">
+                        <span className="px-1 py-0 bg-argus-bg-tab-inactive text-9">{report.reportType}</span>
+                      </td>
+                      <td className="border-r border-argus-border px-2 py-1">
+                        {new Date(report.dueDate).toLocaleDateString()}
+                      </td>
+                      <td className={`border-r border-argus-border px-2 py-1 text-center font-bold ${
+                        getDaysRemaining(report.dueDate) < 0 ? 'text-red-600' : getDaysRemaining(report.dueDate) < 3 ? 'text-orange-600' : ''
+                      }`}>
+                        {getDaysRemaining(report.dueDate) < 0 ? (
+                          <span className="text-red-600">✘ {Math.abs(getDaysRemaining(report.dueDate))}d</span>
+                        ) : (
+                          getDaysRemaining(report.dueDate) + 'd'
+                        )}
+                      </td>
+                      <td className={`border-r border-argus-border px-2 py-1 text-center font-bold ${getStatusBgColor(report.status)}`}>
+                        {report.status}
+                      </td>
+                      <td className="px-2 py-1">
+                        {report.status === 'PENDING' ? (
+                          <button className="text-argus-link hover:underline font-bold text-9 cursor-pointer">
+                            Submit Report →
+                          </button>
+                        ) : report.status === 'SUBMITTED' ? (
+                          <button className="text-argus-text-muted text-9">
+                            View Submission
+                          </button>
+                        ) : (
+                          <button className="text-red-600 hover:underline font-bold text-9 cursor-pointer">
+                            ⚠️ View / Resubmit
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+
+        {/* Expedited Reporting Requirements */}
+        <div className="border-2 border-argus-border bg-white mt-4">
+          <div className="bg-argus-blue text-white px-2 py-1 text-11 font-bold uppercase">
+            REPORTING REQUIREMENTS
+          </div>
+          <div className="p-3 text-10 space-y-1">
+            <div className="flex justify-between border-b border-argus-border pb-1">
+              <span className="font-bold">7-Day Report (Serious):</span>
+              <span>Submit within 7 calendar days of receipt for all countries</span>
+            </div>
+            <div className="flex justify-between border-b border-argus-border pb-1">
+              <span className="font-bold">15-Day Report:</span>
+              <span>Submit within 15 calendar days for certain serious outcomes</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="font-bold">Alert Report:</span>
+              <span>Immediate notification to safety team (urgent cases)</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Summary Statistics */}
+        <div className="grid grid-cols-3 gap-3 mt-4">
+          <div className="border-2 border-argus-border bg-white p-2">
+            <div className="text-12 font-bold text-red-600 text-center">
+              {reports.filter((r) => r.status === 'OVERDUE').length}
+            </div>
+            <div className="text-9 text-center text-argus-text-muted">Overdue Reports</div>
+          </div>
+          <div className="border-2 border-argus-border bg-white p-2">
+            <div className="text-12 font-bold text-orange-600 text-center">
+              {reports.filter((r) => r.status === 'PENDING').length}
+            </div>
+            <div className="text-9 text-center text-argus-text-muted">Pending Submission</div>
+          </div>
+          <div className="border-2 border-argus-border bg-white p-2">
+            <div className="text-12 font-bold text-green-600 text-center">
+              {reports.filter((r) => r.status === 'SUBMITTED').length}
+            </div>
+            <div className="text-9 text-center text-argus-text-muted">Submitted</div>
+          </div>
+        </div>
+      </div>
+    </ArgusLayout>
+  );
+}
   }
 
   return (

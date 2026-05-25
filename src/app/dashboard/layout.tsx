@@ -12,7 +12,8 @@ export default function DashboardLayout({
   const router = useRouter();
 
   useEffect(() => {
-    const token = document.cookie.includes('auth-token');
+    // Check localStorage for auth token
+    const token = typeof window !== 'undefined' ? localStorage.getItem('auth-token') : null;
     if (!token) {
       router.push('/login');
     }

@@ -17,28 +17,40 @@ export async function apiCall(
   const url = `${API_BASE}/api${endpoint}`;
   const token = getStoredToken();
 
-  const response = await fetch(url, {
-    credentials: 'include',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...(token && { 'Authorization': `Bearer ${token}` }),
-      ...options.headers,
-    },
-  });
+  try {
+    const response = await fetch(url, {
+      credentials: 'include',
+      ...options,
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token && { 'Authorization': `Bearer ${token}` }),
+        ...options.headers,
+      },
+    });
 
-  if (response.status === 401) {
-    window.location.href = '/login';
-    throw new Error('Unauthorized');
+    if (response.status === 401) {
+      if (typeof window !== 'undefined') {
+        window.location.href = '/login';
+      }
+      throw new Error('Unauthorized');
+    }
+
+    let data;
+    try {
+      data = await response.json();
+    } catch (e) {
+      throw new Error(`Failed to parse response: ${response.statusText}`);
+    }
+
+    if (!response.ok) {
+      throw new Error(data.error || data.message || 'API error');
+    }
+
+    return data;
+  } catch (error: any) {
+    console.error('API Error:', error);
+    throw error;
   }
-
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.error || 'API error');
-  }
-
-  return data;
 }
 
 export const api = {

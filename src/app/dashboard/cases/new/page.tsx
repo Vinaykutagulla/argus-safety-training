@@ -3,100 +3,99 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { api } from '@/lib/api-client';
-import { Card } from '@/components/Card';
-import { Button } from '@/components/Button';
-import { Input } from '@/components/Input';
-import { Tabs } from '@/components/Tabs';
-import { MEDDRA_TERMS, DRUGS } from '@/lib/constants';
-import Link from 'next/link';
+import ArgusLayout from '@/components/ArgusLayout';
 
 export default function NewCasePage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState('admin');
+  const [activeTab, setActiveTab] = useState('general');
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    administration: {
-      receiptDate: new Date().toISOString().split('T')[0],
-      caseClassification: 'Spontaneous',
-      reportType: 'Initial',
-      primaryReporterType: 'Physician',
-      countryOfOccurrence: '',
-      awarenessDate: new Date().toISOString().split('T')[0],
-      isPregnancyCase: false,
-    },
+    caseNumber: '',
+    receiptDate: new Date().toISOString().split('T')[0],
+    caseClassification: 'Spontaneous',
+    reportType: 'Initial',
+    countryOfOccurrence: 'USA',
+    isPregnancyCase: false,
     patient: {
       initials: '',
-      age: 0,
+      age: '',
       sex: 'Unknown',
-      weight: 0,
-      height: 0,
-      ethnicity: '',
-      medicalHistory: '',
-      concomitantMeds: '',
+      weight: '',
+      height: '',
     },
+    products: [
+      {
+        productName: '',
+        activeSubstance: '',
+        drugRole: 'Suspect',
+        dose: '',
+        doseUnit: 'mg',
+        routeOfAdmin: 'Oral',
+        startDate: '',
+        indication: '',
+      },
+    ],
     reaction: {
-      verbatimTerm: '',
-      meddraPreferredTerm: '',
-      meddraCode: '',
-      meddraSoc: '',
+      reactionName: '',
       onsetDate: '',
-      endDate: '',
       outcome: 'Unknown',
-      dateOfDeath: '',
-      seriousnessCriteria: [] as string[],
+      seriousness: 'Not Serious',
     },
-    drug: {
-      tradeName: '',
-      activeSubstance: '',
-      drugRole: 'Suspect',
-      indication: '',
-      dose: '',
-      doseUnit: '',
-      routeOfAdmin: '',
-      frequency: '',
-      startDate: '',
-      endDate: '',
-      lotNumber: '',
-      dechallenge: 'Unknown',
-      rechallenge: 'Unknown',
-      causality: 'Unassessable',
-    },
-    narrative: {
-      caseNarrative: '',
-      labTests: '',
-      additionalNotes: '',
-    },
-    reporter: {
-      title: '',
-      name: '',
-      qualification: 'Physician',
-      institution: '',
-      city: '',
-      country: '',
-      phone: '',
-      email: '',
-      reporterCausality: 'Unassessable',
-    },
-    status: 'New',
-    priority: 'Medium',
+    narrative: '',
   });
 
-  const handleChange = (section: string, field: string, value: any) => {
-    setFormData({
-      ...formData,
-      [section]: {
-        ...(formData as any)[section],
-        [field]: value,
-      },
-    });
+  const [products, setProducts] = useState([{ ...formData.products[0] }]);
+  const [requiredFields, setRequiredFields] = useState<Set<string>>(new Set());
+
+  const handleChange = (field: string, value: any) => {
+    setFormData({ ...formData, [field]: value });
+    if (value) {
+      setRequiredFields((prev) => {
+        const next = new Set(prev);
+        next.delete(field);
+        return next;
+      });
+    }
   };
 
-  const handleSubmit = async (e: React.FormEvent, draft: boolean = false) => {
+  const handleProductChange = (index: number, field: string, value: any) => {
+    const newProducts = [...products];
+    newProducts[index] = { ...newProducts[index], [field]: value };
+    setProducts(newProducts);
+  };
+
+  const addProduct = () => {
+    setProducts([
+      ...products,
+      {
+        productName: '',
+        activeSubstance: '',
+        drugRole: 'Suspect',
+        dose: '',
+        doseUnit: 'mg',
+        routeOfAdmin: 'Oral',
+        startDate: '',
+        indication: '',
+      },
+    ]);
+  };
+
+  const removeProduct = (index: number) => {
+    if (products.length > 1) {
+      setProducts(products.filter((_, i) => i !== index));
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const result = await api.cases.create(formData);
+      const caseData = {
+        ...formData,
+        products: products,
+      };
+      const result = await api.cases.create(caseData);
       router.push(`/dashboard/cases/${result._id}`);
     } catch (error) {
       console.error('Failed to create case:', error);
@@ -106,98 +105,430 @@ export default function NewCasePage() {
     }
   };
 
-  const meddraOptions = MEDDRA_TERMS.map((term) => ({
-    value: term.code,
-    label: `${term.term} (${term.code})`,
-  }));
-
-  const drugOptions = DRUGS.map((drug) => ({
-    value: drug.name,
-    label: drug.name,
-  }));
-
-  const administrationTab = (
-    <div className="space-y-4">
-      <Input
-        label="Receipt Date"
-        type="date"
-        value={formData.administration.receiptDate}
-        onChange={(e) =>
-          handleChange('administration', 'receiptDate', e.target.value)
-        }
-        required
-      />
-      <Input
-        label="Case Classification"
-        type="select"
-        value={formData.administration.caseClassification}
-        onChange={(e) =>
-          handleChange('administration', 'caseClassification', e.target.value)
-        }
-        options={[
-          { value: 'Spontaneous', label: 'Spontaneous' },
-          { value: 'Literature', label: 'Literature' },
-          { value: 'Clinical Trial', label: 'Clinical Trial' },
-          { value: 'Solicited', label: 'Solicited' },
-          { value: 'Regulatory Authority', label: 'Regulatory Authority' },
-        ]}
-        required
-      />
-      <Input
-        label="Report Type"
-        type="select"
-        value={formData.administration.reportType}
-        onChange={(e) =>
-          handleChange('administration', 'reportType', e.target.value)
-        }
-        options={[
-          { value: 'Initial', label: 'Initial' },
-          { value: 'Follow-up', label: 'Follow-up' },
-        ]}
-        required
-      />
-      <Input
-        label="Country of Occurrence"
-        type="text"
-        value={formData.administration.countryOfOccurrence}
-        onChange={(e) =>
-          handleChange('administration', 'countryOfOccurrence', e.target.value)
-        }
-        required
-      />
-      <label className="flex items-center">
-        <input
-          type="checkbox"
-          checked={formData.administration.isPregnancyCase}
-          onChange={(e) =>
-            handleChange('administration', 'isPregnancyCase', e.target.checked)
-          }
-          className="mr-2"
-        />
-        <span>Pregnancy Case</span>
-      </label>
-    </div>
+  const TabButton = ({ id, label }: { id: string; label: string }) => (
+    <button
+      onClick={() => setActiveTab(id)}
+      className={`px-3 py-1 text-11 font-bold border-b-2 transition-colors ${
+        activeTab === id
+          ? 'bg-argus-bg-tab-active text-argus-navy border-b-argus-section'
+          : 'bg-argus-bg-tab-inactive text-argus-text-muted border-b-argus-border hover:bg-white'
+      }`}
+    >
+      {label}
+    </button>
   );
 
-  const patientTab = (
-    <div className="space-y-4">
-      <Input
-        label="Patient Initials"
-        type="text"
-        value={formData.patient.initials}
-        onChange={(e) => handleChange('patient', 'initials', e.target.value)}
-        required
-      />
-      <Input
-        label="Age"
-        type="number"
-        value={formData.patient.age}
-        onChange={(e) =>
-          handleChange('patient', 'age', parseInt(e.target.value))
-        }
-        required
-      />
-      <Input
+  return (
+    <ArgusLayout>
+      <div className="bg-argus-bg p-3 space-y-3 text-11 font-sans">
+        {/* Title */}
+        <div className="flex justify-between items-center mb-4">
+          <div className="text-13 font-bold text-argus-navy">
+            NEW CASE ENTRY
+          </div>
+          <button
+            onClick={() => router.back()}
+            className="px-2 py-1 bg-argus-bg-tab-inactive hover:bg-argus-blue text-argus-text-primary text-10 border border-argus-border"
+          >
+            Cancel
+          </button>
+        </div>
+
+        {/* Tab Navigation */}
+        <div className="border-2 border-argus-border bg-white">
+          <div className="bg-argus-bg-tab-inactive border-b border-argus-border flex">
+            <TabButton id="general" label="General" />
+            <TabButton id="patient" label="Patient" />
+            <TabButton id="products" label="Products" />
+            <TabButton id="events" label="Events / Reactions" />
+            <TabButton id="analysis" label="Analysis" />
+            <TabButton id="narrative" label="Narrative" />
+          </div>
+
+          {/* Form Content */}
+          <form onSubmit={handleSubmit} className="p-3 space-y-2">
+            {/* General Tab */}
+            {activeTab === 'general' && (
+              <div className="space-y-3">
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-10 font-bold text-argus-text-label mb-1">
+                      Case Number: <span className="text-red-600">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.caseNumber}
+                      onChange={(e) => handleChange('caseNumber', e.target.value)}
+                      placeholder="ARG-0001234"
+                      className={`w-full px-2 py-1 border text-10 focus:outline-none ${
+                        requiredFields.has('caseNumber') ? 'border-red-600 bg-red-50' : 'border-argus-border focus:border-argus-light'
+                      }`}
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-10 font-bold text-argus-text-label mb-1">
+                      Receipt Date: <span className="text-red-600">*</span>
+                    </label>
+                    <input
+                      type="date"
+                      value={formData.receiptDate}
+                      onChange={(e) => handleChange('receiptDate', e.target.value)}
+                      className="w-full px-2 py-1 border border-argus-border text-10 focus:border-argus-light focus:outline-none"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-10 font-bold text-argus-text-label mb-1">Case Classification:</label>
+                    <select
+                      value={formData.caseClassification}
+                      onChange={(e) => handleChange('caseClassification', e.target.value)}
+                      className="w-full px-2 py-1 border border-argus-border text-10 focus:border-argus-light focus:outline-none cursor-pointer bg-white"
+                    >
+                      <option value="Spontaneous">Spontaneous</option>
+                      <option value="Literature">Literature</option>
+                      <option value="Clinical Trial">Clinical Trial</option>
+                      <option value="Solicited">Solicited</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-10 font-bold text-argus-text-label mb-1">Report Type:</label>
+                    <select
+                      value={formData.reportType}
+                      onChange={(e) => handleChange('reportType', e.target.value)}
+                      className="w-full px-2 py-1 border border-argus-border text-10 focus:border-argus-light focus:outline-none cursor-pointer bg-white"
+                    >
+                      <option value="Initial">Initial</option>
+                      <option value="Follow-up">Follow-up</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-10 font-bold text-argus-text-label mb-1">Country of Occurrence:</label>
+                    <select
+                      value={formData.countryOfOccurrence}
+                      onChange={(e) => handleChange('countryOfOccurrence', e.target.value)}
+                      className="w-full px-2 py-1 border border-argus-border text-10 focus:border-argus-light focus:outline-none cursor-pointer bg-white"
+                    >
+                      <option value="USA">USA</option>
+                      <option value="Canada">Canada</option>
+                      <option value="UK">UK</option>
+                      <option value="EU">EU</option>
+                      <option value="Japan">Japan</option>
+                    </select>
+                  </div>
+                  <div className="flex items-end pb-1">
+                    <label className="flex items-center text-10 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={formData.isPregnancyCase}
+                        onChange={(e) => handleChange('isPregnancyCase', e.target.checked)}
+                        className="mr-2 cursor-pointer"
+                      />
+                      <span className="font-bold">Pregnancy Case</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Patient Tab */}
+            {activeTab === 'patient' && (
+              <div className="space-y-3">
+                <div className="grid grid-cols-3 gap-3">
+                  <div>
+                    <label className="block text-10 font-bold text-argus-text-label mb-1">Initials:</label>
+                    <input
+                      type="text"
+                      value={formData.patient.initials}
+                      onChange={(e) => setFormData({ ...formData, patient: { ...formData.patient, initials: e.target.value } })}
+                      placeholder="ABC"
+                      maxLength={3}
+                      className="w-full px-2 py-1 border border-argus-border text-10 focus:border-argus-light focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-10 font-bold text-argus-text-label mb-1">Age:</label>
+                    <input
+                      type="number"
+                      value={formData.patient.age}
+                      onChange={(e) => setFormData({ ...formData, patient: { ...formData.patient, age: e.target.value } })}
+                      placeholder="0"
+                      className="w-full px-2 py-1 border border-argus-border text-10 focus:border-argus-light focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-10 font-bold text-argus-text-label mb-1">Sex:</label>
+                    <select
+                      value={formData.patient.sex}
+                      onChange={(e) => setFormData({ ...formData, patient: { ...formData.patient, sex: e.target.value } })}
+                      className="w-full px-2 py-1 border border-argus-border text-10 focus:border-argus-light focus:outline-none cursor-pointer bg-white"
+                    >
+                      <option value="Unknown">Unknown</option>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-10 font-bold text-argus-text-label mb-1">Weight (kg):</label>
+                    <input
+                      type="number"
+                      value={formData.patient.weight}
+                      onChange={(e) => setFormData({ ...formData, patient: { ...formData.patient, weight: e.target.value } })}
+                      placeholder="0"
+                      className="w-full px-2 py-1 border border-argus-border text-10 focus:border-argus-light focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-10 font-bold text-argus-text-label mb-1">Height (cm):</label>
+                    <input
+                      type="number"
+                      value={formData.patient.height}
+                      onChange={(e) => setFormData({ ...formData, patient: { ...formData.patient, height: e.target.value } })}
+                      placeholder="0"
+                      className="w-full px-2 py-1 border border-argus-border text-10 focus:border-argus-light focus:outline-none"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Products Tab */}
+            {activeTab === 'products' && (
+              <div className="space-y-2">
+                {products.map((product, idx) => (
+                  <div key={idx} className="border border-argus-border bg-argus-bg p-2 mb-2">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-10 font-bold text-argus-navy">PRODUCT #{idx + 1}</span>
+                      {products.length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => removeProduct(idx)}
+                          className="px-2 py-0 bg-red-600 text-white text-9 border border-red-700 hover:bg-red-700"
+                        >
+                          Remove
+                        </button>
+                      )}
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-2 text-10">
+                      <div>
+                        <label className="block font-bold text-argus-text-label mb-0.5">Product Name: <span className="text-red-600">*</span></label>
+                        <input
+                          type="text"
+                          value={product.productName}
+                          onChange={(e) => handleProductChange(idx, 'productName', e.target.value)}
+                          placeholder="Product name"
+                          className="w-full px-1 py-0.5 border border-argus-border text-9 focus:border-argus-light focus:outline-none"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label className="block font-bold text-argus-text-label mb-0.5">Active Substance:</label>
+                        <input
+                          type="text"
+                          value={product.activeSubstance}
+                          onChange={(e) => handleProductChange(idx, 'activeSubstance', e.target.value)}
+                          placeholder="e.g., Ibuprofen"
+                          className="w-full px-1 py-0.5 border border-argus-border text-9 focus:border-argus-light focus:outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="block font-bold text-argus-text-label mb-0.5">Drug Role:</label>
+                        <select
+                          value={product.drugRole}
+                          onChange={(e) => handleProductChange(idx, 'drugRole', e.target.value)}
+                          className="w-full px-1 py-0.5 border border-argus-border text-9 focus:border-argus-light focus:outline-none cursor-pointer bg-white"
+                        >
+                          <option value="Suspect">Suspect</option>
+                          <option value="Concomitant">Concomitant</option>
+                          <option value="Interacting">Interacting</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block font-bold text-argus-text-label mb-0.5">Dose:</label>
+                        <input
+                          type="text"
+                          value={product.dose}
+                          onChange={(e) => handleProductChange(idx, 'dose', e.target.value)}
+                          placeholder="e.g., 100"
+                          className="w-full px-1 py-0.5 border border-argus-border text-9 focus:border-argus-light focus:outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="block font-bold text-argus-text-label mb-0.5">Route of Admin:</label>
+                        <select
+                          value={product.routeOfAdmin}
+                          onChange={(e) => handleProductChange(idx, 'routeOfAdmin', e.target.value)}
+                          className="w-full px-1 py-0.5 border border-argus-border text-9 focus:border-argus-light focus:outline-none cursor-pointer bg-white"
+                        >
+                          <option value="Oral">Oral</option>
+                          <option value="IV">IV</option>
+                          <option value="IM">IM</option>
+                          <option value="SC">SC</option>
+                          <option value="Topical">Topical</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block font-bold text-argus-text-label mb-0.5">Start Date:</label>
+                        <input
+                          type="date"
+                          value={product.startDate}
+                          onChange={(e) => handleProductChange(idx, 'startDate', e.target.value)}
+                          className="w-full px-1 py-0.5 border border-argus-border text-9 focus:border-argus-light focus:outline-none"
+                        />
+                      </div>
+                      <div className="col-span-2">
+                        <label className="block font-bold text-argus-text-label mb-0.5">Indication:</label>
+                        <input
+                          type="text"
+                          value={product.indication}
+                          onChange={(e) => handleProductChange(idx, 'indication', e.target.value)}
+                          placeholder="e.g., Pain relief"
+                          className="w-full px-1 py-0.5 border border-argus-border text-9 focus:border-argus-light focus:outline-none"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+
+                <button
+                  type="button"
+                  onClick={addProduct}
+                  className="px-3 py-1 bg-argus-blue text-white text-10 font-bold border border-argus-border-dark hover:bg-argus-light"
+                >
+                  ➕ Add Another Product
+                </button>
+              </div>
+            )}
+
+            {/* Events Tab */}
+            {activeTab === 'events' && (
+              <div className="space-y-3">
+                <div>
+                  <label className="block text-10 font-bold text-argus-text-label mb-1">
+                    Reaction/Event Name: <span className="text-red-600">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.reaction.reactionName}
+                    onChange={(e) => setFormData({ ...formData, reaction: { ...formData.reaction, reactionName: e.target.value } })}
+                    placeholder="e.g., Nausea, Headache"
+                    className="w-full px-2 py-1 border border-argus-border text-10 focus:border-argus-light focus:outline-none"
+                    required
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-10 font-bold text-argus-text-label mb-1">Onset Date:</label>
+                    <input
+                      type="date"
+                      value={formData.reaction.onsetDate}
+                      onChange={(e) => setFormData({ ...formData, reaction: { ...formData.reaction, onsetDate: e.target.value } })}
+                      className="w-full px-2 py-1 border border-argus-border text-10 focus:border-argus-light focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-10 font-bold text-argus-text-label mb-1">Outcome:</label>
+                    <select
+                      value={formData.reaction.outcome}
+                      onChange={(e) => setFormData({ ...formData, reaction: { ...formData.reaction, outcome: e.target.value } })}
+                      className="w-full px-2 py-1 border border-argus-border text-10 focus:border-argus-light focus:outline-none cursor-pointer bg-white"
+                    >
+                      <option value="Unknown">Unknown</option>
+                      <option value="Recovered">Recovered</option>
+                      <option value="Recovering">Recovering</option>
+                      <option value="Not Recovered">Not Recovered</option>
+                      <option value="Fatal">Fatal</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-10 font-bold text-argus-text-label mb-1">Seriousness:</label>
+                    <select
+                      value={formData.reaction.seriousness}
+                      onChange={(e) => setFormData({ ...formData, reaction: { ...formData.reaction, seriousness: e.target.value } })}
+                      className="w-full px-2 py-1 border border-argus-border text-10 focus:border-argus-light focus:outline-none cursor-pointer bg-white"
+                    >
+                      <option value="Not Serious">Not Serious</option>
+                      <option value="Serious">Serious</option>
+                      <option value="Serious - Death">Serious - Death</option>
+                      <option value="Serious - Hospitalization">Serious - Hospitalization</option>
+                      <option value="Serious - Disability">Serious - Disability</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Analysis Tab */}
+            {activeTab === 'analysis' && (
+              <div className="space-y-3 bg-argus-bg-row-alt p-3 border border-argus-border">
+                <p className="text-10 text-argus-text-muted italic">
+                  WHO-UMC Causality Assessment: Assessed during case review. Not available for new cases.
+                </p>
+                <p className="text-10 font-bold text-argus-navy">
+                  Causality: <span className="text-argus-text-muted">Not Yet Assessed</span>
+                </p>
+              </div>
+            )}
+
+            {/* Narrative Tab */}
+            {activeTab === 'narrative' && (
+              <div className="space-y-3">
+                <div>
+                  <label className="block text-10 font-bold text-argus-text-label mb-1">Case Narrative:</label>
+                  <textarea
+                    value={formData.narrative}
+                    onChange={(e) => handleChange('narrative', e.target.value)}
+                    placeholder="Enter case narrative and details here..."
+                    rows={8}
+                    className="w-full px-2 py-1 border border-argus-border text-10 focus:border-argus-light focus:outline-none font-mono"
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* Form Buttons */}
+            <div className="flex gap-2 pt-3 border-t border-argus-border mt-4">
+              <button
+                type="button"
+                onClick={() => router.back()}
+                className="px-3 py-1 bg-argus-bg-tab-inactive text-argus-text-primary text-10 font-bold border border-argus-border hover:bg-white"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="px-3 py-1 bg-argus-bg-tab-inactive text-argus-text-primary text-10 font-bold border border-argus-border hover:bg-white"
+              >
+                Save as Draft
+              </button>
+              <button
+                type="submit"
+                disabled={loading}
+                className="px-3 py-1 bg-argus-blue text-white text-10 font-bold border border-argus-border-dark hover:bg-argus-light disabled:opacity-50"
+              >
+                {loading ? 'Submitting...' : 'Submit Case'}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </ArgusLayout>
+  );
+}
         label="Sex"
         type="select"
         value={formData.patient.sex}

@@ -1,0 +1,3 @@
+module.exports=[79797,(a,b,c)=>{let{createClientModuleProxy:d}=a.r(62291);a.n(d("[project]/Desktop/Argus/node_modules/next/dist/client/components/builtin/global-error.js <module evaluation>"))},79490,(a,b,c)=>{let{createClientModuleProxy:d}=a.r(62291);a.n(d("[project]/Desktop/Argus/node_modules/next/dist/client/components/builtin/global-error.js"))},78883,a=>{"use strict";a.i(79797);var b=a.i(79490);a.n(b)},78601,a=>{a.n(a.i(78883))}];
+
+//# sourceMappingURL=0dv3_next_dist_client_components_builtin_global-error_0kd-pfl.js.map

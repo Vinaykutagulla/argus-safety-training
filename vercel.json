@@ -1,0 +1,41 @@
+{
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "env": [
+    {
+      "key": "MONGODB_URI",
+      "description": "MongoDB connection string",
+      "value": "",
+      "required": true
+    },
+    {
+      "key": "JWT_SECRET",
+      "description": "JWT signing secret key",
+      "value": "",
+      "required": true
+    },
+    {
+      "key": "NODE_ENV",
+      "description": "Environment (production/development)",
+      "value": "production",
+      "required": true
+    },
+    {
+      "key": "SEED_PASSWORD",
+      "description": "Password for seed API endpoint",
+      "value": "dev-seed-key",
+      "required": false
+    }
+  ],
+  "regions": ["iad1"],
+  "git": {
+    "deploymentEnabled": true
+  },
+  "functions": {
+    "api/**/*.ts": {
+      "maxDuration": 30
+    }
+  }
+}

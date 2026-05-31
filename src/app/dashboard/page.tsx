@@ -1,10 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import Link from 'next/link';
+import { useState } from 'react';
 import ArgusLayout from '@/components/ArgusLayout';
 import SectionHeader from '@/components/SectionHeader';
-import ArgusInput from '@/components/ArgusInput';
 
 // Sample data - loaded by default, not dependent on database
 const SAMPLE_STATS = {
@@ -31,23 +29,10 @@ const SAMPLE_REPORTS = [
 ];
 
 export default function DashboardPage() {
-  const [stats, setStats] = useState(SAMPLE_STATS);
-  const [actionItems, setActionItems] = useState(SAMPLE_ACTION_ITEMS);
-  const [reportsDueSoon, setReportsDueSoon] = useState(SAMPLE_REPORTS);
+  const [stats] = useState(SAMPLE_STATS);
+  const [actionItems] = useState(SAMPLE_ACTION_ITEMS);
+  const [reportsDueSoon] = useState(SAMPLE_REPORTS);
   const [searchCaseId, setSearchCaseId] = useState('');
-  const [loading, setLoading] = useState(false);
-
-  const handleOpenCase = () => {
-    if (searchCaseId.trim()) {
-      window.location.href = `/dashboard/cases/${searchCaseId}`;
-    }
-  };
-
-  const handleNewCase = () => {
-    window.location.href = '/dashboard/cases/new';
-  };
-
-  if (loading) {
     return (
       <ArgusLayout>
         <div className="text-center py-12">
@@ -231,74 +216,5 @@ export default function DashboardPage() {
         </div>
       </div>
     </ArgusLayout>
-  );
-}
-              </span>
-              <span>→</span>
-              <span className="px-2 py-1 bg-status-review text-argus-navy border border-argus-border">
-                [Med Review: 4]
-              </span>
-              <span>→</span>
-              <span className="px-2 py-1 bg-status-new text-argus-navy border border-argus-border">
-                [QC: 2]
-              </span>
-              <span>→</span>
-              <span className="px-2 py-1 bg-status-locked text-argus-navy border border-argus-border">
-                [Lock: 1]
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </ArgusLayout>
-  );
-}
-                  <th className="text-left py-2 px-2 font-medium">Status</th>
-                  <th className="text-left py-2 px-2 font-medium">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {recentCases.map((caseItem) => (
-                  <tr key={caseItem._id} className="border-b border-gray-100 hover:bg-gray-50">
-                    <td className="py-2 px-2">{caseItem.caseId}</td>
-                    <td className="py-2 px-2">{caseItem.drug?.tradeName}</td>
-                    <td className="py-2 px-2">{caseItem.reaction?.meddraPreferredTerm}</td>
-                    <td className="py-2 px-2">
-                      <Badge variant={getStatusColor(caseItem.status) as any}>
-                        {caseItem.status}
-                      </Badge>
-                    </td>
-                    <td className="py-2 px-2">
-                      <Link href={`/dashboard/cases/${caseItem._id}`} className="text-blue-600 hover:underline">
-                        View
-                      </Link>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </Card>
-
-      {/* Quick Links */}
-      <div>
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Quick Links</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Link href="/dashboard/cases/new" className="bg-blue-50 hover:bg-blue-100 p-4 rounded border border-blue-200 transition">
-            <p className="font-medium text-blue-900">Create New Case</p>
-            <p className="text-sm text-blue-700 mt-1">Start case intake</p>
-          </Link>
-          <Link href="/dashboard/cases" className="bg-green-50 hover:bg-green-100 p-4 rounded border border-green-200 transition">
-            <p className="font-medium text-green-900">Search Cases</p>
-            <p className="text-sm text-green-700 mt-1">Find existing cases</p>
-          </Link>
-          <Link href="/dashboard/reports/expedited" className="bg-red-50 hover:bg-red-100 p-4 rounded border border-red-200 transition">
-            <p className="font-medium text-red-900">Expedited Reports</p>
-            <p className="text-sm text-red-700 mt-1">View urgent reports</p>
-          </Link>
-        </div>
-      </div>
-    </div>
   );
 }

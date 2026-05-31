@@ -4,6 +4,9 @@ import { useEffect, useState } from 'react';
 import { api } from '@/lib/api-client';
 import Link from 'next/link';
 import ArgusLayout from '@/components/ArgusLayout';
+import SectionHeader from '@/components/SectionHeader';
+import ArgusInput from '@/components/ArgusInput';
+import ArgusButton from '@/components/Button';
 
 export default function DashboardPage() {
   const [stats, setStats] = useState({
@@ -20,6 +23,10 @@ export default function DashboardPage() {
     { caseId: 'ARG-002', action: 'QC Review', dueDate: '22-JAN-2024', priority: 'MEDIUM' },
     { caseId: 'ARG-004', action: 'Submit Report', dueDate: '25-JAN-2024', priority: 'HIGH' },
   ]);
+  const [reportsDueSoon, setReportsDueSoon] = useState([
+    { caseId: 'ARG-003', reportType: '7-day', daysLeft: 2 },
+    { caseId: 'ARG-007', reportType: '15-day', daysLeft: 5 },
+  ]);
   const [searchCaseId, setSearchCaseId] = useState('');
   const [loading, setLoading] = useState(true);
 
@@ -29,9 +36,12 @@ export default function DashboardPage() {
 
   const handleOpenCase = () => {
     if (searchCaseId.trim()) {
-      // Navigate to case details
       window.location.href = `/dashboard/cases/${searchCaseId}`;
     }
+  };
+
+  const handleNewCase = () => {
+    window.location.href = '/dashboard/cases/new';
   };
 
   if (loading) {
@@ -47,8 +57,8 @@ export default function DashboardPage() {
       <div className="bg-argus-bg p-3 space-y-3 text-11 font-sans">
         {/* Main Title */}
         <div className="flex justify-between items-center mb-4">
-          <div className="text-13 font-bold text-argus-navy">
-            PERSONAL ARGUS STATUS
+          <div className="text-13 font-bold text-argus-navy uppercase">
+            Personal Argus Status
           </div>
           <button className="px-2 py-1 bg-argus-blue text-white hover:bg-argus-light text-10 border border-argus-border-dark">
             🔄 Refresh
@@ -59,9 +69,7 @@ export default function DashboardPage() {
         <div className="grid grid-cols-3 gap-3">
           {/* Column 1: My Worklist */}
           <div className="border-2 border-argus-border bg-white">
-            <div className="bg-argus-blue text-white px-2 py-1 text-11 font-bold uppercase">
-              MY WORKLIST
-            </div>
+            <SectionHeader title="MY WORKLIST" />
             <div className="p-3 space-y-1">
               <div className="flex justify-between">
                 <span>New Cases:</span>
@@ -78,6 +86,150 @@ export default function DashboardPage() {
               <div className="flex justify-between">
                 <span>Locked:</span>
                 <span className="font-bold">{stats.lockedCases}</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Closed:</span>
+                <span className="font-bold">{stats.closedCases}</span>
+              </div>
+              <div className="border-t border-argus-border my-1 pt-1 font-bold flex justify-between">
+                <span>TOTAL MTD:</span>
+                <span>{stats.totalMTD}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Column 2: My Action Items */}
+          <div className="border-2 border-argus-border bg-white">
+            <SectionHeader title="MY ACTION ITEMS" />
+            <div className="overflow-auto max-h-48">
+              <table className="w-full text-10">
+                <thead>
+                  <tr className="bg-argus-blue text-white">
+                    <th className="px-1 py-0.5 text-left">Case ID</th>
+                    <th className="px-1 py-0.5 text-left">Action</th>
+                    <th className="px-1 py-0.5 text-left">Due Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {actionItems.map((item, idx) => (
+                    <tr key={idx} className={idx % 2 === 1 ? 'bg-argus-bg-row-alt' : ''}>
+                      <td className="px-1 py-0.5">
+                        <a href={`/dashboard/cases/${item.caseId}`} className="text-argus-blue hover:underline">
+                          {item.caseId}
+                        </a>
+                      </td>
+                      <td className="px-1 py-0.5">{item.action}</td>
+                      <td className={`px-1 py-0.5 font-bold ${item.priority === 'HIGH' ? 'text-red-600' : 'text-argus-text-muted'}`}>
+                        {item.dueDate}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Column 3: Reports Due Soon */}
+          <div className="border-2 border-argus-border bg-white">
+            <SectionHeader title="REPORTS DUE SOON" />
+            <div className="p-3 space-y-1">
+              {reportsDueSoon.map((item, idx) => (
+                <div key={idx} className="flex justify-between items-center">
+                  <span>
+                    <a href={`/dashboard/cases/${item.caseId}`} className="text-argus-blue hover:underline">
+                      {item.caseId}
+                    </a>
+                  </span>
+                  <span className="text-10">{item.reportType}</span>
+                  <span className={item.daysLeft <= 2 ? 'text-red-600 font-bold' : 'text-argus-text-muted'}>
+                    ⚠️ {item.daysLeft}d
+                  </span>
+                </div>
+              ))}
+              <div className="border-t border-argus-border pt-1 text-red-600 font-bold">
+                OVERDUE: {stats.overdueReports}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Case Quick Launch */}
+        <div className="border-2 border-argus-border bg-white p-2">
+          <SectionHeader title="CASE QUICK LAUNCH" />
+          <div className="flex gap-2 items-center p-2">
+            <span className="text-11 font-bold text-argus-text-label">Case #:</span>
+            <ArgusInput
+              value={searchCaseId}
+              onChange={(e) => setSearchCaseId(e.target.value)}
+              placeholder="ARG-XXXX-XXXXXX"
+              className="w-48"
+            />
+            <button
+              onClick={handleOpenCase}
+              className="px-3 py-1 bg-argus-blue text-white text-10 border border-argus-border-dark hover:bg-argus-light"
+            >
+              Open Case
+            </button>
+            <button
+              onClick={handleNewCase}
+              className="px-3 py-1 bg-argus-light text-white text-10 border border-argus-border-dark hover:bg-argus-blue"
+            >
+              New Case
+            </button>
+            <a
+              href="/dashboard/cases"
+              className="px-3 py-1 bg-gray-600 text-white text-10 border border-gray-700 hover:bg-gray-700"
+            >
+              Case Search
+            </a>
+          </div>
+        </div>
+
+        {/* Workflow State Summary */}
+        <div className="border-2 border-argus-border bg-white p-2">
+          <SectionHeader title="OPEN CASES BY WORKFLOW STATE" />
+          <div className="flex gap-4 p-2 justify-center">
+            <div className="flex items-center gap-1">
+              <span className="text-10">[Intake:</span>
+              <span className="font-bold text-orange-600">5</span>
+              <span className="text-10">]</span>
+            </div>
+            <span className="text-argus-border">→</span>
+            <div className="flex items-center gap-1">
+              <span className="text-10">[Triage:</span>
+              <span className="font-bold">3</span>
+              <span className="text-10">]</span>
+            </div>
+            <span className="text-argus-border">→</span>
+            <div className="flex items-center gap-1">
+              <span className="text-10">[Data Entry:</span>
+              <span className="font-bold">8</span>
+              <span className="text-10">]</span>
+            </div>
+            <span className="text-argus-border">→</span>
+            <div className="flex items-center gap-1">
+              <span className="text-10">[Med Review:</span>
+              <span className="font-bold">4</span>
+              <span className="text-10">]</span>
+            </div>
+            <span className="text-argus-border">→</span>
+            <div className="flex items-center gap-1">
+              <span className="text-10">[QC:</span>
+              <span className="font-bold">2</span>
+              <span className="text-10">]</span>
+            </div>
+            <span className="text-argus-border">→</span>
+            <div className="flex items-center gap-1">
+              <span className="text-10">[Lock:</span>
+              <span className="font-bold">1</span>
+              <span className="text-10">]</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ArgusLayout>
+  );
+}
               </div>
               <div className="flex justify-between">
                 <span>Closed:</span>

@@ -1,90 +1,168 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
+// ===== ICH E2A COMPLIANT ADVERSE EVENT CASE MODEL =====
+// Fully compliant with Oracle Argus Safety 8.x data structure
+
+export interface IMedDRAEvent {
+  _id?: string;
+  verbatimTerm: string;
+  onsetDate?: Date;
+  stopDate?: Date;
+  outcome: 'Fatal' | 'Recovered' | 'Recovering' | 'Not Recovered' | 'Unknown' | 'Not Applicable';
+  seriousnessCriteria: ('Death' | 'Life-threatening' | 'Hospitalized' | 'Disability' | 'Congenital' | 'Other')[];
+  
+  // MedDRA Coding
+  meddraSOC?: string;          // System Organ Class
+  meddraHLGT?: string;         // High Level Group Term
+  meddraHLT?: string;          // High Level Term
+  meddraPT: string;            // Preferred Term (REQUIRED)
+  meddraLLT?: string;          // Lowest Level Term
+  meddraCode?: string;         // MedDRA Code
+  
+  // Listedness
+  listedCompany?: 'Listed' | 'Not Listed' | 'Unknown';
+  listednessReference?: string; // e.g., "CCDS v3.2"
+  
+  // WHO-UMC Causality Assessment
+  timeRelationshipPlausible?: boolean;
+  dechallenge?: 'Positive' | 'Negative' | 'Unknown' | 'Not Applicable';
+  rechallenge?: 'Positive' | 'Negative' | 'Unknown' | 'Not Applicable';
+  alternativeExplanation?: boolean;
+  whoCausality?: 'Certain' | 'Probable' | 'Possible' | 'Unlikely' | 'Conditional' | 'Unassessable';
+}
+
+export interface IProduct {
+  _id?: string;
+  tradeName: string;
+  genericName: string;
+  manufacturer?: string;
+  role: 'Suspect' | 'Concomitant' | 'Interacting';
+  
+  // Dosing
+  dose?: number;
+  doseUnit?: 'mg' | 'mcg' | 'g' | 'IU' | 'mL' | 'other';
+  frequency?: 'Daily' | 'Twice Daily' | 'Three Times Daily' | 'As Needed' | 'other';
+  routeOfAdministration?: 'Oral' | 'IV' | 'IM' | 'Topical' | 'Inhalation' | 'Transdermal' | 'other';
+  startDate?: Date;
+  endDate?: Date;
+  indication?: string;
+  
+  // Action Taken
+  actionTaken?: 'Drug Withdrawn' | 'Dose Reduced' | 'Dose Increased' | 'Dose Not Changed' | 'Unknown' | 'Not Applicable';
+  rechallenge?: 'Positive' | 'Negative' | 'Unknown' | 'Not Applicable';
+  dechallenge?: 'Positive' | 'Negative' | 'Unknown' | 'Not Applicable';
+  
+  // Causality
+  companyCausality?: 'Certain' | 'Probable' | 'Possible' | 'Unlikely' | 'Conditional' | 'Unassessable';
+  whoCausality?: 'Certain' | 'Probable' | 'Possible' | 'Unlikely' | 'Conditional' | 'Unassessable';
+}
+
+export interface IExpeditedReport {
+  authority: 'FDA' | 'EMA' | 'CDSCO' | 'PMDA' | 'TGA' | 'other';
+  reportType: '7-day' | '15-day' | 'Other';
+  dueDate?: Date;
+  clockStartDate?: Date;
+  daysRemaining?: number;
+  status: 'Not Due' | 'Due Soon' | 'Overdue' | 'Completed';
+  submitted?: boolean;
+  submissionDate?: Date;
+  submittedBy?: string;
+}
+
+export interface IAuditEntry {
+  revisionNumber: number;
+  timestamp: Date;
+  userId: string;
+  userName: string;
+  action: string;
+  fieldChanged?: string;
+  oldValue?: string;
+  newValue?: string;
+  comments?: string;
+}
+
 export interface IAECase extends Document {
+  // Case Identification
   caseId: string;
-  status: 'New' | 'Open' | 'Under Review' | 'Closed' | 'Locked';
-  priority: 'Low' | 'Medium' | 'High' | 'Critical';
-  administration: {
-    receiptDate: Date;
-    caseClassification: string;
-    reportType: 'Initial' | 'Follow-up';
-    primaryReporterType: string;
-    countryOfOccurrence: string;
-    awarenessDate: Date;
-    isPregnancyCase: boolean;
-  };
+  receiptDate: Date;
+  awarenessDate?: Date;
+  
+  // Status & Workflow
+  workflowState: 'New' | 'Open' | 'Data Entry' | 'Medical Review' | 'QC Review' | 'Locked' | 'Submitted';
+  previousStates?: string[];
+  assignedTo?: string;
+  lockedBy?: string;
+  lockedAt?: Date;
+  
+  // General Information
+  reportType: 'Spontaneous' | 'Study' | 'Literature' | 'Other';
+  seriousCase: boolean;
+  seriousnessCriteria: ('Death' | 'Life-threatening' | 'Hospitalized' | 'Disability' | 'Congenital' | 'Other')[];
+  
+  // Patient Information
   patient: {
     initials: string;
-    age: number;
-    sex: 'M' | 'F' | 'Unknown';
+    dateOfBirth?: Date;
+    ageAtOnset?: number;
+    ageUnit?: 'Years' | 'Months' | 'Weeks' | 'Days';
+    gender: 'Male' | 'Female' | 'Unknown';
     weight?: number;
+    weightUnit?: 'kg' | 'lbs';
     height?: number;
+    heightUnit?: 'cm' | 'inches';
     ethnicity?: string;
     medicalHistory?: string;
-    concomitantMeds?: string;
+    pregnancyInformation?: {
+      isPregnant?: boolean;
+      lastMenstrualPeriod?: Date;
+      gestationalAge?: number;
+    };
   };
-  reaction: {
-    verbatimTerm: string;
-    meddraPreferredTerm: string;
-    meddraCode: string;
-    meddraSoc: string;
-    onsetDate?: Date;
-    endDate?: Date;
-    outcome: string;
-    dateOfDeath?: Date;
-    seriousnessCriteria: string[];
-  };
-  drug: {
-    tradeName: string;
-    activeSubstance: string;
-    drugRole: 'Suspect' | 'Concomitant' | 'Interacting';
-    indication?: string;
-    dose?: string;
-    doseUnit?: string;
-    routeOfAdmin?: string;
-    frequency?: string;
-    startDate?: Date;
-    endDate?: Date;
-    lotNumber?: string;
-    dechallenge?: string;
-    rechallenge?: string;
-    causality?: string;
-  };
-  narrative: {
-    caseNarrative: string;
-    labTests?: string;
-    additionalNotes?: string;
-  };
+  
+  // Reporter Information
   reporter: {
-    title?: string;
+    type: 'Physician' | 'Pharmacist' | 'Patient' | 'Other Healthcare Provider' | 'Non-Professional';
     name: string;
-    qualification: string;
+    qualification?: string;
     institution?: string;
     city?: string;
-    country?: string;
+    country: string;
     phone?: string;
     email?: string;
-    reporterCausality?: string;
   };
+  
+  // Geographic & Administrative
+  countryOfIncidence: string;
+  products: IProduct[];
+  events: IMedDRAEvent[];
+  
+  // Case Narrative
+  narrativeText?: string;
+  laboratoryTests?: string;
+  additionalInformation?: string;
+  
+  // Assessment & Routing
   assessment: {
-    listedness?: string;
-    companyCausality?: string;
-    expeditedReportRequired?: boolean;
-    reportType?: string;
+    caseAssessmentNotes?: string;
     reviewerComments?: string;
+    routingComments?: string;
   };
-  workflow: {
-    currentStep: string;
-    assignedTo?: string;
-    lockedBy?: string;
-    lockedAt?: Date;
+  
+  // Expedited Reporting
+  expeditedReports: IExpeditedReport[];
+  
+  // Study Information (if applicable)
+  studyInformation?: {
+    studyName?: string;
+    protocolNumber?: string;
+    studyType?: string;
   };
-  auditTrail: Array<{
-    action: string;
-    performedBy: string;
-    timestamp: Date;
-    details?: string;
-  }>;
+  
+  // Audit Trail
+  auditTrail: IAuditEntry[];
+  revisionNumber: number;
+  
+  // Metadata
   createdBy: string;
   updatedBy?: string;
   createdAt: Date;

@@ -33,15 +33,6 @@ export default function DashboardPage() {
   const [actionItems] = useState(SAMPLE_ACTION_ITEMS);
   const [reportsDueSoon] = useState(SAMPLE_REPORTS);
   const [searchCaseId, setSearchCaseId] = useState('');
-    return (
-      <ArgusLayout>
-        <div className="text-center py-12">
-          <div className="text-14 font-bold text-argus-navy mb-2">Loading Dashboard...</div>
-          <div className="text-12 text-argus-text-muted">Please wait while we load your workspace</div>
-        </div>
-      </ArgusLayout>
-    );
-  }
 
   return (
     <ArgusLayout>

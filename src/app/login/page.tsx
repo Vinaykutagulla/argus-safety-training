@@ -40,65 +40,68 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-argus-navy to-argus-blue flex items-center justify-center px-4 font-sans">
-      {/* Login Card - Oracle Argus Style */}
-      <div className="w-full max-w-md bg-white border-2 border-argus-border shadow-2xl" style={{ boxShadow: '0 4px 12px rgba(26, 58, 92, 0.3)' }}>
+    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #1F3A93 0%, #2563EB 50%, #3B82F6 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+      {/* Login Card */}
+      <div style={{ width: '100%', maxWidth: '420px', backgroundColor: 'white', borderRadius: '16px', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)', overflow: 'hidden' }}>
         {/* Header Section */}
-        <div className="bg-argus-navy text-argus-text-header px-6 py-8 text-center">
-          <div className="text-14 font-bold mb-2">ARGUS SAFETY</div>
-          <div className="text-11 opacity-90 mb-4">Release 8.4</div>
-          <div className="text-10 opacity-75">Pharmacovigilance Management System</div>
-          <div className="text-10 opacity-75 mt-1">Powered by Oracle</div>
+        <div style={{ background: 'linear-gradient(135deg, #1F3A93 0%, #2563EB 100%)', color: 'white', padding: '40px 24px', textAlign: 'center' }}>
+          <div style={{ fontSize: '28px', fontWeight: 'bold', marginBottom: '8px' }}>🏥 Argus Safety</div>
+          <div style={{ fontSize: '14px', opacity: 0.9, marginBottom: '8px' }}>Pharmacovigilance Training</div>
+          <div style={{ fontSize: '12px', opacity: 0.8 }}>Professional Safety Management System</div>
         </div>
 
         {/* Login Form */}
-        <form onSubmit={handleSubmit} className="px-6 py-6">
+        <form onSubmit={handleSubmit} style={{ padding: '32px 24px' }}>
           {/* Error Message */}
           {error && (
-            <div className="mb-4 p-3 bg-red-50 border border-red-300 text-red-700 text-11">
+            <div style={{ marginBottom: '16px', padding: '12px', backgroundColor: '#FEE2E2', border: '1px solid #FCA5A5', borderRadius: '8px', color: '#DC2626', fontSize: '13px', fontWeight: '500' }}>
               ❌ {error}
             </div>
           )}
 
-          {/* Username Field */}
-          <div className="mb-4">
-            <label className="block text-11 font-bold text-argus-text-label mb-1">
-              Username:
+          {/* Email Field */}
+          <div style={{ marginBottom: '20px' }}>
+            <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', color: '#111827', marginBottom: '8px' }}>
+              Email Address
             </label>
             <input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full px-2 py-2 text-11 border border-argus-border focus:border-argus-light focus:outline-none bg-white"
+              style={{ width: '100%', padding: '12px', fontSize: '14px', border: '1px solid #E5E7EB', borderRadius: '8px', outline: 'none', transition: 'all 0.2s', boxSizing: 'border-box' }}
+              onFocus={(e) => e.target.style.borderColor = '#2563EB'}
+              onBlur={(e) => e.target.style.borderColor = '#E5E7EB'}
               required
             />
           </div>
 
           {/* Password Field */}
-          <div className="mb-4">
-            <label className="block text-11 font-bold text-argus-text-label mb-1">
-              Password:
+          <div style={{ marginBottom: '20px' }}>
+            <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', color: '#111827', marginBottom: '8px' }}>
+              Password
             </label>
             <input
               type="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className="w-full px-2 py-2 text-11 border border-argus-border focus:border-argus-light focus:outline-none bg-white"
+              style={{ width: '100%', padding: '12px', fontSize: '14px', border: '1px solid #E5E7EB', borderRadius: '8px', outline: 'none', transition: 'all 0.2s', boxSizing: 'border-box' }}
+              onFocus={(e) => e.target.style.borderColor = '#2563EB'}
+              onBlur={(e) => e.target.style.borderColor = '#E5E7EB'}
               required
             />
           </div>
 
           {/* Enterprise Selector */}
-          <div className="mb-6">
-            <label className="block text-11 font-bold text-argus-text-label mb-1">
-              Enterprise:
+          <div style={{ marginBottom: '28px' }}>
+            <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', color: '#111827', marginBottom: '8px' }}>
+              Organization
             </label>
             <select
               value={enterprise}
               onChange={(e) => setEnterprise(e.target.value)}
-              className="w-full px-2 py-2 text-11 border border-argus-border focus:border-argus-light focus:outline-none bg-white cursor-pointer"
+              style={{ width: '100%', padding: '12px', fontSize: '14px', border: '1px solid #E5E7EB', borderRadius: '8px', outline: 'none', cursor: 'pointer', boxSizing: 'border-box', backgroundColor: 'white' }}
             >
               <option value="default">Default Enterprise</option>
               <option value="pharma-us">Pharma US Division</option>
@@ -111,27 +114,29 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full px-4 py-2 text-11 font-bold bg-argus-blue hover:bg-argus-light text-white border border-argus-border-dark transition-colors disabled:opacity-50 cursor-pointer"
+            style={{ width: '100%', padding: '12px', fontSize: '14px', fontWeight: '700', background: loading ? '#9CA3AF' : 'linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)', color: 'white', border: 'none', borderRadius: '8px', cursor: loading ? 'not-allowed' : 'pointer', transition: 'all 0.2s', boxShadow: '0 4px 6px rgba(37, 99, 235, 0.3)' }}
+            onMouseEnter={(e) => !loading && (e.currentTarget.style.boxShadow = '0 8px 12px rgba(37, 99, 235, 0.4)')}
+            onMouseLeave={(e) => !loading && (e.currentTarget.style.boxShadow = '0 4px 6px rgba(37, 99, 235, 0.3)')}
           >
-            {loading ? 'SIGNING IN...' : 'SIGN IN'}
+            {loading ? '⏳ SIGNING IN...' : '🔓 SIGN IN'}
           </button>
         </form>
 
         {/* Demo Credentials Section */}
-        <div className="border-t border-argus-border px-6 py-4 bg-argus-bg">
-          <div className="text-11 font-bold text-argus-text-label mb-2">⚠️ Demo Credentials:</div>
-          <div className="text-10 font-mono text-argus-text-muted mb-1">
-            Email: <span className="text-argus-text-primary font-bold">admin@argus.com</span>
+        <div style={{ borderTop: '1px solid #E5E7EB', padding: '20px 24px', backgroundColor: '#F9FAFB' }}>
+          <div style={{ fontSize: '12px', fontWeight: '700', color: '#111827', marginBottom: '8px' }}>📋 Demo Credentials:</div>
+          <div style={{ fontSize: '12px', color: '#6B7280', marginBottom: '4px', fontFamily: 'monospace' }}>
+            📧 <span style={{ color: '#111827', fontWeight: '600' }}>admin@argus.com</span>
           </div>
-          <div className="text-10 font-mono text-argus-text-muted">
-            Password: <span className="text-argus-text-primary font-bold">password123</span>
+          <div style={{ fontSize: '12px', color: '#6B7280', fontFamily: 'monospace' }}>
+            🔐 <span style={{ color: '#111827', fontWeight: '600' }}>password123</span>
           </div>
         </div>
 
         {/* Footer */}
-        <div className="border-t border-argus-border px-6 py-3 bg-argus-bg-tab-inactive text-center">
-          <div className="text-10 text-argus-text-muted">
-            © 2024 Oracle Corporation. All rights reserved.
+        <div style={{ borderTop: '1px solid #E5E7EB', padding: '16px 24px', backgroundColor: '#F3F4F6', textAlign: 'center' }}>
+          <div style={{ fontSize: '11px', color: '#6B7280' }}>
+            © 2024 Argus Safety Training. All rights reserved.
           </div>
         </div>
       </div>

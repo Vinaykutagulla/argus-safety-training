@@ -4,9 +4,6 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { api } from '@/lib/api-client';
-import { Button } from '@/components/Button';
-import { Input } from '@/components/Input';
-import { Card } from '@/components/Card';
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -48,96 +45,148 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center px-4 py-8">
-      <Card className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Create Account</h1>
-          <p className="text-gray-600 mt-2">Join Argus Safety Training</p>
+    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #1F3A93 0%, #2563EB 50%, #3B82F6 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+      {/* Register Card */}
+      <div style={{ width: '100%', maxWidth: '500px', backgroundColor: 'white', borderRadius: '16px', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)', overflow: 'hidden' }}>
+        {/* Header Section */}
+        <div style={{ background: 'linear-gradient(135deg, #1F3A93 0%, #2563EB 100%)', color: 'white', padding: '40px 24px', textAlign: 'center' }}>
+          <div style={{ fontSize: '28px', fontWeight: 'bold', marginBottom: '8px' }}>🚀 Create Account</div>
+          <div style={{ fontSize: '14px', opacity: 0.9 }}>Join Argus Safety Training Platform</div>
         </div>
 
-        {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
-            {error}
+        {/* Form */}
+        <form onSubmit={handleSubmit} style={{ padding: '32px 24px' }}>
+          {error && (
+            <div style={{ marginBottom: '16px', padding: '12px', backgroundColor: '#FEE2E2', border: '1px solid #FCA5A5', borderRadius: '8px', color: '#DC2626', fontSize: '13px', fontWeight: '500' }}>
+              ❌ {error}
+            </div>
+          )}
+
+          {/* Full Name */}
+          <div style={{ marginBottom: '16px' }}>
+            <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', color: '#111827', marginBottom: '6px' }}>
+              Full Name
+            </label>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              style={{ width: '100%', padding: '10px', fontSize: '13px', border: '1px solid #E5E7EB', borderRadius: '8px', outline: 'none', boxSizing: 'border-box' }}
+              onFocus={(e) => e.target.style.borderColor = '#2563EB'}
+              onBlur={(e) => e.target.style.borderColor = '#E5E7EB'}
+              required
+            />
           </div>
-        )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <Input
-            label="Full Name"
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
+          {/* Email */}
+          <div style={{ marginBottom: '16px' }}>
+            <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', color: '#111827', marginBottom: '6px' }}>
+              Email Address
+            </label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              style={{ width: '100%', padding: '10px', fontSize: '13px', border: '1px solid #E5E7EB', borderRadius: '8px', outline: 'none', boxSizing: 'border-box' }}
+              onFocus={(e) => e.target.style.borderColor = '#2563EB'}
+              onBlur={(e) => e.target.style.borderColor = '#E5E7EB'}
+              required
+            />
+          </div>
 
-          <Input
-            label="Email"
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
+          {/* Department */}
+          <div style={{ marginBottom: '16px' }}>
+            <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', color: '#111827', marginBottom: '6px' }}>
+              Department
+            </label>
+            <input
+              type="text"
+              name="department"
+              value={formData.department}
+              onChange={handleChange}
+              style={{ width: '100%', padding: '10px', fontSize: '13px', border: '1px solid #E5E7EB', borderRadius: '8px', outline: 'none', boxSizing: 'border-box' }}
+              onFocus={(e) => e.target.style.borderColor = '#2563EB'}
+              onBlur={(e) => e.target.style.borderColor = '#E5E7EB'}
+              required
+            />
+          </div>
 
-          <Input
-            label="Department"
-            type="text"
-            name="department"
-            value={formData.department}
-            onChange={handleChange}
-            required
-          />
+          {/* Role */}
+          <div style={{ marginBottom: '16px' }}>
+            <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', color: '#111827', marginBottom: '6px' }}>
+              Role
+            </label>
+            <select
+              name="role"
+              value={formData.role}
+              onChange={handleChange}
+              style={{ width: '100%', padding: '10px', fontSize: '13px', border: '1px solid #E5E7EB', borderRadius: '8px', outline: 'none', boxSizing: 'border-box', cursor: 'pointer', backgroundColor: 'white' }}
+            >
+              <option value="analyst">Safety Analyst</option>
+              <option value="safety_officer">Safety Officer</option>
+              <option value="supervisor">Supervisor</option>
+              <option value="admin">Administrator</option>
+            </select>
+          </div>
 
-          <Input
-            label="Role"
-            type="select"
-            name="role"
-            value={formData.role}
-            onChange={handleChange}
-            options={[
-              { value: 'analyst', label: 'Analyst' },
-              { value: 'safety_officer', label: 'Safety Officer' },
-              { value: 'supervisor', label: 'Supervisor' },
-              { value: 'admin', label: 'Admin' },
-            ]}
-          />
+          {/* Password */}
+          <div style={{ marginBottom: '16px' }}>
+            <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', color: '#111827', marginBottom: '6px' }}>
+              Password
+            </label>
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              style={{ width: '100%', padding: '10px', fontSize: '13px', border: '1px solid #E5E7EB', borderRadius: '8px', outline: 'none', boxSizing: 'border-box' }}
+              onFocus={(e) => e.target.style.borderColor = '#2563EB'}
+              onBlur={(e) => e.target.style.borderColor = '#E5E7EB'}
+              required
+            />
+          </div>
 
-          <Input
-            label="Password"
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
+          {/* Confirm Password */}
+          <div style={{ marginBottom: '24px' }}>
+            <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', color: '#111827', marginBottom: '6px' }}>
+              Confirm Password
+            </label>
+            <input
+              type="password"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              style={{ width: '100%', padding: '10px', fontSize: '13px', border: '1px solid #E5E7EB', borderRadius: '8px', outline: 'none', boxSizing: 'border-box' }}
+              onFocus={(e) => e.target.style.borderColor = '#2563EB'}
+              onBlur={(e) => e.target.style.borderColor = '#E5E7EB'}
+              required
+            />
+          </div>
 
-          <Input
-            label="Confirm Password"
-            type="password"
-            name="confirmPassword"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            required
-          />
-
-          <Button
+          {/* Register Button */}
+          <button
             type="submit"
-            variant="primary"
-            fullWidth
             disabled={loading}
+            style={{ width: '100%', padding: '12px', fontSize: '14px', fontWeight: '700', background: loading ? '#9CA3AF' : 'linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)', color: 'white', border: 'none', borderRadius: '8px', cursor: loading ? 'not-allowed' : 'pointer', transition: 'all 0.2s', boxShadow: '0 4px 6px rgba(37, 99, 235, 0.3)' }}
+            onMouseEnter={(e) => !loading && (e.currentTarget.style.boxShadow = '0 8px 12px rgba(37, 99, 235, 0.4)')}
+            onMouseLeave={(e) => !loading && (e.currentTarget.style.boxShadow = '0 4px 6px rgba(37, 99, 235, 0.3)')}
           >
-            {loading ? 'Creating Account...' : 'Register'}
-          </Button>
+            {loading ? '⏳ Creating Account...' : '✨ Create Account'}
+          </button>
         </form>
 
-        <p className="text-center text-gray-600 mt-4">
-          Already have an account?{' '}
-          <Link href="/login" className="text-blue-600 font-medium hover:underline">
-            Sign in here
-          </Link>
-        </p>
-      </Card>
+        {/* Footer */}
+        <div style={{ borderTop: '1px solid #E5E7EB', padding: '20px 24px', backgroundColor: '#F9FAFB', textAlign: 'center' }}>
+          <div style={{ fontSize: '13px', color: '#6B7280' }}>
+            Already have an account?{' '}
+            <Link href="/login" style={{ color: '#2563EB', fontWeight: '600', textDecoration: 'none', cursor: 'pointer' }} onMouseEnter={(e) => e.currentTarget.style.textDecoration = 'underline'} onMouseLeave={(e) => e.currentTarget.style.textDecoration = 'none'}>
+              Sign in here
+            </Link>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

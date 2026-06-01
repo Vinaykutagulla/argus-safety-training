@@ -134,7 +134,7 @@ export default function LoginPage() {
             © 2024 Oracle Corporation. All rights reserved.
           </div>
         </div>
-      </Card>
+      </div>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 {
   "/_global-error/page": "/_global-error",
   "/_not-found/page": "/_not-found",
+  "/api/admin/seed/route": "/api/admin/seed",
   "/api/auth/login/route": "/api/auth/login",
   "/api/auth/logout/route": "/api/auth/logout",
   "/api/auth/me/route": "/api/auth/me",
@@ -16,6 +17,7 @@
   "/api/users/route": "/api/users",
   "/dashboard/admin/users/page": "/dashboard/admin/users",
   "/dashboard/assessment/page": "/dashboard/assessment",
+  "/dashboard/cases/[id]/audit/page": "/dashboard/cases/[id]/audit",
   "/dashboard/cases/[id]/page": "/dashboard/cases/[id]",
   "/dashboard/cases/new/page": "/dashboard/cases/new",
   "/dashboard/cases/page": "/dashboard/cases",
@@ -25,5 +27,6 @@
   "/dashboard/reports/periodic/page": "/dashboard/reports/periodic",
   "/dashboard/workflow/page": "/dashboard/workflow",
   "/login/page": "/login",
+  "/page": "/",
   "/register/page": "/register"
 }

@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/lenovo/Desktop/Argus/src/app/dashboard/layout.tsx"],"sourcesContent":["'use client';\r\n\r\nimport { useEffect } from 'react';\r\nimport { useRouter } from 'next/navigation';\r\n\r\nexport default function DashboardLayout({\r\n  children,\r\n}: {\r\n  children: React.ReactNode;\r\n}) {\r\n  const router = useRouter();\r\n\r\n  useEffect(() => {\r\n    // Check localStorage for auth token\r\n    const token = typeof window !== 'undefined' ? localStorage.getItem('auth-token') : null;\r\n    if (!token) {\r\n      router.push('/login');\r\n    }\r\n  }, [router]);\r\n\r\n  return <>{children}</>;\r\n}\r\n"],"names":["DashboardLayout","children","router","token","push"],"mappings":";;;;;AAEA;AACA;AAHA;;;;AAKe,SAASA,gBAAgB,EACtCC,QAAQ,EAGT;IACC,MAAMC,SAAS,IAAA,mKAAS;IAExB,IAAA,sOAAS,EAAC;QACR,oCAAoC;QACpC,MAAMC,QAAQ,sCAAgC,0BAAqC;QACnF,wCAAY;YACVD,OAAOE,IAAI,CAAC;QACd;IACF,GAAG;QAACF;KAAO;IAEX,qBAAO;kBAAGD;;AACZ"}}]
+}

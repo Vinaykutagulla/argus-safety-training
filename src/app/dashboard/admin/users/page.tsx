@@ -2,13 +2,20 @@
 
 import { useEffect, useState } from 'react';
 import { api } from '@/lib/api-client';
-import { Card } from '@/components/Card';
-import { Badge } from '@/components/Badge';
-import { Button } from '@/components/Button';
-import { Input } from '@/components/Input';
+import ArgusLayout from '@/components/ArgusLayout';
+import SectionHeader from '@/components/SectionHeader';
+
+interface User {
+  _id: string;
+  name: string;
+  email: string;
+  role: string;
+  department: string;
+  createdAt: string;
+}
 
 export default function AdminUsersPage() {
-  const [users, setUsers] = useState<any[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
@@ -49,13 +56,13 @@ export default function AdminUsersPage() {
   };
 
   const getRoleColor = (role: string) => {
-    const colors: Record<string, any> = {
-      'admin': 'danger',
-      'supervisor': 'warning',
-      'safety_officer': 'info',
-      'analyst': 'success',
+    const colors: Record<string, string> = {
+      'admin': 'bg-red-100 text-red-800 border-red-300',
+      'supervisor': 'bg-yellow-100 text-yellow-800 border-yellow-300',
+      'safety_officer': 'bg-blue-100 text-blue-800 border-blue-300',
+      'analyst': 'bg-green-100 text-green-800 border-green-300',
     };
-    return colors[role] || 'gray';
+    return colors[role] || 'bg-gray-100 text-gray-800 border-gray-300';
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -63,66 +70,189 @@ export default function AdminUsersPage() {
   };
 
   if (loading) {
-    return <div className="text-center py-8">Loading users...</div>;
+    return (
+      <ArgusLayout>
+        <div className="text-center py-8 text-argus-text-muted">
+          ⏳ Loading users...
+        </div>
+      </ArgusLayout>
+    );
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">User Management</h1>
-          <p className="text-gray-600 mt-2">Manage user accounts and permissions</p>
+    <ArgusLayout>
+      <div className="bg-argus-bg p-3 space-y-3 text-11 font-sans">
+        {/* Page Title */}
+        <div className="flex justify-between items-center mb-4">
+          <div className="text-13 font-bold text-argus-navy uppercase">
+            👥 USER MANAGEMENT
+          </div>
+          <button
+            onClick={() => setShowForm(!showForm)}
+            className={`px-3 py-1 text-10 font-bold border ${
+              showForm
+                ? 'bg-red-600 text-white border-red-700 hover:bg-red-700'
+                : 'bg-argus-blue text-white border-argus-border-dark hover:bg-argus-light'
+            }`}
+          >
+            {showForm ? '✕ Cancel' : '+ Add User'}
+          </button>
         </div>
-        <Button
-          variant="primary"
-          onClick={() => setShowForm(!showForm)}
-        >
-          {showForm ? 'Cancel' : '+ Add User'}
-        </Button>
-      </div>
 
-      {/* Add User Form */}
-      {showForm && (
-        <Card>
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Create New User</h2>
-          <form onSubmit={handleAddUser} className="space-y-4">
-            <Input
-              label="Name"
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
-            <Input
-              label="Email"
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-            <Input
-              label="Password"
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-            <Input
-              label="Department"
-              type="text"
-              name="department"
-              value={formData.department}
-              onChange={handleChange}
-              required
-            />
-            <Input
-              label="Role"
-              type="select"
-              name="role"
-              value={formData.role}
+        {/* Add User Form */}
+        {showForm && (
+          <div className="border-2 border-argus-border bg-white p-3">
+            <SectionHeader title="NEW USER REGISTRATION" />
+            <form onSubmit={handleAddUser} className="space-y-2">
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-10 font-bold text-argus-text-label mb-1">
+                    Full Name: <span className="text-red-600">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    className="w-full px-2 py-1 border border-argus-border text-10 focus:border-argus-light focus:outline-none"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-10 font-bold text-argus-text-label mb-1">
+                    Email: <span className="text-red-600">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="w-full px-2 py-1 border border-argus-border text-10 focus:border-argus-light focus:outline-none"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-10 font-bold text-argus-text-label mb-1">
+                    Department:
+                  </label>
+                  <input
+                    type="text"
+                    name="department"
+                    value={formData.department}
+                    onChange={handleChange}
+                    className="w-full px-2 py-1 border border-argus-border text-10 focus:border-argus-light focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-10 font-bold text-argus-text-label mb-1">
+                    Role: <span className="text-red-600">*</span>
+                  </label>
+                  <select
+                    name="role"
+                    value={formData.role}
+                    onChange={handleChange}
+                    className="w-full px-2 py-1 border border-argus-border text-10 focus:border-argus-light focus:outline-none cursor-pointer bg-white"
+                  >
+                    <option value="analyst">Analyst</option>
+                    <option value="safety_officer">Safety Officer</option>
+                    <option value="supervisor">Supervisor</option>
+                    <option value="admin">Admin</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-10 font-bold text-argus-text-label mb-1">
+                  Initial Password: <span className="text-red-600">*</span>
+                </label>
+                <input
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className="w-full px-2 py-1 border border-argus-border text-10 focus:border-argus-light focus:outline-none"
+                  required
+                />
+              </div>
+
+              <div className="flex gap-2 mt-3">
+                <button
+                  type="submit"
+                  className="px-4 py-1 bg-argus-blue text-white text-10 font-bold border border-argus-border-dark hover:bg-argus-light"
+                >
+                  ✓ Create User
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowForm(false)}
+                  className="px-4 py-1 bg-gray-400 text-white text-10 font-bold border border-gray-600 hover:bg-gray-500"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
+
+        {/* Users Table */}
+        <div className="border-2 border-argus-border bg-white overflow-auto">
+          <SectionHeader title={`USERS (${users.length} total)`} />
+          <div className="overflow-x-auto">
+            <table className="w-full text-10 border-collapse">
+              <thead>
+                <tr className="bg-argus-blue text-white">
+                  <th className="border border-argus-border px-2 py-1 text-left font-bold">Name</th>
+                  <th className="border border-argus-border px-2 py-1 text-left font-bold">Email</th>
+                  <th className="border border-argus-border px-2 py-1 text-left font-bold">Department</th>
+                  <th className="border border-argus-border px-2 py-1 text-left font-bold">Role</th>
+                  <th className="border border-argus-border px-2 py-1 text-left font-bold">Created Date</th>
+                  <th className="border border-argus-border px-2 py-1 text-center font-bold">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {users.map((user, idx) => (
+                  <tr
+                    key={user._id}
+                    className={`${idx % 2 === 1 ? 'bg-argus-bg-row-alt' : 'bg-white'} border-b border-argus-border`}
+                  >
+                    <td className="border border-argus-border px-2 py-1 font-bold">{user.name}</td>
+                    <td className="border border-argus-border px-2 py-1">{user.email}</td>
+                    <td className="border border-argus-border px-2 py-1">{user.department || 'N/A'}</td>
+                    <td className="border border-argus-border px-2 py-1">
+                      <span className={`px-2 py-0.5 text-9 font-bold border rounded ${getRoleColor(user.role)}`}>
+                        {user.role.toUpperCase()}
+                      </span>
+                    </td>
+                    <td className="border border-argus-border px-2 py-1 text-argus-text-muted">
+                      {new Date(user.createdAt).toLocaleDateString()}
+                    </td>
+                    <td className="border border-argus-border px-2 py-1 text-center">
+                      <button className="px-2 py-0.5 bg-argus-orange text-white text-9 hover:bg-yellow-600 mr-1">
+                        Edit
+                      </button>
+                      <button className="px-2 py-0.5 bg-red-600 text-white text-9 hover:bg-red-700">
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {users.length === 0 && (
+            <div className="text-center py-4 text-argus-text-muted">
+              No users found. Create a new user to get started.
+            </div>
+          )}
+        </div>
+      </div>
+    </ArgusLayout>
+  );
+}
               onChange={handleChange}
               options={[
                 { value: 'analyst', label: 'Analyst' },

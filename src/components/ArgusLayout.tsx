@@ -1,6 +1,7 @@
 'use client';
 
 import ArgusNavbar from './ArgusNavbar';
+import ArgusFooter from './ArgusFooter';
 
 interface ArgusLayoutProps {
   children: React.ReactNode;
@@ -8,7 +9,7 @@ interface ArgusLayoutProps {
 
 export default function ArgusLayout({ children }: ArgusLayoutProps) {
   return (
-    <div className="min-h-screen bg-argus-bg font-sans">
+    <div className="min-h-screen bg-argus-bg font-sans flex flex-col">
       <ArgusNavbar />
       <div className="flex flex-1">
         {/* Main Content */}
@@ -16,6 +17,7 @@ export default function ArgusLayout({ children }: ArgusLayoutProps) {
           {children}
         </main>
       </div>
+      <ArgusFooter />
     </div>
   );
 }

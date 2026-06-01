@@ -4,9 +4,6 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { api } from '@/lib/api-client';
-import { Button } from '@/components/Button';
-import { Input } from '@/components/Input';
-import { Card } from '@/components/Card';
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -48,96 +45,139 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center px-4 py-8">
-      <Card className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Create Account</h1>
-          <p className="text-gray-600 mt-2">Join Argus Safety Training</p>
+    <div className="min-h-screen bg-gradient-to-b from-argus-navy to-argus-blue flex items-center justify-center px-4 font-sans">
+      {/* Registration Card - Argus Style */}
+      <div className="w-full max-w-md bg-white border-2 border-argus-border shadow-2xl" style={{ boxShadow: '0 4px 12px rgba(26, 58, 92, 0.3)' }}>
+        {/* Header Section */}
+        <div className="bg-argus-navy text-argus-text-header px-6 py-8 text-center">
+          <div className="text-14 font-bold mb-2">ARGUS SAFETY</div>
+          <div className="text-11 opacity-90 mb-4">Release 8.4</div>
+          <div className="text-10 opacity-75">Pharmacovigilance Management System</div>
+          <div className="text-10 opacity-75 mt-1">User Registration</div>
         </div>
 
-        {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
-            {error}
+        {/* Registration Form */}
+        <form onSubmit={handleSubmit} className="px-6 py-6">
+          {/* Error Message */}
+          {error && (
+            <div className="mb-4 p-3 bg-red-50 border border-red-300 text-red-700 text-11">
+              ❌ {error}
+            </div>
+          )}
+
+          {/* Full Name Field */}
+          <div className="mb-4">
+            <label className="block text-11 font-bold text-argus-text-label mb-1">
+              Full Name:
+            </label>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              className="w-full px-2 py-2 text-11 border border-argus-border focus:border-argus-light focus:outline-none bg-white"
+              required
+            />
           </div>
-        )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <Input
-            label="Full Name"
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
+          {/* Email Field */}
+          <div className="mb-4">
+            <label className="block text-11 font-bold text-argus-text-label mb-1">
+              Email Address:
+            </label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              className="w-full px-2 py-2 text-11 border border-argus-border focus:border-argus-light focus:outline-none bg-white"
+              required
+            />
+          </div>
 
-          <Input
-            label="Email"
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
+          {/* Department Field */}
+          <div className="mb-4">
+            <label className="block text-11 font-bold text-argus-text-label mb-1">
+              Department:
+            </label>
+            <input
+              type="text"
+              name="department"
+              value={formData.department}
+              onChange={handleChange}
+              placeholder="e.g., Pharmacovigilance, Medical Affairs"
+              className="w-full px-2 py-2 text-11 border border-argus-border focus:border-argus-light focus:outline-none bg-white"
+            />
+          </div>
 
-          <Input
-            label="Department"
-            type="text"
-            name="department"
-            value={formData.department}
-            onChange={handleChange}
-            required
-          />
+          {/* Role Field */}
+          <div className="mb-4">
+            <label className="block text-11 font-bold text-argus-text-label mb-1">
+              Role:
+            </label>
+            <select
+              name="role"
+              value={formData.role}
+              onChange={handleChange}
+              className="w-full px-2 py-2 text-11 border border-argus-border focus:border-argus-light focus:outline-none bg-white cursor-pointer"
+            >
+              <option value="analyst">Analyst</option>
+              <option value="safety_officer">Safety Officer</option>
+              <option value="supervisor">Supervisor</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
 
-          <Input
-            label="Role"
-            type="select"
-            name="role"
-            value={formData.role}
-            onChange={handleChange}
-            options={[
-              { value: 'analyst', label: 'Analyst' },
-              { value: 'safety_officer', label: 'Safety Officer' },
-              { value: 'supervisor', label: 'Supervisor' },
-              { value: 'admin', label: 'Admin' },
-            ]}
-          />
+          {/* Password Field */}
+          <div className="mb-4">
+            <label className="block text-11 font-bold text-argus-text-label mb-1">
+              Password:
+            </label>
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              className="w-full px-2 py-2 text-11 border border-argus-border focus:border-argus-light focus:outline-none bg-white"
+              required
+            />
+          </div>
 
-          <Input
-            label="Password"
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
+          {/* Confirm Password Field */}
+          <div className="mb-4">
+            <label className="block text-11 font-bold text-argus-text-label mb-1">
+              Confirm Password:
+            </label>
+            <input
+              type="password"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              className="w-full px-2 py-2 text-11 border border-argus-border focus:border-argus-light focus:outline-none bg-white"
+              required
+            />
+          </div>
 
-          <Input
-            label="Confirm Password"
-            type="password"
-            name="confirmPassword"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            required
-          />
-
-          <Button
+          {/* Register Button */}
+          <button
             type="submit"
-            variant="primary"
-            fullWidth
             disabled={loading}
+            className="w-full px-3 py-2 bg-gradient-to-r from-argus-blue to-argus-light text-white hover:shadow-lg text-11 font-bold border-2 border-argus-navy rounded transition-all disabled:opacity-50 disabled:cursor-not-allowed mt-4"
           >
-            {loading ? 'Creating Account...' : 'Register'}
-          </Button>
+            {loading ? '⏳ Creating Account...' : '✓ Register'}
+          </button>
         </form>
 
-        <p className="text-center text-gray-600 mt-4">
-          Already have an account?{' '}
-          <Link href="/login" className="text-blue-600 font-medium hover:underline">
-            Sign in here
-          </Link>
-        </p>
-      </Card>
+        {/* Link to Login */}
+        <div className="border-t border-argus-border mt-4 pt-4 text-center">
+          <p className="text-11 text-argus-text-muted">
+            Already have an account?{' '}
+            <Link href="/login" className="text-argus-light font-bold hover:text-argus-blue underline">
+              Sign in here
+            </Link>
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

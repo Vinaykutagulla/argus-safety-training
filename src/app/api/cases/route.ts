@@ -119,7 +119,7 @@ export async function GET(req: NextRequest) {
   } catch (error) {
     console.error('Get cases error:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Internal Server Error' },
       { status: 500 }
     );
   }
@@ -216,15 +216,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(aeCase, { status: 201 });
   } catch (error) {
     console.error('Create case error:', error);
-    
-    // Return detailed error for debugging
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return NextResponse.json(
-      { 
-        error: 'Failed to create case',
-        details: errorMessage,
-        timestamp: new Date().toISOString(),
-      },
+      { error: 'Internal Server Error' },
       { status: 500 }
     );
   }

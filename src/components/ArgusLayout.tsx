@@ -8,11 +8,11 @@ interface ArgusLayoutProps {
 
 export default function ArgusLayout({ children }: ArgusLayoutProps) {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-gray-100 font-sans">
+    <div className="min-h-screen bg-white font-sans">
       <ArgusNavbar />
       <div className="flex flex-1">
         {/* Main Content */}
-        <main className="flex-1 p-6">
+        <main className="flex-1 bg-gray-50">
           {children}
         </main>
       </div>

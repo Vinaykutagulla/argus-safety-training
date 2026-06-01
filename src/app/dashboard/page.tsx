@@ -36,103 +36,134 @@ export default function DashboardPage() {
 
   return (
     <ArgusLayout>
-      <div className="bg-argus-bg p-4 space-y-4 text-11 font-sans">
+      <div className="bg-gradient-to-br from-gray-50 via-blue-50 to-gray-100 min-h-screen p-6 space-y-6 text-11 font-sans">
         {/* HEADER with Refresh Button */}
-        <div className="flex justify-between items-center mb-2 px-2">
-          <div className="text-14 font-bold text-argus-navy uppercase tracking-wide">
-            📊 Personal Argus Status Dashboard
+        <div className="flex justify-between items-center mb-4">
+          <div className="text-20 font-bold text-argus-navy tracking-wider flex items-center gap-3">
+            <div className="p-2 bg-gradient-to-br from-argus-blue to-argus-light rounded-lg">
+              <span className="text-white text-18">📊</span>
+            </div>
+            Personal Argus Status Dashboard
           </div>
-          <button className="px-3 py-1.5 bg-gradient-to-r from-argus-blue to-argus-light text-white hover:shadow-lg text-10 font-bold border-2 border-argus-navy rounded transition-all">
-            🔄 Refresh Data
+          <button className="px-4 py-2 bg-gradient-to-r from-argus-blue to-argus-light text-white hover:shadow-xl text-11 font-bold border-0 rounded-lg transition-all transform hover:scale-105 flex items-center gap-2">
+            <span>🔄</span> Refresh Data
           </button>
         </div>
 
-        {/* KEY METRICS - 4 COLUMN CARDS */}
-        <div className="grid grid-cols-4 gap-3 mb-2">
+        {/* KEY METRICS - 4 COLUMN CARDS with Enhanced Styling */}
+        <div className="grid grid-cols-4 gap-4 mb-2">
           {/* Card 1: Total Cases */}
-          <div className="bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-argus-blue rounded p-3">
-            <div className="text-10 text-argus-text-muted font-bold uppercase">Total Cases (MTD)</div>
-            <div className="text-24 font-bold text-argus-blue mt-1">{stats.totalMTD}</div>
-            <div className="text-9 text-argus-text-muted mt-1">Month to Date</div>
+          <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all p-4 border-l-4 border-argus-blue overflow-hidden group">
+            <div className="flex justify-between items-start">
+              <div>
+                <div className="text-10 text-gray-500 font-bold uppercase tracking-wide">Total Cases</div>
+                <div className="text-32 font-bold text-argus-blue mt-2">{stats.totalMTD}</div>
+                <div className="text-9 text-gray-400 mt-2">Month to Date</div>
+              </div>
+              <div className="text-40 opacity-20 group-hover:opacity-40 transition-opacity">📦</div>
+            </div>
+            <div className="mt-3 h-1 bg-gradient-to-r from-argus-blue to-transparent rounded-full"></div>
           </div>
 
           {/* Card 2: Serious Cases */}
-          <div className="bg-gradient-to-br from-red-50 to-red-100 border-2 border-red-600 rounded p-3">
-            <div className="text-10 text-red-700 font-bold uppercase">Serious Cases</div>
-            <div className="text-24 font-bold text-red-600 mt-1">{stats.seriousCases}</div>
-            <div className="text-9 text-red-600 mt-1">Requiring Expedited Reporting</div>
+          <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all p-4 border-l-4 border-red-500 overflow-hidden group">
+            <div className="flex justify-between items-start">
+              <div>
+                <div className="text-10 text-red-600 font-bold uppercase tracking-wide">Serious Cases</div>
+                <div className="text-32 font-bold text-red-600 mt-2">{stats.seriousCases}</div>
+                <div className="text-9 text-red-400 mt-2">Expedited Reports</div>
+              </div>
+              <div className="text-40 opacity-20 group-hover:opacity-40 transition-opacity">⚠️</div>
+            </div>
+            <div className="mt-3 h-1 bg-gradient-to-r from-red-500 to-transparent rounded-full"></div>
           </div>
 
           {/* Card 3: Reports Due */}
-          <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 border-2 border-yellow-600 rounded p-3">
-            <div className="text-10 text-yellow-700 font-bold uppercase">Reports Due Soon</div>
-            <div className="text-24 font-bold text-yellow-600 mt-1">{reportsDueSoon.length}</div>
-            <div className="text-9 text-yellow-700 mt-1">Next 7 Days</div>
+          <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all p-4 border-l-4 border-yellow-500 overflow-hidden group">
+            <div className="flex justify-between items-start">
+              <div>
+                <div className="text-10 text-yellow-700 font-bold uppercase tracking-wide">Reports Due</div>
+                <div className="text-32 font-bold text-yellow-600 mt-2">{reportsDueSoon.length}</div>
+                <div className="text-9 text-yellow-500 mt-2">Next 7 Days</div>
+              </div>
+              <div className="text-40 opacity-20 group-hover:opacity-40 transition-opacity">⏰</div>
+            </div>
+            <div className="mt-3 h-1 bg-gradient-to-r from-yellow-500 to-transparent rounded-full"></div>
           </div>
 
           {/* Card 4: Overdue */}
-          <div className="bg-gradient-to-br from-orange-50 to-orange-100 border-2 border-red-700 rounded p-3">
-            <div className="text-10 text-red-700 font-bold uppercase">🔴 Overdue</div>
-            <div className="text-24 font-bold text-red-700 mt-1">{stats.overdueReports}</div>
-            <div className="text-9 text-red-600 mt-1">Immediate Action</div>
+          <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all p-4 border-l-4 border-orange-600 overflow-hidden group">
+            <div className="flex justify-between items-start">
+              <div>
+                <div className="text-10 text-orange-700 font-bold uppercase tracking-wide">🔴 Overdue</div>
+                <div className="text-32 font-bold text-orange-600 mt-2">{stats.overdueReports}</div>
+                <div className="text-9 text-orange-500 mt-2">Immediate Action</div>
+              </div>
+              <div className="text-40 opacity-20 group-hover:opacity-40 transition-opacity">🚨</div>
+            </div>
+            <div className="mt-3 h-1 bg-gradient-to-r from-orange-600 to-transparent rounded-full"></div>
           </div>
         </div>
 
         {/* MAIN CONTENT - 2 ROW LAYOUT */}
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-6">
           {/* LEFT: Worklist + Action Items */}
-          <div className="space-y-4">
+          <div className="space-y-6">
             {/* My Worklist */}
-            <div className="border-2 border-argus-blue bg-white rounded shadow">
-              <SectionHeader title="📋 MY WORKLIST" />
-              <div className="p-4 space-y-2">
-                <div className="flex justify-between items-center p-2 bg-blue-50 rounded">
-                  <span className="text-10 font-bold">New Cases</span>
-                  <span className="text-16 font-bold text-argus-orange">{stats.newCases}</span>
+            <div className="bg-white rounded-xl shadow-md overflow-hidden">
+              <div className="bg-gradient-to-r from-argus-blue to-argus-light text-white px-4 py-3">
+                <div className="text-12 font-bold uppercase tracking-wider">📋 My Worklist</div>
+              </div>
+              <div className="p-4 space-y-3">
+                <div className="flex justify-between items-center p-3 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg hover:from-blue-100 hover:to-blue-200 transition-all">
+                  <span className="text-11 font-semibold text-gray-700">New Cases</span>
+                  <span className="text-18 font-bold text-argus-blue">{stats.newCases}</span>
                 </div>
-                <div className="flex justify-between items-center p-2 bg-blue-50 rounded">
-                  <span className="text-10 font-bold">Open Cases</span>
-                  <span className="text-16 font-bold text-argus-blue">{stats.openCases}</span>
+                <div className="flex justify-between items-center p-3 bg-gradient-to-r from-cyan-50 to-cyan-100 rounded-lg hover:from-cyan-100 hover:to-cyan-200 transition-all">
+                  <span className="text-11 font-semibold text-gray-700">Open Cases</span>
+                  <span className="text-18 font-bold text-cyan-600">{stats.openCases}</span>
                 </div>
-                <div className="flex justify-between items-center p-2 bg-blue-50 rounded">
-                  <span className="text-10 font-bold">Under Review</span>
-                  <span className="text-16 font-bold text-argus-light">{stats.reviewCases}</span>
+                <div className="flex justify-between items-center p-3 bg-gradient-to-r from-indigo-50 to-indigo-100 rounded-lg hover:from-indigo-100 hover:to-indigo-200 transition-all">
+                  <span className="text-11 font-semibold text-gray-700">Under Review</span>
+                  <span className="text-18 font-bold text-indigo-600">{stats.reviewCases}</span>
                 </div>
-                <div className="flex justify-between items-center p-2 bg-blue-50 rounded">
-                  <span className="text-10 font-bold">Locked</span>
-                  <span className="text-16 font-bold text-purple-600">{stats.lockedCases}</span>
+                <div className="flex justify-between items-center p-3 bg-gradient-to-r from-purple-50 to-purple-100 rounded-lg hover:from-purple-100 hover:to-purple-200 transition-all">
+                  <span className="text-11 font-semibold text-gray-700">Locked</span>
+                  <span className="text-18 font-bold text-purple-600">{stats.lockedCases}</span>
                 </div>
-                <div className="flex justify-between items-center p-2 bg-blue-50 rounded">
-                  <span className="text-10 font-bold">Closed</span>
-                  <span className="text-16 font-bold text-green-600">{stats.closedCases}</span>
+                <div className="flex justify-between items-center p-3 bg-gradient-to-r from-green-50 to-green-100 rounded-lg hover:from-green-100 hover:to-green-200 transition-all">
+                  <span className="text-11 font-semibold text-gray-700">Closed</span>
+                  <span className="text-18 font-bold text-green-600">{stats.closedCases}</span>
                 </div>
               </div>
             </div>
 
             {/* My Action Items */}
-            <div className="border-2 border-argus-orange bg-white rounded shadow">
-              <SectionHeader title="⚡ MY ACTION ITEMS (HIGH PRIORITY)" />
+            <div className="bg-white rounded-xl shadow-md overflow-hidden">
+              <div className="bg-gradient-to-r from-argus-orange to-yellow-500 text-white px-4 py-3">
+                <div className="text-12 font-bold uppercase tracking-wider">⚡ High Priority Actions</div>
+              </div>
               <div className="overflow-x-auto">
                 <table className="w-full text-10">
                   <thead>
-                    <tr className="bg-gradient-to-r from-argus-orange to-yellow-600 text-white">
-                      <th className="px-3 py-2 text-left font-bold">Case ID</th>
-                      <th className="px-3 py-2 text-left font-bold">Action</th>
-                      <th className="px-3 py-2 text-left font-bold">Due Date</th>
-                      <th className="px-3 py-2 text-left font-bold">Status</th>
+                    <tr className="bg-gradient-to-r from-orange-100 to-yellow-100 border-b-2 border-orange-300">
+                      <th className="px-4 py-2 text-left font-bold text-gray-700">Case ID</th>
+                      <th className="px-4 py-2 text-left font-bold text-gray-700">Action</th>
+                      <th className="px-4 py-2 text-left font-bold text-gray-700">Due Date</th>
+                      <th className="px-4 py-2 text-left font-bold text-gray-700">Status</th>
                     </tr>
                   </thead>
                   <tbody>
                     {actionItems.map((item, idx) => (
-                      <tr key={idx} className={idx % 2 === 1 ? 'bg-yellow-50' : 'bg-white'}>
-                        <td className="px-3 py-2">
-                          <a href={`/dashboard/cases/${item.caseId}`} className="text-argus-blue font-bold hover:underline">
+                      <tr key={idx} className={idx % 2 === 1 ? 'bg-orange-50' : 'bg-white'}>
+                        <td className="px-4 py-3 border-b border-orange-100">
+                          <a href={`/dashboard/cases/${item.caseId}`} className="text-argus-blue font-bold hover:underline hover:text-argus-light">
                             {item.caseId}
                           </a>
                         </td>
-                        <td className="px-3 py-2 font-semibold">{item.action}</td>
-                        <td className="px-3 py-2 font-bold text-red-600">{item.dueDate}</td>
-                        <td className="px-3 py-2 font-bold">{item.status}</td>
+                        <td className="px-4 py-3 border-b border-orange-100 font-semibold text-gray-700">{item.action}</td>
+                        <td className="px-4 py-3 border-b border-orange-100 font-bold text-red-600">{item.dueDate}</td>
+                        <td className="px-4 py-3 border-b border-orange-100 font-bold">{item.status}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -142,21 +173,23 @@ export default function DashboardPage() {
           </div>
 
           {/* RIGHT: Reports Due + Quick Launch */}
-          <div className="space-y-4">
+          <div className="space-y-6">
             {/* Expedited Reports Due Soon */}
-            <div className="border-2 border-red-600 bg-white rounded shadow">
-              <SectionHeader title="⏰ EXPEDITED REPORTS DUE SOON" />
-              <div className="p-3">
+            <div className="bg-white rounded-xl shadow-md overflow-hidden">
+              <div className="bg-gradient-to-r from-red-600 to-red-500 text-white px-4 py-3">
+                <div className="text-12 font-bold uppercase tracking-wider">⏰ Expedited Reports Due</div>
+              </div>
+              <div className="p-4 space-y-2">
                 {reportsDueSoon.map((item, idx) => (
-                  <div key={idx} className="p-2 mb-1 rounded border-l-4 border-red-600 bg-red-50 flex justify-between items-center">
+                  <div key={idx} className="p-3 rounded-lg border-l-4 border-red-600 bg-gradient-to-r from-red-50 to-red-100 hover:from-red-100 hover:to-red-150 flex justify-between items-center transition-all">
                     <div className="flex-1">
                       <a href={`/dashboard/cases/${item.caseId}`} className="text-argus-blue font-bold hover:underline text-11">
                         {item.caseId}
                       </a>
-                      <div className="text-9 text-argus-text-muted">{item.reportType}</div>
+                      <div className="text-9 text-red-600 font-medium">{item.reportType}</div>
                     </div>
                     <div className="text-right">
-                      <div className="font-bold text-11">{item.status}</div>
+                      <div className="font-bold text-11 text-gray-800">{item.status}</div>
                       <div className="text-10 text-red-600 font-bold">{item.daysLeft} days left</div>
                     </div>
                   </div>
@@ -165,30 +198,30 @@ export default function DashboardPage() {
             </div>
 
             {/* Quick Actions */}
-            <div className="border-2 border-argus-border bg-white rounded shadow p-4">
-              <div className="text-11 font-bold text-argus-navy mb-3 uppercase">🚀 Quick Actions</div>
-              <div className="space-y-2">
+            <div className="bg-white rounded-xl shadow-md p-4 border-t-4 border-argus-blue">
+              <div className="text-12 font-bold text-argus-navy mb-4 uppercase tracking-wider">🚀 Quick Actions</div>
+              <div className="space-y-3">
                 <a
                   href="/dashboard/cases/new"
-                  className="block px-4 py-2 bg-gradient-to-r from-green-500 to-green-600 text-white font-bold text-10 rounded hover:shadow-lg transition-all text-center"
+                  className="block px-4 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white font-bold text-11 rounded-lg hover:shadow-lg hover:from-green-600 hover:to-green-700 transition-all transform hover:scale-105 text-center"
                 >
                   + Create New Case
                 </a>
                 <a
                   href="/dashboard/cases"
-                  className="block px-4 py-2 bg-gradient-to-r from-argus-blue to-argus-light text-white font-bold text-10 rounded hover:shadow-lg transition-all text-center"
+                  className="block px-4 py-3 bg-gradient-to-r from-argus-blue to-argus-light text-white font-bold text-11 rounded-lg hover:shadow-lg hover:from-argus-light hover:to-blue-600 transition-all transform hover:scale-105 text-center"
                 >
                   🔍 Search Cases
                 </a>
                 <a
                   href="/dashboard/reports/expedited"
-                  className="block px-4 py-2 bg-gradient-to-r from-red-600 to-red-700 text-white font-bold text-10 rounded hover:shadow-lg transition-all text-center"
+                  className="block px-4 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white font-bold text-11 rounded-lg hover:shadow-lg hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-105 text-center"
                 >
                   📊 Expedited Reports
                 </a>
                 <a
                   href="/dashboard/meddra"
-                  className="block px-4 py-2 bg-gradient-to-r from-purple-600 to-purple-700 text-white font-bold text-10 rounded hover:shadow-lg transition-all text-center"
+                  className="block px-4 py-3 bg-gradient-to-r from-purple-600 to-purple-700 text-white font-bold text-11 rounded-lg hover:shadow-lg hover:from-purple-700 hover:to-purple-800 transition-all transform hover:scale-105 text-center"
                 >
                   💊 MedDRA Coding
                 </a>
@@ -198,11 +231,13 @@ export default function DashboardPage() {
         </div>
 
         {/* FOOTER INFO */}
-        <div className="border-2 border-argus-border bg-blue-50 rounded p-3 mt-4">
-          <div className="text-10 text-argus-text-muted">
-            <span className="font-bold">Last Updated:</span> {new Date().toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })} 
-            <span className="ml-4"><span className="font-bold">Training Mode:</span> Available in case entry - Enable 🎓 toggle</span>
-            <span className="ml-4"><span className="font-bold">Data Source:</span> Sample data (Demo Mode)</span>
+        <div className="bg-gradient-to-r from-gray-800 to-gray-900 rounded-xl p-4 mt-6 text-white shadow-lg">
+          <div className="text-10 flex items-center justify-between">
+            <div className="flex gap-6">
+              <span><span className="font-bold text-cyan-400">Last Updated:</span> {new Date().toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })}</span>
+              <span><span className="font-bold text-cyan-400">Training Mode:</span> Available in case entry - Enable 🎓 toggle</span>
+              <span><span className="font-bold text-cyan-400">Data Source:</span> Sample data (Demo Mode)</span>
+            </div>
           </div>
         </div>
       </div>

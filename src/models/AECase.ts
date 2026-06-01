@@ -283,7 +283,6 @@ const aeCaseSchema = new Schema<IAECase>(
   { timestamps: true }
 );
 
-aeCaseSchema.index({ caseId: 1 });
 aeCaseSchema.index({ status: 1 });
 aeCaseSchema.index({ 'administration.receiptDate': 1 });
 

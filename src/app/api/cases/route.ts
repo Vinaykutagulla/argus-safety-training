@@ -11,6 +11,25 @@ function generateCaseId(): string {
   return `CASE-${year}-${random}`;
 }
 
+function normalizePatientSex(sex?: string): string {
+  if (!sex) return 'Unknown';
+  const normalized = sex.toString().trim().toLowerCase();
+  if (normalized === 'male' || normalized === 'm') return 'M';
+  if (normalized === 'female' || normalized === 'f') return 'F';
+  return 'Unknown';
+}
+
+function normalizeSeriousnessCriteria(seriousness?: string) {
+  const map: Record<string, string[]> = {
+    'Not Serious': [],
+    Serious: ['Other'],
+    'Serious - Death': ['Death'],
+    'Serious - Hospitalization': ['Hospitalized'],
+    'Serious - Disability': ['Disability'],
+  };
+  return seriousness ? map[seriousness] ?? [seriousness] : [];
+}
+
 export async function GET(req: NextRequest) {
   try {
     // Try to get token from cookies first, then from Authorization header
@@ -140,7 +159,7 @@ export async function POST(req: NextRequest) {
       patient: {
         initials: data.patient?.initials || 'N/A',
         age: data.patient?.age || 0,
-        sex: data.patient?.sex || 'Unknown',
+        sex: normalizePatientSex(data.patient?.sex),
         medicalHistory: data.patient?.medicalHistory || '',
       },
       reaction: {
@@ -149,7 +168,7 @@ export async function POST(req: NextRequest) {
         meddraCode: data.reaction?.meddraCode || 'UNKNOWN',
         meddraSoc: data.reaction?.meddraSoc || 'Unknown',
         outcome: data.reaction?.outcome || 'Unknown',
-        seriousnessCriteria: data.reaction?.seriousnessCriteria || [],
+        seriousnessCriteria: normalizeSeriousnessCriteria(data.reaction?.seriousness),
       },
       drug: {
         tradeName: data.drug?.tradeName || data.products?.[0]?.productName || 'Unknown',

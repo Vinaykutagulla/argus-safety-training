@@ -5,7 +5,7 @@ import { AECase } from '@/models/AECase';
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const token = req.cookies.get('auth-token')?.value;
@@ -18,9 +18,15 @@ export async function GET(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    await dbConnect();
+    const { id } = await params;
+    const db = await dbConnect();
 
-    const aeCase = await AECase.findById(params.id);
+    let aeCase;
+    if (db && typeof db.getCaseById === 'function') {
+      aeCase = await db.getCaseById(id);
+    } else {
+      aeCase = await AECase.findById(id);
+    }
 
     if (!aeCase) {
       return NextResponse.json(
@@ -41,7 +47,7 @@ export async function GET(
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const token = req.cookies.get('auth-token')?.value;
@@ -54,9 +60,15 @@ export async function PUT(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    await dbConnect();
+    const { id } = await params;
+    const db = await dbConnect();
 
-    const aeCase = await AECase.findById(params.id);
+    let aeCase = null;
+    if (db && typeof db.getCaseById === 'function') {
+      aeCase = await db.getCaseById(id);
+    } else {
+      aeCase = await AECase.findById(id);
+    }
 
     if (!aeCase) {
       return NextResponse.json({ error: 'Case not found' }, { status: 404 });
@@ -71,15 +83,27 @@ export async function PUT(
 
     const data = await req.json();
 
-    Object.assign(aeCase, data);
-    aeCase.updatedBy = payload.userId;
-    aeCase.auditTrail.push({
-      action: 'Case Updated',
-      performedBy: payload.userId,
-      timestamp: new Date(),
-      details: 'Case information updated',
-    });
+    const updatedCase = {
+      ...aeCase,
+      ...data,
+      updatedBy: payload.userId,
+      auditTrail: [
+        ...(aeCase.auditTrail || []),
+        {
+          action: 'Case Updated',
+          performedBy: payload.userId,
+          timestamp: new Date(),
+          details: 'Case information updated',
+        },
+      ],
+    };
 
+    if (db && typeof db.updateCase === 'function') {
+      const saved = await db.updateCase(id, updatedCase);
+      return NextResponse.json(saved);
+    }
+
+    Object.assign(aeCase, updatedCase);
     await aeCase.save();
 
     return NextResponse.json(aeCase);
@@ -94,7 +118,7 @@ export async function PUT(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const token = req.cookies.get('auth-token')?.value;
@@ -111,9 +135,15 @@ export async function DELETE(
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    await dbConnect();
+    const { id } = await params;
+    const db = await dbConnect();
 
-    const aeCase = await AECase.findByIdAndDelete(params.id);
+    let aeCase = null;
+    if (db && typeof db.deleteCase === 'function') {
+      aeCase = await db.deleteCase(id);
+    } else {
+      aeCase = await AECase.findByIdAndDelete(id);
+    }
 
     if (!aeCase) {
       return NextResponse.json({ error: 'Case not found' }, { status: 404 });

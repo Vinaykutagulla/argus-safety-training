@@ -181,9 +181,16 @@ export async function POST(req: NextRequest) {
         labTests: data.labTests || '',
       },
       reporter: {
+        type: data.reporter?.type || 'Physician',
         name: data.reporter?.name || payload.userId,
         qualification: data.reporter?.qualification || 'Analyst',
+        institution: data.reporter?.institution || '',
+        city: data.reporter?.city || '',
         country: data.reporter?.country || 'USA',
+        phone: data.reporter?.phone || '',
+        email: data.reporter?.email || '',
+        sourceChannel: data.reporter?.sourceChannel || '',
+        sourceDocument: data.reporter?.sourceDocument || '',
       },
       auditTrail: [
         {

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import ArgusLayout from '@/components/ArgusLayout';
 import CaseHeader from '@/components/CaseHeader';
@@ -26,17 +26,9 @@ function CaseFormContent() {
   const isNewCase = caseId === 'new';
   const { trainingMode, setStep } = useTraining();
 
-  // Sample case data
-  const [caseData, setCaseData] = useState({
-    caseId: isNewCase ? '' : 'ARG-2024-001234',
-    receiptDate: '2024-01-15',
-    product: 'Metformin 500mg',
-    seriousness: 'SERIOUS - Death',
-    reportType: 'Spontaneous',
-    country: 'USA',
-    status: 'Data Entry',
-  });
-
+  const [caseData, setCaseData] = useState<any>(null);
+  const [loadingCase, setLoadingCase] = useState(false);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState(0);
   const [expandedSections, setExpandedSections] = useState({
     drug1: true,
@@ -46,6 +38,43 @@ function CaseFormContent() {
   const toggleSection = (section: string) => {
     setExpandedSections(prev => ({...prev, [section]: !prev[section]}));
   };
+
+  useEffect(() => {
+    if (isNewCase) {
+      setLoadError(null);
+      return;
+    }
+
+    const fetchCase = async () => {
+      setLoadingCase(true);
+      setLoadError(null);
+
+      try {
+        const response = await fetch(`/api/cases/${caseId}`, {
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Failed to load case');
+        }
+
+        const payload = await response.json();
+        setCaseData(payload);
+      } catch (error: any) {
+        console.error('Error loading case details:', error);
+        setLoadError(error.message || 'Unable to load case');
+      } finally {
+        setLoadingCase(false);
+      }
+    };
+
+    fetchCase();
+  }, [caseId, isNewCase]);
 
   const handleAddDrug = () => {
     alert('Drug entry form will be added');
@@ -145,13 +174,26 @@ function CaseFormContent() {
     <ArgusLayout>
       <RegulatoryReferencePanel />
       <div className={`bg-argus-bg p-3 space-y-2 text-11 font-sans min-h-screen ${trainingMode.enabled ? 'mr-64' : ''}`}>
+        {loadingCase && (
+          <div className="rounded border border-argus-border bg-argus-bg p-3 text-11 text-argus-text-muted">
+            Loading case details...
+          </div>
+        )}
+        {loadError && (
+          <div className="rounded border border-red-500 bg-red-50 p-3 text-11 text-red-700">
+            Error loading case: {loadError}
+          </div>
+        )}
+
         {/* Case Header */}
         <CaseHeader
-          caseId={caseData.caseId || 'NEW'}
-          receiptDate={caseData.receiptDate}
-          product={caseData.product}
-          seriousness={caseData.seriousness}
-          status={caseData.status}
+          caseId={caseData?.caseId || 'NEW'}
+          receiptDate={caseData?.administration?.receiptDate
+            ? new Date(caseData.administration.receiptDate).toISOString().slice(0, 10)
+            : caseData?.receiptDate || 'Unknown'}
+          product={caseData?.drug?.tradeName || caseData?.products?.[0]?.productName || 'Unknown'}
+          seriousness={caseData?.reaction?.outcome || caseData?.reaction?.seriousness || 'Unknown'}
+          status={caseData?.status || caseData?.workflow?.currentStep || 'New'}
           actions={
             <div className="flex gap-2">
               <TrainingModeToggle />
@@ -208,7 +250,9 @@ function CaseFormContent() {
                   >
                     <ArgusFormField label="Initial Receipt Date:" required>
                       <ArgusDateField
-                        value={caseData.receiptDate}
+                        value={caseData?.administration?.receiptDate
+                          ? new Date(caseData.administration.receiptDate).toISOString().slice(0, 10)
+                          : caseData?.receiptDate || ''}
                         onChange={(e) => setCaseData({ ...caseData, receiptDate: e })}
                       />
                     </ArgusFormField>
@@ -223,19 +267,57 @@ function CaseFormContent() {
                     guidelineReference="ICH E2A Expedited Reporting - Country-Specific Rules"
                   >
                     <ArgusFormField label="Country of Incidence:" required>
-                      <ArgusSelect
-                        options={[
-                          { value: 'USA', label: 'United States' },
-                          { value: 'India', label: 'India' },
-                          { value: 'UK', label: 'United Kingdom' },
-                          { value: 'Canada', label: 'Canada' },
-                        ]}
-                        value={caseData.country}
-                        onChange={(e) => setCaseData({ ...caseData, country: e.target.value })}
+                      <ArgusInput
+                        value={caseData?.administration?.countryOfOccurrence || caseData?.country || ''}
+                        readOnly
                       />
                     </ArgusFormField>
                   </TrainingTooltip>
                 </div>
+              </div>
+
+              <div className="flex gap-4">
+                <div className="flex-1">
+                  <ArgusFormField label="Awareness Date:" required>
+                    <ArgusInput
+                      value={caseData?.administration?.awarenessDate
+                        ? new Date(caseData.administration.awarenessDate).toISOString().slice(0, 10)
+                        : ''}
+                      readOnly
+                    />
+                  </ArgusFormField>
+                </div>
+
+                <div className="flex-1">
+                  <ArgusFormField label="Reporter Type:" required>
+                    <ArgusInput
+                      value={caseData?.reporter?.type || caseData?.administration?.primaryReporterType || 'Unknown'}
+                      readOnly
+                    />
+                  </ArgusFormField>
+                </div>
+              </div>
+
+              <SectionHeader title="Reporter / Source Information" />
+              <div className="grid grid-cols-2 gap-4">
+                <ArgusFormField label="Reporter Name:" required>
+                  <ArgusInput value={caseData?.reporter?.name || ''} readOnly />
+                </ArgusFormField>
+                <ArgusFormField label="Qualification:">
+                  <ArgusInput value={caseData?.reporter?.qualification || ''} readOnly />
+                </ArgusFormField>
+                <ArgusFormField label="Institution:">
+                  <ArgusInput value={caseData?.reporter?.institution || ''} readOnly />
+                </ArgusFormField>
+                <ArgusFormField label="City:">
+                  <ArgusInput value={caseData?.reporter?.city || ''} readOnly />
+                </ArgusFormField>
+                <ArgusFormField label="Source Channel:">
+                  <ArgusInput value={caseData?.reporter?.sourceChannel || ''} readOnly />
+                </ArgusFormField>
+                <ArgusFormField label="Source Document:">
+                  <ArgusInput value={caseData?.reporter?.sourceDocument || ''} readOnly />
+                </ArgusFormField>
               </div>
 
               <div className="flex gap-4">

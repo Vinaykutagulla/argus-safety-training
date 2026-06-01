@@ -253,7 +253,6 @@ export default function AdminUsersPage() {
     </ArgusLayout>
   );
 }
-                <tr className="border-b-2 border-gray-300">
                   <th className="text-left py-3 px-4 font-bold">Name</th>
                   <th className="text-left py-3 px-4 font-bold">Email</th>
                   <th className="text-left py-3 px-4 font-bold">Role</th>

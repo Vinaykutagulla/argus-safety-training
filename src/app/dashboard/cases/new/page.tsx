@@ -91,15 +91,59 @@ export default function NewCasePage() {
     setLoading(true);
 
     try {
+      // Prepare case data with all required fields
       const caseData = {
-        ...formData,
-        products: products,
+        caseNumber: formData.caseNumber || `ARG-${Date.now()}`,
+        receiptDate: formData.receiptDate,
+        caseClassification: formData.caseClassification,
+        reportType: formData.reportType,
+        countryOfOccurrence: formData.countryOfOccurrence,
+        primaryReporterType: 'Student',
+        isPregnancyCase: formData.isPregnancyCase,
+        patient: {
+          initials: formData.patient.initials || 'NA',
+          age: formData.patient.age || 0,
+          sex: formData.patient.sex || 'Unknown',
+          weight: formData.patient.weight,
+          height: formData.patient.height,
+          medicalHistory: formData.patient.medicalHistory,
+        },
+        products: products.length > 0 ? products : [{
+          productName: 'Unknown',
+          activeSubstance: 'Unknown',
+          drugRole: 'Suspect',
+        }],
+        reaction: {
+          reactionName: formData.reaction.reactionName || 'Unknown',
+          onsetDate: formData.reaction.onsetDate,
+          outcome: formData.reaction.outcome,
+          seriousness: formData.reaction.seriousness,
+        },
+        narrative: formData.narrative || 'Case entry in progress',
+        reporter: {
+          name: 'Student',
+          qualification: 'Safety Analyst',
+          country: formData.countryOfOccurrence,
+        },
       };
+
       const result = await api.cases.create(caseData);
-      router.push(`/dashboard/cases/${result._id}`);
-    } catch (error) {
+      
+      if (result && result._id) {
+        // Success - navigate to case details
+        window.alert(`✓ Case created successfully: ${result.caseId || result._id}`);
+        router.push(`/dashboard/cases/${result._id}`);
+      } else if (result && result.caseId) {
+        window.alert(`✓ Case created successfully: ${result.caseId}`);
+        router.push(`/dashboard/cases`);
+      } else {
+        window.alert('✓ Case created successfully');
+        router.push(`/dashboard`);
+      }
+    } catch (error: any) {
       console.error('Failed to create case:', error);
-      alert('Failed to create case');
+      const errorMsg = error?.message || 'Unknown error occurred';
+      window.alert(`✗ Failed to create case:\n${errorMsg}\n\nPlease check that all required fields are filled.`);
     } finally {
       setLoading(false);
     }

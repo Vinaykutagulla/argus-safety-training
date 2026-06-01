@@ -118,32 +118,87 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    await dbConnect();
-
+    const db = await dbConnect();
     const data = await req.json();
 
     const caseId = generateCaseId();
-    const aeCase = new AECase({
+
+    // Create case with minimal required fields
+    const caseData = {
       ...data,
       caseId,
       createdBy: payload.userId,
+      administration: {
+        receiptDate: data.receiptDate || new Date(),
+        caseClassification: data.caseClassification || 'Spontaneous',
+        reportType: data.reportType || 'Initial',
+        primaryReporterType: data.primaryReporterType || 'Physician',
+        countryOfOccurrence: data.countryOfOccurrence || 'USA',
+        awarenessDate: data.awarenessDate || new Date(),
+        isPregnancyCase: data.isPregnancyCase || false,
+      },
+      patient: {
+        initials: data.patient?.initials || 'N/A',
+        age: data.patient?.age || 0,
+        sex: data.patient?.sex || 'Unknown',
+        medicalHistory: data.patient?.medicalHistory || '',
+      },
+      reaction: {
+        verbatimTerm: data.reaction?.verbatimTerm || 'Unknown',
+        meddraPreferredTerm: data.reaction?.meddraPreferredTerm || 'Unknown',
+        meddraCode: data.reaction?.meddraCode || 'UNKNOWN',
+        meddraSoc: data.reaction?.meddraSoc || 'Unknown',
+        outcome: data.reaction?.outcome || 'Unknown',
+        seriousnessCriteria: data.reaction?.seriousnessCriteria || [],
+      },
+      drug: {
+        tradeName: data.drug?.tradeName || data.products?.[0]?.productName || 'Unknown',
+        activeSubstance: data.drug?.activeSubstance || data.products?.[0]?.activeSubstance || 'Unknown',
+        drugRole: data.drug?.drugRole || 'Suspect',
+        indication: data.drug?.indication || '',
+      },
+      narrative: {
+        caseNarrative: data.narrative || 'Case entry in progress',
+        labTests: data.labTests || '',
+      },
+      reporter: {
+        name: data.reporter?.name || payload.userId,
+        qualification: data.reporter?.qualification || 'Analyst',
+        country: data.reporter?.country || 'USA',
+      },
       auditTrail: [
         {
           action: 'Case Created',
           performedBy: payload.userId,
           timestamp: new Date(),
-          details: 'Case intake initiated',
+          details: 'Case intake initiated by student',
         },
       ],
-    });
+    };
 
+    // Try to save with MongoDB, or use mock database
+    if (db && typeof db.createCase === 'function') {
+      // Mock database
+      const savedCase = await db.createCase(caseData);
+      return NextResponse.json(savedCase, { status: 201 });
+    }
+
+    // MongoDB path
+    const aeCase = new AECase(caseData);
     await aeCase.save();
 
     return NextResponse.json(aeCase, { status: 201 });
   } catch (error) {
     console.error('Create case error:', error);
+    
+    // Return detailed error for debugging
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { 
+        error: 'Failed to create case',
+        details: errorMessage,
+        timestamp: new Date().toISOString(),
+      },
       { status: 500 }
     );
   }

@@ -180,16 +180,23 @@ export default function DashboardPage() {
                 <div className="bg-gradient-to-r from-red-600 to-red-500 px-6 py-4">
                   <h2 className="text-13 font-bold text-white uppercase tracking-wider">⏰ Expedited Reports</h2>
                 </div>
-                <div className="p-6 space-y-3">
+                <div className="p-6 space-y-4">
                   {reportsDueSoon.map((item, idx) => (
                     <div key={idx} className="p-4 border-l-4 border-red-500 bg-red-50 rounded-lg hover:bg-red-100 transition-colors">
-                      <a href={`/dashboard/cases/${item.caseId}`} className="block text-argus-blue font-bold hover:text-argus-light text-11 mb-1">
-                        {item.caseId}
-                      </a>
-                      <p className="text-10 text-red-700 font-medium mb-2">{item.reportType}</p>
-                      <div className="flex justify-between items-center">
-                        <span className="text-10 font-bold text-gray-700">{item.status}</span>
-                        <span className="text-10 font-bold text-red-600">{item.daysLeft}d</span>
+                      <div className="mb-2">
+                        <a href={`/dashboard/cases/${item.caseId}`} className="text-argus-blue font-bold hover:text-argus-light text-12">
+                          {item.caseId}
+                        </a>
+                      </div>
+                      <p className="text-10 text-red-700 font-medium mb-3 leading-snug">{item.reportType}</p>
+                      <div className="space-y-2">
+                        <div className="flex items-start gap-2">
+                          <span className="text-9 font-bold text-gray-700 whitespace-nowrap">Status:</span>
+                          <span className="text-9 font-bold text-red-600 text-right flex-1">{item.status}</span>
+                        </div>
+                        <div className="flex items-center justify-between pt-2 border-t border-red-200">
+                          <span className="text-11 font-bold text-red-600">{item.daysLeft} days left</span>
+                        </div>
                       </div>
                     </div>
                   ))}

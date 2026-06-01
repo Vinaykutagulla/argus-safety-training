@@ -14,7 +14,7 @@
     "deploymentEnabled": true
   },
   "functions": {
-    "api/**/*.ts": {
+    "src/app/api/**/*.ts": {
       "maxDuration": 30
     }
   }

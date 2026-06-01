@@ -1,11 +1,22 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { api } from '@/lib/api-client';
 import ArgusLayout from '@/components/ArgusLayout';
 
+interface CaseItem {
+  _id: string;
+  caseId: string;
+  product: string;
+  assignedTo: string;
+  daysInStage: number;
+  stage: string;
+}
+
 export default function WorkflowPage() {
-  const [workflowStates] = useState([
+  const router = useRouter();
+  const [workflowStates, setWorkflowStates] = useState([
     {
       stage: 'Intake',
       count: 5,
@@ -51,16 +62,53 @@ export default function WorkflowPage() {
   ]);
 
   const [loading, setLoading] = useState(false);
+  const [casesByStage, setCasesByStage] = useState<Record<string, CaseItem[]>>({});
   const [selectedStage, setSelectedStage] = useState(workflowStates[0].stage);
 
   useEffect(() => {
     loadWorkflow();
   }, []);
 
+  const handleOpenCase = (caseId: string) => {
+    router.push(`/dashboard/cases/${caseId}`);
+  };
+
   const loadWorkflow = async () => {
     try {
       setLoading(true);
-      // Using hardcoded workflow data for demo
+      const data = await api.cases.list({ limit: '100' });
+      const cases = (data.cases || []).map((c: any) => {
+        const receiptDate = c.administration?.receiptDate || c.receiptDate;
+        const daysInStage = receiptDate
+          ? Math.max(1, Math.round((Date.now() - new Date(receiptDate).getTime()) / (1000 * 60 * 60 * 24)))
+          : 1;
+
+        return {
+          _id: c._id || c.caseId,
+          caseId: c.caseId || c.caseNumber || 'UNKNOWN',
+          product: c.drug?.tradeName || c.products?.[0]?.productName || 'Unknown',
+          assignedTo: c.assignedTo?.name || c.assignedTo || 'Unassigned',
+          daysInStage,
+          stage: c.workflow?.currentStep || c.status || 'New',
+        };
+      });
+
+      const grouped = cases.reduce((acc: Record<string, CaseItem[]>, item: CaseItem) => {
+        const stage = item.stage || 'New';
+        acc[stage] = acc[stage] || [];
+        acc[stage].push(item);
+        return acc;
+      }, {});
+
+      setCasesByStage(grouped);
+      setWorkflowStates((prev) => prev.map((state) => ({
+        ...state,
+        count: grouped[state.stage]?.length ?? 0,
+      })));
+      if (!grouped[selectedStage]?.length) {
+        const nextStage = workflowStates[0]?.stage || 'Intake';
+        setSelectedStage(nextStage);
+      }
     } catch (error) {
       console.error('Failed to load workflow:', error);
     } finally {
@@ -138,22 +186,33 @@ export default function WorkflowPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {[...Array(workflowStates.find((s) => s.stage === selectedStage)?.count || 0)].map((_, idx) => (
-                      <tr key={idx} className={idx % 2 === 0 ? 'bg-white' : 'bg-argus-bg-row-alt'}>
+                  {casesByStage[selectedStage]?.length ? (
+                    casesByStage[selectedStage].map((caseItem, idx) => (
+                      <tr key={caseItem._id} className={idx % 2 === 0 ? 'bg-white' : 'bg-argus-bg-row-alt'}>
                         <td className="border-r border-argus-border px-2 py-1 font-bold text-argus-link">
-                          ARG-00{idx + 1000}
+                          {caseItem.caseId}
                         </td>
-                        <td className="border-r border-argus-border px-2 py-1">Product {String.fromCharCode(65 + (idx % 3))}</td>
-                        <td className="border-r border-argus-border px-2 py-1">User {idx + 1}</td>
-                        <td className="border-r border-argus-border px-2 py-1 text-center">{idx + 1}</td>
+                        <td className="border-r border-argus-border px-2 py-1">{caseItem.product}</td>
+                        <td className="border-r border-argus-border px-2 py-1">{caseItem.assignedTo}</td>
+                        <td className="border-r border-argus-border px-2 py-1 text-center">{caseItem.daysInStage}</td>
                         <td className="px-2 py-1">
-                          <button className="text-argus-link hover:underline font-bold cursor-pointer">
+                          <button
+                            onClick={() => handleOpenCase(caseItem._id)}
+                            className="text-argus-link hover:underline font-bold cursor-pointer"
+                          >
                             Open →
                           </button>
                         </td>
                       </tr>
-                    ))}
-                  </tbody>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={5} className="px-2 py-3 text-center text-argus-text-muted">
+                        No cases in this stage.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
                 </table>
               </div>
             </div>

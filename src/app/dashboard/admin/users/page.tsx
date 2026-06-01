@@ -253,31 +253,6 @@ export default function AdminUsersPage() {
     </ArgusLayout>
   );
 }
-              onChange={handleChange}
-              options={[
-                { value: 'analyst', label: 'Analyst' },
-                { value: 'safety_officer', label: 'Safety Officer' },
-                { value: 'supervisor', label: 'Supervisor' },
-                { value: 'admin', label: 'Admin' },
-              ]}
-            />
-            <Button type="submit" variant="primary" fullWidth>
-              Create User
-            </Button>
-          </form>
-        </Card>
-      )}
-
-      {/* Users Table */}
-      <Card>
-        {users.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-gray-500">No users yet</p>
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
                 <tr className="border-b-2 border-gray-300">
                   <th className="text-left py-3 px-4 font-bold">Name</th>
                   <th className="text-left py-3 px-4 font-bold">Email</th>

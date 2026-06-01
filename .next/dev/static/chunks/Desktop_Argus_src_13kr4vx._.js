@@ -17,329 +17,543 @@ var _s = __turbopack_context__.k.signature();
 function ArgusNavbar() {
     _s();
     const [userMenuOpen, setUserMenuOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
-    const [fileMenuOpen, setFileMenuOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
-    const [caseMenuOpen, setCaseMenuOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const handleLogout = ()=>{
         localStorage.removeItem('auth-token');
         window.location.href = '/login';
     };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
-        children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "bg-argus-navy text-argus-text-header h-8 flex items-center px-4 text-11 font-sans shadow-lg border-b-2 border-argus-border-dark",
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "flex items-center gap-2 pr-6 border-r border-argus-border-dark",
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                className: "font-bold text-12",
-                                children: "Argus"
-                            }, void 0, false, {
-                                fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
-                                lineNumber: 22,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                className: "text-10 opacity-75",
-                                children: "Safety 8.4"
-                            }, void 0, false, {
-                                fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
-                                lineNumber: 23,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
-                        lineNumber: 21,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "flex items-center gap-4 flex-1 px-4",
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "relative group",
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                        onMouseEnter: ()=>setFileMenuOpen(true),
-                                        onMouseLeave: ()=>setFileMenuOpen(false),
-                                        className: "hover:bg-argus-blue px-2 py-1 text-11 transition-colors",
-                                        children: "File ▼"
-                                    }, void 0, false, {
-                                        fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
-                                        lineNumber: 30,
-                                        columnNumber: 13
-                                    }, this),
-                                    fileMenuOpen && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        onMouseEnter: ()=>setFileMenuOpen(true),
-                                        onMouseLeave: ()=>setFileMenuOpen(false),
-                                        className: "absolute top-full left-0 bg-white text-argus-text-primary border border-argus-border shadow-md z-50 mt-0",
-                                        children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                                href: "/dashboard/cases/new",
-                                                className: "block px-3 py-1 text-11 hover:bg-argus-bg-tab-inactive",
-                                                children: "New Case"
-                                            }, void 0, false, {
-                                                fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
-                                                lineNumber: 43,
-                                                columnNumber: 17
-                                            }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "border-t border-argus-border"
-                                            }, void 0, false, {
-                                                fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
-                                                lineNumber: 46,
-                                                columnNumber: 17
-                                            }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                onClick: handleLogout,
-                                                className: "block w-full text-left px-3 py-1 text-11 hover:bg-argus-bg-tab-inactive text-red-600",
-                                                children: "Exit"
-                                            }, void 0, false, {
-                                                fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
-                                                lineNumber: 47,
-                                                columnNumber: 17
-                                            }, this)
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
-                                        lineNumber: 38,
-                                        columnNumber: 15
-                                    }, this)
-                                ]
-                            }, void 0, true, {
-                                fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
-                                lineNumber: 29,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "relative",
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                        onMouseEnter: ()=>setCaseMenuOpen(true),
-                                        onMouseLeave: ()=>setCaseMenuOpen(false),
-                                        className: "hover:bg-argus-blue px-2 py-1 text-11 transition-colors",
-                                        children: "Case ▼"
-                                    }, void 0, false, {
-                                        fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
-                                        lineNumber: 56,
-                                        columnNumber: 13
-                                    }, this),
-                                    caseMenuOpen && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        onMouseEnter: ()=>setCaseMenuOpen(true),
-                                        onMouseLeave: ()=>setCaseMenuOpen(false),
-                                        className: "absolute top-full left-0 bg-white text-argus-text-primary border border-argus-border shadow-md z-50 mt-0",
-                                        children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                                href: "/dashboard/cases/new",
-                                                className: "block px-3 py-1 text-11 hover:bg-argus-bg-tab-inactive",
-                                                children: "New Case"
-                                            }, void 0, false, {
-                                                fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
-                                                lineNumber: 69,
-                                                columnNumber: 17
-                                            }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                                href: "/dashboard/cases",
-                                                className: "block px-3 py-1 text-11 hover:bg-argus-bg-tab-inactive",
-                                                children: "Search / Open Cases"
-                                            }, void 0, false, {
-                                                fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
-                                                lineNumber: 72,
-                                                columnNumber: 17
-                                            }, this)
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
-                                        lineNumber: 64,
-                                        columnNumber: 15
-                                    }, this)
-                                ]
-                            }, void 0, true, {
-                                fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
-                                lineNumber: 55,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                href: "/dashboard",
-                                className: "hover:bg-argus-blue px-2 py-1 text-11 transition-colors",
-                                children: "Dashboards"
-                            }, void 0, false, {
-                                fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
-                                lineNumber: 79,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                href: "/dashboard/reports/expedited",
-                                className: "hover:bg-argus-blue px-2 py-1 text-11 transition-colors",
-                                children: "Reports"
-                            }, void 0, false, {
-                                fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
-                                lineNumber: 83,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                href: "/dashboard/workflow",
-                                className: "hover:bg-argus-blue px-2 py-1 text-11 transition-colors",
-                                children: "Worklist"
-                            }, void 0, false, {
-                                fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
-                                lineNumber: 87,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                href: "/dashboard/meddra",
-                                className: "hover:bg-argus-blue px-2 py-1 text-11 transition-colors",
-                                children: "Utilities"
-                            }, void 0, false, {
-                                fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
-                                lineNumber: 91,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
-                        lineNumber: 27,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "flex items-center gap-4 border-l border-argus-border-dark pl-4",
-                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "relative",
+        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
+            style: {
+                backgroundColor: '#FFFFFF',
+                borderBottom: '1px solid #E5E7EB',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+                position: 'sticky',
+                top: 0,
+                zIndex: 50
+            },
+            children: [
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    style: {
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        height: '80px',
+                        paddingLeft: '32px',
+                        paddingRight: '32px'
+                    },
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            style: {
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '12px'
+                            },
                             children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                    onClick: ()=>setUserMenuOpen(!userMenuOpen),
-                                    className: "hover:bg-argus-blue px-2 py-1 text-11 transition-colors flex items-center gap-1",
-                                    children: "👤 Admin ▼"
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    style: {
+                                        width: '40px',
+                                        height: '40px',
+                                        background: 'linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)',
+                                        borderRadius: '10px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+                                    },
+                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        style: {
+                                            color: 'white',
+                                            fontWeight: 'bold',
+                                            fontSize: '16px'
+                                        },
+                                        children: "A"
+                                    }, void 0, false, {
+                                        fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
+                                        lineNumber: 22,
+                                        columnNumber: 15
+                                    }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
-                                    lineNumber: 99,
+                                    lineNumber: 21,
                                     columnNumber: 13
                                 }, this),
-                                userMenuOpen && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "absolute top-full right-0 bg-white text-argus-text-primary border border-argus-border shadow-md z-50 mt-0 min-w-40",
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    style: {
+                                        display: 'flex',
+                                        flexDirection: 'column'
+                                    },
                                     children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "px-3 py-1 text-11 border-b border-argus-border text-argus-text-muted",
-                                            children: "admin@argus.com"
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                            style: {
+                                                fontWeight: 'bold',
+                                                fontSize: '16px',
+                                                color: '#111827'
+                                            },
+                                            children: "Argus"
                                         }, void 0, false, {
                                             fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
-                                            lineNumber: 107,
-                                            columnNumber: 17
+                                            lineNumber: 25,
+                                            columnNumber: 15
                                         }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                            href: "/dashboard",
-                                            className: "block px-3 py-1 text-11 hover:bg-argus-bg-tab-inactive",
-                                            children: "My Profile"
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                            style: {
+                                                fontSize: '10px',
+                                                color: '#6B7280',
+                                                marginTop: '-2px'
+                                            },
+                                            children: "Safety Training"
                                         }, void 0, false, {
                                             fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
-                                            lineNumber: 110,
-                                            columnNumber: 17
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                            href: "/dashboard/admin/users",
-                                            className: "block px-3 py-1 text-11 hover:bg-argus-bg-tab-inactive",
-                                            children: "User Administration"
-                                        }, void 0, false, {
-                                            fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
-                                            lineNumber: 113,
-                                            columnNumber: 17
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "border-t border-argus-border"
-                                        }, void 0, false, {
-                                            fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
-                                            lineNumber: 116,
-                                            columnNumber: 17
-                                        }, this),
+                                            lineNumber: 26,
+                                            columnNumber: 15
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
+                                    lineNumber: 24,
+                                    columnNumber: 13
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
+                            lineNumber: 20,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            style: {
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '32px'
+                            },
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                    href: "/dashboard",
+                                    style: {
+                                        fontSize: '13px',
+                                        fontWeight: '600',
+                                        color: '#374151',
+                                        textDecoration: 'none',
+                                        padding: '8px 12px',
+                                        transition: 'color 0.2s'
+                                    },
+                                    onMouseEnter: (e)=>e.target.style.color = '#2563EB',
+                                    onMouseLeave: (e)=>e.target.style.color = '#374151',
+                                    children: "Dashboard"
+                                }, void 0, false, {
+                                    fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
+                                    lineNumber: 32,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                    href: "/dashboard/cases",
+                                    style: {
+                                        fontSize: '13px',
+                                        fontWeight: '600',
+                                        color: '#374151',
+                                        textDecoration: 'none',
+                                        padding: '8px 12px',
+                                        transition: 'color 0.2s'
+                                    },
+                                    onMouseEnter: (e)=>e.target.style.color = '#2563EB',
+                                    onMouseLeave: (e)=>e.target.style.color = '#374151',
+                                    children: "Cases"
+                                }, void 0, false, {
+                                    fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
+                                    lineNumber: 35,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                    href: "/dashboard/reports/expedited",
+                                    style: {
+                                        fontSize: '13px',
+                                        fontWeight: '600',
+                                        color: '#374151',
+                                        textDecoration: 'none',
+                                        padding: '8px 12px',
+                                        transition: 'color 0.2s'
+                                    },
+                                    onMouseEnter: (e)=>e.target.style.color = '#2563EB',
+                                    onMouseLeave: (e)=>e.target.style.color = '#374151',
+                                    children: "Reports"
+                                }, void 0, false, {
+                                    fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
+                                    lineNumber: 38,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                    href: "/dashboard/workflow",
+                                    style: {
+                                        fontSize: '13px',
+                                        fontWeight: '600',
+                                        color: '#374151',
+                                        textDecoration: 'none',
+                                        padding: '8px 12px',
+                                        transition: 'color 0.2s'
+                                    },
+                                    onMouseEnter: (e)=>e.target.style.color = '#2563EB',
+                                    onMouseLeave: (e)=>e.target.style.color = '#374151',
+                                    children: "Workflow"
+                                }, void 0, false, {
+                                    fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
+                                    lineNumber: 41,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                    href: "/dashboard/meddra",
+                                    style: {
+                                        fontSize: '13px',
+                                        fontWeight: '600',
+                                        color: '#374151',
+                                        textDecoration: 'none',
+                                        padding: '8px 12px',
+                                        transition: 'color 0.2s'
+                                    },
+                                    onMouseEnter: (e)=>e.target.style.color = '#2563EB',
+                                    onMouseLeave: (e)=>e.target.style.color = '#374151',
+                                    children: "MedDRA"
+                                }, void 0, false, {
+                                    fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
+                                    lineNumber: 44,
+                                    columnNumber: 13
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
+                            lineNumber: 31,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            style: {
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '16px'
+                            },
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                    href: "/dashboard/cases/new",
+                                    style: {
+                                        padding: '10px 16px',
+                                        background: 'linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)',
+                                        color: 'white',
+                                        fontWeight: '600',
+                                        fontSize: '12px',
+                                        borderRadius: '8px',
+                                        textDecoration: 'none',
+                                        boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                                        transition: 'all 0.2s',
+                                        cursor: 'pointer'
+                                    },
+                                    onMouseEnter: (e)=>e.target.style.boxShadow = '0 4px 12px rgba(37, 99, 235, 0.3)',
+                                    onMouseLeave: (e)=>e.target.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)',
+                                    children: "+ New Case"
+                                }, void 0, false, {
+                                    fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
+                                    lineNumber: 51,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    style: {
+                                        position: 'relative'
+                                    },
+                                    children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                            onClick: handleLogout,
-                                            className: "block w-full text-left px-3 py-1 text-11 hover:bg-argus-bg-tab-inactive text-red-600",
-                                            children: "Logout"
-                                        }, void 0, false, {
+                                            onClick: ()=>setUserMenuOpen(!userMenuOpen),
+                                            style: {
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: '8px',
+                                                padding: '8px 12px',
+                                                backgroundColor: 'transparent',
+                                                border: 'none',
+                                                borderRadius: '8px',
+                                                cursor: 'pointer',
+                                                transition: 'background-color 0.2s'
+                                            },
+                                            onMouseEnter: (e)=>e.target.style.backgroundColor = '#F3F4F6',
+                                            onMouseLeave: (e)=>e.target.style.backgroundColor = 'transparent',
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    style: {
+                                                        width: '32px',
+                                                        height: '32px',
+                                                        background: 'linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%)',
+                                                        borderRadius: '50%',
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'center',
+                                                        color: 'white',
+                                                        fontSize: '11px',
+                                                        fontWeight: 'bold'
+                                                    },
+                                                    children: "A"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
+                                                    lineNumber: 57,
+                                                    columnNumber: 17
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                    style: {
+                                                        fontSize: '13px',
+                                                        fontWeight: '600',
+                                                        color: '#374151'
+                                                    },
+                                                    children: "Admin"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
+                                                    lineNumber: 58,
+                                                    columnNumber: 17
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                    style: {
+                                                        color: '#9CA3AF'
+                                                    },
+                                                    children: "▼"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
+                                                    lineNumber: 59,
+                                                    columnNumber: 17
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
                                             fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
-                                            lineNumber: 117,
+                                            lineNumber: 56,
+                                            columnNumber: 15
+                                        }, this),
+                                        userMenuOpen && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            style: {
+                                                position: 'absolute',
+                                                right: 0,
+                                                marginTop: '8px',
+                                                width: '224px',
+                                                backgroundColor: 'white',
+                                                border: '1px solid #E5E7EB',
+                                                borderRadius: '12px',
+                                                boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)',
+                                                zIndex: 50,
+                                                overflow: 'hidden'
+                                            },
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    style: {
+                                                        padding: '12px 16px',
+                                                        borderBottom: '1px solid #F3F4F6',
+                                                        backgroundColor: '#F9FAFB'
+                                                    },
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            style: {
+                                                                fontSize: '12px',
+                                                                fontWeight: '600',
+                                                                color: '#111827'
+                                                            },
+                                                            children: "admin@argus.com"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
+                                                            lineNumber: 65,
+                                                            columnNumber: 21
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            style: {
+                                                                fontSize: '11px',
+                                                                color: '#6B7280',
+                                                                marginTop: '4px'
+                                                            },
+                                                            children: "Administrator"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
+                                                            lineNumber: 66,
+                                                            columnNumber: 21
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
+                                                    lineNumber: 64,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                                    href: "/dashboard",
+                                                    style: {
+                                                        display: 'block',
+                                                        padding: '12px 16px',
+                                                        fontSize: '12px',
+                                                        fontWeight: '500',
+                                                        color: '#374151',
+                                                        textDecoration: 'none',
+                                                        transition: 'all 0.2s',
+                                                        borderBottom: '1px solid #F3F4F6'
+                                                    },
+                                                    onMouseEnter: (e)=>{
+                                                        e.target.style.backgroundColor = '#EFF6FF';
+                                                        e.target.style.color = '#2563EB';
+                                                    },
+                                                    onMouseLeave: (e)=>{
+                                                        e.target.style.backgroundColor = 'transparent';
+                                                        e.target.style.color = '#374151';
+                                                    },
+                                                    children: "My Dashboard"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
+                                                    lineNumber: 68,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                                    href: "/dashboard/admin/users",
+                                                    style: {
+                                                        display: 'block',
+                                                        padding: '12px 16px',
+                                                        fontSize: '12px',
+                                                        fontWeight: '500',
+                                                        color: '#374151',
+                                                        textDecoration: 'none',
+                                                        transition: 'all 0.2s',
+                                                        borderBottom: '1px solid #F3F4F6'
+                                                    },
+                                                    onMouseEnter: (e)=>{
+                                                        e.target.style.backgroundColor = '#EFF6FF';
+                                                        e.target.style.color = '#2563EB';
+                                                    },
+                                                    onMouseLeave: (e)=>{
+                                                        e.target.style.backgroundColor = 'transparent';
+                                                        e.target.style.color = '#374151';
+                                                    },
+                                                    children: "User Management"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
+                                                    lineNumber: 71,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                    onClick: handleLogout,
+                                                    style: {
+                                                        width: '100%',
+                                                        textAlign: 'left',
+                                                        padding: '12px 16px',
+                                                        fontSize: '12px',
+                                                        fontWeight: '500',
+                                                        color: '#DC2626',
+                                                        backgroundColor: 'transparent',
+                                                        border: 'none',
+                                                        cursor: 'pointer',
+                                                        transition: 'all 0.2s',
+                                                        borderTop: '1px solid #F3F4F6'
+                                                    },
+                                                    onMouseEnter: (e)=>e.target.style.backgroundColor = '#FEF2F2',
+                                                    onMouseLeave: (e)=>e.target.style.backgroundColor = 'transparent',
+                                                    children: "Sign Out"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
+                                                    lineNumber: 74,
+                                                    columnNumber: 19
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
+                                            lineNumber: 63,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
-                                    lineNumber: 106,
-                                    columnNumber: 15
+                                    lineNumber: 55,
+                                    columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
-                            lineNumber: 98,
+                            lineNumber: 50,
                             columnNumber: 11
                         }, this)
-                    }, void 0, false, {
-                        fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
-                        lineNumber: 97,
-                        columnNumber: 9
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
-                lineNumber: 19,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "bg-argus-bg-tab-inactive border-b border-argus-border h-7 flex items-center px-4 gap-6 text-11",
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                        href: "/dashboard/cases/new",
-                        className: "hover:text-argus-blue transition-colors flex items-center gap-1",
-                        children: "📋 New Case"
-                    }, void 0, false, {
-                        fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
-                        lineNumber: 131,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                        href: "/dashboard/cases",
-                        className: "hover:text-argus-blue transition-colors flex items-center gap-1",
-                        children: "🔍 Search Cases"
-                    }, void 0, false, {
-                        fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
-                        lineNumber: 134,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                        href: "/dashboard",
-                        className: "hover:text-argus-blue transition-colors flex items-center gap-1",
-                        children: "📊 My Worklist"
-                    }, void 0, false, {
-                        fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
-                        lineNumber: 137,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                        href: "/dashboard/reports/expedited",
-                        className: "hover:text-argus-blue transition-colors flex items-center gap-1",
-                        children: "⚡ Reports Due"
-                    }, void 0, false, {
-                        fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
-                        lineNumber: 140,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "ml-auto text-argus-text-muted text-10",
-                        children: "Last Login: Today 09:15 AM"
-                    }, void 0, false, {
-                        fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
-                        lineNumber: 143,
-                        columnNumber: 9
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
-                lineNumber: 130,
-                columnNumber: 7
-            }, this)
-        ]
-    }, void 0, true);
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
+                    lineNumber: 18,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    style: {
+                        backgroundColor: '#EFF6FF',
+                        borderTop: '1px solid #F3F4F6',
+                        height: '40px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        paddingLeft: '32px',
+                        paddingRight: '32px',
+                        fontSize: '11px',
+                        gap: '24px'
+                    },
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            style: {
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '8px'
+                            },
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    style: {
+                                        width: '8px',
+                                        height: '8px',
+                                        backgroundColor: '#10B981',
+                                        borderRadius: '50%'
+                                    }
+                                }, void 0, false, {
+                                    fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
+                                    lineNumber: 86,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                    style: {
+                                        color: '#374151',
+                                        fontWeight: '500'
+                                    },
+                                    children: "Online"
+                                }, void 0, false, {
+                                    fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
+                                    lineNumber: 87,
+                                    columnNumber: 13
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
+                            lineNumber: 85,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            style: {
+                                color: '#6B7280'
+                            },
+                            children: "Last sync: just now"
+                        }, void 0, false, {
+                            fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
+                            lineNumber: 89,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            style: {
+                                marginLeft: 'auto',
+                                color: '#6B7280'
+                            },
+                            children: "Training Mode: Enabled"
+                        }, void 0, false, {
+                            fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
+                            lineNumber: 90,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
+                    lineNumber: 84,
+                    columnNumber: 9
+                }, this)
+            ]
+        }, void 0, true, {
+            fileName: "[project]/Desktop/Argus/src/components/ArgusNavbar.tsx",
+            lineNumber: 17,
+            columnNumber: 7
+        }, this)
+    }, void 0, false);
 }
-_s(ArgusNavbar, "f4kiy4oBQ5Iqo92mFgqic9A0YUo=");
+_s(ArgusNavbar, "k7wgQl/HNGGz0YmOjFumVe8VsmA=");
 _c = ArgusNavbar;
 var _c;
 __turbopack_context__.k.register(_c, "ArgusNavbar");
@@ -529,9 +743,10 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_mod
 ;
 function SectionHeader({ title, actions }) {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "flex justify-between items-center bg-argus-navy text-argus-text-header px-2 py-1 text-11 font-bold uppercase my-2",
+        className: "flex justify-between items-center bg-gradient-to-r from-argus-navy to-blue-900 text-white px-4 py-3 text-12 font-bold uppercase tracking-wider shadow-md rounded-t-lg",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                className: "flex items-center gap-2",
                 children: title
             }, void 0, false, {
                 fileName: "[project]/Desktop/Argus/src/components/SectionHeader.tsx",

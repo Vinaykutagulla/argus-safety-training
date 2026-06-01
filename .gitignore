@@ -16,3 +16,4 @@ coverage/
 .dockerignore
 .git/
 .next/
+.vercel

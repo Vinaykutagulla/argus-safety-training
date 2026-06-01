@@ -174,46 +174,66 @@ function LoginPage() {
         }
     };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "min-h-screen bg-gradient-to-b from-argus-navy to-argus-blue flex items-center justify-center px-4 font-sans",
+        style: {
+            minHeight: '100vh',
+            background: 'linear-gradient(135deg, #1F3A93 0%, #2563EB 50%, #3B82F6 100%)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '16px',
+            fontFamily: 'system-ui, -apple-system, sans-serif'
+        },
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "w-full max-w-md bg-white border-2 border-argus-border shadow-2xl",
             style: {
-                boxShadow: '0 4px 12px rgba(26, 58, 92, 0.3)'
+                width: '100%',
+                maxWidth: '420px',
+                backgroundColor: 'white',
+                borderRadius: '16px',
+                boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+                overflow: 'hidden'
             },
             children: [
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "bg-argus-navy text-argus-text-header px-6 py-8 text-center",
+                    style: {
+                        background: 'linear-gradient(135deg, #1F3A93 0%, #2563EB 100%)',
+                        color: 'white',
+                        padding: '40px 24px',
+                        textAlign: 'center'
+                    },
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "text-14 font-bold mb-2",
-                            children: "ARGUS SAFETY"
+                            style: {
+                                fontSize: '28px',
+                                fontWeight: 'bold',
+                                marginBottom: '8px'
+                            },
+                            children: "🏥 Argus Safety"
                         }, void 0, false, {
                             fileName: "[project]/Desktop/Argus/src/app/login/page.tsx",
                             lineNumber: 48,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "text-11 opacity-90 mb-4",
-                            children: "Release 8.4"
+                            style: {
+                                fontSize: '14px',
+                                opacity: 0.9,
+                                marginBottom: '8px'
+                            },
+                            children: "Pharmacovigilance Training"
                         }, void 0, false, {
                             fileName: "[project]/Desktop/Argus/src/app/login/page.tsx",
                             lineNumber: 49,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "text-10 opacity-75",
-                            children: "Pharmacovigilance Management System"
+                            style: {
+                                fontSize: '12px',
+                                opacity: 0.8
+                            },
+                            children: "Professional Safety Management System"
                         }, void 0, false, {
                             fileName: "[project]/Desktop/Argus/src/app/login/page.tsx",
                             lineNumber: 50,
-                            columnNumber: 11
-                        }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "text-10 opacity-75 mt-1",
-                            children: "Powered by Oracle"
-                        }, void 0, false, {
-                            fileName: "[project]/Desktop/Argus/src/app/login/page.tsx",
-                            lineNumber: 51,
                             columnNumber: 11
                         }, this)
                     ]
@@ -224,28 +244,47 @@ function LoginPage() {
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
                     onSubmit: handleSubmit,
-                    className: "px-6 py-6",
+                    style: {
+                        padding: '32px 24px'
+                    },
                     children: [
                         error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "mb-4 p-3 bg-red-50 border border-red-300 text-red-700 text-11",
+                            style: {
+                                marginBottom: '16px',
+                                padding: '12px',
+                                backgroundColor: '#FEE2E2',
+                                border: '1px solid #FCA5A5',
+                                borderRadius: '8px',
+                                color: '#DC2626',
+                                fontSize: '13px',
+                                fontWeight: '500'
+                            },
                             children: [
                                 "❌ ",
                                 error
                             ]
                         }, void 0, true, {
                             fileName: "[project]/Desktop/Argus/src/app/login/page.tsx",
-                            lineNumber: 58,
+                            lineNumber: 57,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "mb-4",
+                            style: {
+                                marginBottom: '20px'
+                            },
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                                    className: "block text-11 font-bold text-argus-text-label mb-1",
-                                    children: "Username:"
+                                    style: {
+                                        display: 'block',
+                                        fontSize: '13px',
+                                        fontWeight: '600',
+                                        color: '#111827',
+                                        marginBottom: '8px'
+                                    },
+                                    children: "Email Address"
                                 }, void 0, false, {
                                     fileName: "[project]/Desktop/Argus/src/app/login/page.tsx",
-                                    lineNumber: 65,
+                                    lineNumber: 64,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -253,28 +292,47 @@ function LoginPage() {
                                     name: "email",
                                     value: formData.email,
                                     onChange: handleChange,
-                                    className: "w-full px-2 py-2 text-11 border border-argus-border focus:border-argus-light focus:outline-none bg-white",
+                                    style: {
+                                        width: '100%',
+                                        padding: '12px',
+                                        fontSize: '14px',
+                                        border: '1px solid #E5E7EB',
+                                        borderRadius: '8px',
+                                        outline: 'none',
+                                        transition: 'all 0.2s',
+                                        boxSizing: 'border-box'
+                                    },
+                                    onFocus: (e)=>e.target.style.borderColor = '#2563EB',
+                                    onBlur: (e)=>e.target.style.borderColor = '#E5E7EB',
                                     required: true
                                 }, void 0, false, {
                                     fileName: "[project]/Desktop/Argus/src/app/login/page.tsx",
-                                    lineNumber: 68,
+                                    lineNumber: 67,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/Desktop/Argus/src/app/login/page.tsx",
-                            lineNumber: 64,
+                            lineNumber: 63,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "mb-4",
+                            style: {
+                                marginBottom: '20px'
+                            },
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                                    className: "block text-11 font-bold text-argus-text-label mb-1",
-                                    children: "Password:"
+                                    style: {
+                                        display: 'block',
+                                        fontSize: '13px',
+                                        fontWeight: '600',
+                                        color: '#111827',
+                                        marginBottom: '8px'
+                                    },
+                                    children: "Password"
                                 }, void 0, false, {
                                     fileName: "[project]/Desktop/Argus/src/app/login/page.tsx",
-                                    lineNumber: 80,
+                                    lineNumber: 81,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -282,41 +340,70 @@ function LoginPage() {
                                     name: "password",
                                     value: formData.password,
                                     onChange: handleChange,
-                                    className: "w-full px-2 py-2 text-11 border border-argus-border focus:border-argus-light focus:outline-none bg-white",
+                                    style: {
+                                        width: '100%',
+                                        padding: '12px',
+                                        fontSize: '14px',
+                                        border: '1px solid #E5E7EB',
+                                        borderRadius: '8px',
+                                        outline: 'none',
+                                        transition: 'all 0.2s',
+                                        boxSizing: 'border-box'
+                                    },
+                                    onFocus: (e)=>e.target.style.borderColor = '#2563EB',
+                                    onBlur: (e)=>e.target.style.borderColor = '#E5E7EB',
                                     required: true
                                 }, void 0, false, {
                                     fileName: "[project]/Desktop/Argus/src/app/login/page.tsx",
-                                    lineNumber: 83,
+                                    lineNumber: 84,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/Desktop/Argus/src/app/login/page.tsx",
-                            lineNumber: 79,
+                            lineNumber: 80,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "mb-6",
+                            style: {
+                                marginBottom: '28px'
+                            },
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                                    className: "block text-11 font-bold text-argus-text-label mb-1",
-                                    children: "Enterprise:"
+                                    style: {
+                                        display: 'block',
+                                        fontSize: '13px',
+                                        fontWeight: '600',
+                                        color: '#111827',
+                                        marginBottom: '8px'
+                                    },
+                                    children: "Organization"
                                 }, void 0, false, {
                                     fileName: "[project]/Desktop/Argus/src/app/login/page.tsx",
-                                    lineNumber: 95,
+                                    lineNumber: 98,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
                                     value: enterprise,
                                     onChange: (e)=>setEnterprise(e.target.value),
-                                    className: "w-full px-2 py-2 text-11 border border-argus-border focus:border-argus-light focus:outline-none bg-white cursor-pointer",
+                                    style: {
+                                        width: '100%',
+                                        padding: '12px',
+                                        fontSize: '14px',
+                                        border: '1px solid #E5E7EB',
+                                        borderRadius: '8px',
+                                        outline: 'none',
+                                        cursor: 'pointer',
+                                        boxSizing: 'border-box',
+                                        backgroundColor: 'white'
+                                    },
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
                                             value: "default",
                                             children: "Default Enterprise"
                                         }, void 0, false, {
                                             fileName: "[project]/Desktop/Argus/src/app/login/page.tsx",
-                                            lineNumber: 103,
+                                            lineNumber: 106,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -324,7 +411,7 @@ function LoginPage() {
                                             children: "Pharma US Division"
                                         }, void 0, false, {
                                             fileName: "[project]/Desktop/Argus/src/app/login/page.tsx",
-                                            lineNumber: 104,
+                                            lineNumber: 107,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -332,7 +419,7 @@ function LoginPage() {
                                             children: "Pharma EU Division"
                                         }, void 0, false, {
                                             fileName: "[project]/Desktop/Argus/src/app/login/page.tsx",
-                                            lineNumber: 105,
+                                            lineNumber: 108,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -340,103 +427,149 @@ function LoginPage() {
                                             children: "Clinical Research"
                                         }, void 0, false, {
                                             fileName: "[project]/Desktop/Argus/src/app/login/page.tsx",
-                                            lineNumber: 106,
+                                            lineNumber: 109,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/Desktop/Argus/src/app/login/page.tsx",
-                                    lineNumber: 98,
+                                    lineNumber: 101,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/Desktop/Argus/src/app/login/page.tsx",
-                            lineNumber: 94,
+                            lineNumber: 97,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                             type: "submit",
                             disabled: loading,
-                            className: "w-full px-4 py-2 text-11 font-bold bg-argus-blue hover:bg-argus-light text-white border border-argus-border-dark transition-colors disabled:opacity-50 cursor-pointer",
-                            children: loading ? 'SIGNING IN...' : 'SIGN IN'
+                            style: {
+                                width: '100%',
+                                padding: '12px',
+                                fontSize: '14px',
+                                fontWeight: '700',
+                                background: loading ? '#9CA3AF' : 'linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '8px',
+                                cursor: loading ? 'not-allowed' : 'pointer',
+                                transition: 'all 0.2s',
+                                boxShadow: '0 4px 6px rgba(37, 99, 235, 0.3)'
+                            },
+                            onMouseEnter: (e)=>!loading && (e.currentTarget.style.boxShadow = '0 8px 12px rgba(37, 99, 235, 0.4)'),
+                            onMouseLeave: (e)=>!loading && (e.currentTarget.style.boxShadow = '0 4px 6px rgba(37, 99, 235, 0.3)'),
+                            children: loading ? '⏳ SIGNING IN...' : '🔓 SIGN IN'
                         }, void 0, false, {
                             fileName: "[project]/Desktop/Argus/src/app/login/page.tsx",
-                            lineNumber: 111,
+                            lineNumber: 114,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/Desktop/Argus/src/app/login/page.tsx",
-                    lineNumber: 55,
+                    lineNumber: 54,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "border-t border-argus-border px-6 py-4 bg-argus-bg",
+                    style: {
+                        borderTop: '1px solid #E5E7EB',
+                        padding: '20px 24px',
+                        backgroundColor: '#F9FAFB'
+                    },
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "text-11 font-bold text-argus-text-label mb-2",
-                            children: "⚠️ Demo Credentials:"
+                            style: {
+                                fontSize: '12px',
+                                fontWeight: '700',
+                                color: '#111827',
+                                marginBottom: '8px'
+                            },
+                            children: "📋 Demo Credentials:"
                         }, void 0, false, {
                             fileName: "[project]/Desktop/Argus/src/app/login/page.tsx",
-                            lineNumber: 122,
+                            lineNumber: 127,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "text-10 font-mono text-argus-text-muted mb-1",
+                            style: {
+                                fontSize: '12px',
+                                color: '#6B7280',
+                                marginBottom: '4px',
+                                fontFamily: 'monospace'
+                            },
                             children: [
-                                "Email: ",
+                                "📧 ",
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                    className: "text-argus-text-primary font-bold",
+                                    style: {
+                                        color: '#111827',
+                                        fontWeight: '600'
+                                    },
                                     children: "admin@argus.com"
                                 }, void 0, false, {
                                     fileName: "[project]/Desktop/Argus/src/app/login/page.tsx",
-                                    lineNumber: 124,
-                                    columnNumber: 20
+                                    lineNumber: 129,
+                                    columnNumber: 16
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/Desktop/Argus/src/app/login/page.tsx",
-                            lineNumber: 123,
+                            lineNumber: 128,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "text-10 font-mono text-argus-text-muted",
+                            style: {
+                                fontSize: '12px',
+                                color: '#6B7280',
+                                fontFamily: 'monospace'
+                            },
                             children: [
-                                "Password: ",
+                                "🔐 ",
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                    className: "text-argus-text-primary font-bold",
+                                    style: {
+                                        color: '#111827',
+                                        fontWeight: '600'
+                                    },
                                     children: "password123"
                                 }, void 0, false, {
                                     fileName: "[project]/Desktop/Argus/src/app/login/page.tsx",
-                                    lineNumber: 127,
-                                    columnNumber: 23
+                                    lineNumber: 132,
+                                    columnNumber: 16
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/Desktop/Argus/src/app/login/page.tsx",
-                            lineNumber: 126,
+                            lineNumber: 131,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/Desktop/Argus/src/app/login/page.tsx",
-                    lineNumber: 121,
+                    lineNumber: 126,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "border-t border-argus-border px-6 py-3 bg-argus-bg-tab-inactive text-center",
+                    style: {
+                        borderTop: '1px solid #E5E7EB',
+                        padding: '16px 24px',
+                        backgroundColor: '#F3F4F6',
+                        textAlign: 'center'
+                    },
                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "text-10 text-argus-text-muted",
-                        children: "© 2024 Oracle Corporation. All rights reserved."
+                        style: {
+                            fontSize: '11px',
+                            color: '#6B7280'
+                        },
+                        children: "© 2024 Argus Safety Training. All rights reserved."
                     }, void 0, false, {
                         fileName: "[project]/Desktop/Argus/src/app/login/page.tsx",
-                        lineNumber: 133,
+                        lineNumber: 138,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/Desktop/Argus/src/app/login/page.tsx",
-                    lineNumber: 132,
+                    lineNumber: 137,
                     columnNumber: 9
                 }, this)
             ]

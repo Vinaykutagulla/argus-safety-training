@@ -96,7 +96,6 @@ const safetyReportSchema = new Schema<ISafetyReport>(
   { timestamps: true }
 );
 
-safetyReportSchema.index({ reportId: 1 });
 safetyReportSchema.index({ dueDate: 1 });
 
 export const SafetyReport =

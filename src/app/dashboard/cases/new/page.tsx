@@ -41,6 +41,12 @@ export default function NewCasePage() {
       outcome: 'Unknown',
       seriousness: 'Not Serious',
     },
+    analysis: {
+      whoCausality: 'Possible',
+      companyCausality: 'Possible',
+      listedness: 'Unknown',
+      comments: '',
+    },
     narrative: '',
   });
 
@@ -86,6 +92,16 @@ export default function NewCasePage() {
     }
   };
 
+  const handleAnalysisChange = (field: string, value: any) => {
+    setFormData({
+      ...formData,
+      analysis: {
+        ...formData.analysis,
+        [field]: value,
+      },
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -118,6 +134,12 @@ export default function NewCasePage() {
           onsetDate: formData.reaction.onsetDate,
           outcome: formData.reaction.outcome,
           seriousness: formData.reaction.seriousness,
+        },
+        analysis: {
+          whoCausality: formData.analysis.whoCausality,
+          companyCausality: formData.analysis.companyCausality,
+          listedness: formData.analysis.listedness,
+          comments: formData.analysis.comments,
         },
         narrative: formData.narrative || 'Case entry in progress',
         reporter: {
@@ -518,13 +540,64 @@ export default function NewCasePage() {
 
             {/* Analysis Tab */}
             {activeTab === 'analysis' && (
-              <div className="space-y-3 bg-argus-bg-row-alt p-3 border border-argus-border">
-                <p className="text-10 text-argus-text-muted italic">
-                  WHO-UMC Causality Assessment: Assessed during case review. Not available for new cases.
-                </p>
-                <p className="text-10 font-bold text-argus-navy">
-                  Causality: <span className="text-argus-text-muted">Not Yet Assessed</span>
-                </p>
+              <div className="space-y-3 p-3 border border-argus-border bg-white">
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-10 font-bold text-argus-text-label mb-1">WHO-UMC Causality:</label>
+                    <select
+                      value={formData.analysis.whoCausality}
+                      onChange={(e) => handleAnalysisChange('whoCausality', e.target.value)}
+                      className="w-full px-2 py-1 border border-argus-border text-10 focus:border-argus-light focus:outline-none cursor-pointer bg-white"
+                    >
+                      <option value="Certain">Certain</option>
+                      <option value="Probable">Probable</option>
+                      <option value="Possible">Possible</option>
+                      <option value="Unlikely">Unlikely</option>
+                      <option value="Conditional">Conditional</option>
+                      <option value="Unassessable">Unassessable</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-10 font-bold text-argus-text-label mb-1">Company Causality:</label>
+                    <select
+                      value={formData.analysis.companyCausality}
+                      onChange={(e) => handleAnalysisChange('companyCausality', e.target.value)}
+                      className="w-full px-2 py-1 border border-argus-border text-10 focus:border-argus-light focus:outline-none cursor-pointer bg-white"
+                    >
+                      <option value="Certain">Certain</option>
+                      <option value="Probable">Probable</option>
+                      <option value="Possible">Possible</option>
+                      <option value="Unlikely">Unlikely</option>
+                      <option value="Conditional">Conditional</option>
+                      <option value="Unassessable">Unassessable</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-10 font-bold text-argus-text-label mb-1">Listedness:</label>
+                    <select
+                      value={formData.analysis.listedness}
+                      onChange={(e) => handleAnalysisChange('listedness', e.target.value)}
+                      className="w-full px-2 py-1 border border-argus-border text-10 focus:border-argus-light focus:outline-none cursor-pointer bg-white"
+                    >
+                      <option value="Unknown">Unknown</option>
+                      <option value="Listed">Listed</option>
+                      <option value="Not Listed">Not Listed</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-10 font-bold text-argus-text-label mb-1">Analysis Comments:</label>
+                    <input
+                      type="text"
+                      value={formData.analysis.comments}
+                      onChange={(e) => handleAnalysisChange('comments', e.target.value)}
+                      placeholder="Enter any remarks"
+                      className="w-full px-2 py-1 border border-argus-border text-10 focus:border-argus-light focus:outline-none"
+                    />
+                  </div>
+                </div>
               </div>
             )}
 

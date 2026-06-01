@@ -7,8 +7,10 @@ import SectionHeader from '@/components/SectionHeader';
 import ArgusInput from '@/components/ArgusInput';
 import ArgusSelect from '@/components/ArgusSelect';
 import ArgusDateField from '@/components/ArgusDateField';
+import { api } from '@/lib/api-client';
 
 interface Case {
+  _id?: string;
   caseId: string;
   receiptDate: string;
   product: string;
@@ -32,43 +34,48 @@ export default function CaseSearchPage() {
     reportType: 'All',
   });
 
-  const [cases, setCases] = useState<Case[]>([
-    {
-      caseId: 'ARG-001',
-      receiptDate: '15-JAN-24',
-      product: 'Metformin',
-      country: 'USA',
-      reporter: 'Physician',
-      seriousness: 'SERIOUS',
-      workflowState: 'Data Entry',
-    },
-    {
-      caseId: 'ARG-002',
-      receiptDate: '16-JAN-24',
-      product: 'Aspirin',
-      country: 'India',
-      reporter: 'Patient',
-      seriousness: 'Non-Serious',
-      workflowState: 'Med Review',
-    },
-    {
-      caseId: 'ARG-003',
-      receiptDate: '17-JAN-24',
-      product: 'Ibuprofen',
-      country: 'UK',
-      reporter: 'Pharmacist',
-      seriousness: 'SERIOUS',
-      workflowState: 'QC',
-    },
-  ]);
+  const [cases, setCases] = useState<Case[]>([]);
+  const [loadingCases, setLoadingCases] = useState(false);
 
   const [sortColumn, setSortColumn] = useState<string | null>(null);
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  const handleSearch = () => {
-    console.log('Search filters:', searchFilters);
+  const fetchCases = async (params: Record<string, string> = {}) => {
+    setLoadingCases(true);
+    try {
+      const query: Record<string, string> = { page: '1', limit: '50' };
+      if (params.search) query.search = params.search;
+
+      const data = await api.cases.list(query);
+      const mappedCases = (data.cases || []).map((c: any) => ({
+        _id: c._id || c.caseId,
+        caseId: c.caseId || c.caseNumber || 'UNKNOWN',
+        receiptDate: c.administration?.receiptDate
+          ? new Date(c.administration.receiptDate).toLocaleDateString('en-GB', {
+              day: '2-digit',
+              month: 'short',
+              year: 'numeric',
+            })
+          : c.receiptDate || '',
+        product: c.drug?.tradeName || c.products?.[0]?.productName || 'Unknown',
+        country: c.administration?.countryOfOccurrence || c.reporter?.country || 'Unknown',
+        reporter: c.reporter?.name || c.reporter?.qualification || 'Unknown',
+        seriousness: c.reaction?.seriousness || c.reaction?.outcome || 'Unknown',
+        workflowState: c.status || c.workflow?.currentStep || 'New',
+      }));
+      setCases(mappedCases);
+    } catch (error) {
+      console.error('Failed to load cases:', error);
+    } finally {
+      setLoadingCases(false);
+    }
+  };
+
+  const handleSearch = async () => {
+    const searchValue = searchFilters.caseId || searchFilters.product || searchFilters.reporter || '';
+    await fetchCases({ search: searchValue });
   };
 
   const handleClear = () => {
@@ -98,6 +105,10 @@ export default function CaseSearchPage() {
   const handleOpenCase = (caseId: string) => {
     router.push(`/dashboard/cases/${caseId}`);
   };
+
+  useEffect(() => {
+    fetchCases();
+  }, []);
 
   // Pagination
   const totalPages = Math.ceil(cases.length / itemsPerPage);
@@ -238,6 +249,12 @@ export default function CaseSearchPage() {
         </div>
 
         {/* Results Table */}
+          {loadingCases && (
+            <div className="text-11 font-bold text-argus-text-muted p-2">Loading cases...</div>
+          )}
+          {!loadingCases && cases.length === 0 && (
+            <div className="text-11 font-bold text-argus-text-muted p-2">No cases found. Create a new case to see it here.</div>
+          )}
         <div className="border-2 border-argus-border bg-white overflow-auto">
           <SectionHeader title={`SEARCH RESULTS (Showing ${startIdx + 1}-${Math.min(endIdx, cases.length)} of ${cases.length})`} />
           <div className="overflow-x-auto">
@@ -257,12 +274,12 @@ export default function CaseSearchPage() {
               <tbody>
                 {paginatedCases.map((caseItem, idx) => (
                   <tr
-                    key={caseItem.caseId}
+                    key={caseItem._id || caseItem.caseId}
                     className={`${idx % 2 === 1 ? 'bg-argus-bg-row-alt' : 'bg-white'} border-b border-argus-border`}
                   >
                     <td className="border border-argus-border px-2 py-1">
                       <a
-                        href={`/dashboard/cases/${caseItem.caseId}`}
+                        href={`/dashboard/cases/${caseItem._id || caseItem.caseId}`}
                         className="text-argus-blue hover:underline font-bold"
                       >
                         {caseItem.caseId}
@@ -282,7 +299,7 @@ export default function CaseSearchPage() {
                     </td>
                     <td className="border border-argus-border px-2 py-1 text-center">
                       <button
-                        onClick={() => handleOpenCase(caseItem.caseId)}
+                        onClick={() => handleOpenCase(caseItem._id || caseItem.caseId)}
                         className="px-2 py-0.5 bg-argus-light text-white text-9 hover:bg-argus-blue"
                       >
                         Open

@@ -4,24 +4,10 @@
   "installCommand": "npm install",
   "framework": "nextjs",
   "env": {
-    "MONGODB_URI": {
-      "description": "MongoDB connection string",
-      "required": true
-    },
-    "JWT_SECRET": {
-      "description": "JWT signing secret key",
-      "required": true
-    },
-    "NODE_ENV": {
-      "description": "Environment (production/development)",
-      "value": "production",
-      "required": true
-    },
-    "SEED_PASSWORD": {
-      "description": "Password for seed API endpoint",
-      "value": "dev-seed-key",
-      "required": false
-    }
+    "MONGODB_URI": "",
+    "JWT_SECRET": "",
+    "NODE_ENV": "production",
+    "SEED_PASSWORD": "dev-seed-key"
   },
   "regions": ["iad1"],
   "git": {

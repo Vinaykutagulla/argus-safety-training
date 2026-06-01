@@ -253,11 +253,7 @@ export default function AdminUsersPage() {
     </ArgusLayout>
   );
 }
-                  <th className="text-left py-3 px-4 font-bold">Last Login</th>
-                </tr>
-              </thead>
-              <tbody>
-                {users.map((user) => (
+
                   <tr key={user._id} className="border-b border-gray-200 hover:bg-gray-50">
                     <td className="py-3 px-4 font-medium">{user.name}</td>
                     <td className="py-3 px-4">{user.email}</td>

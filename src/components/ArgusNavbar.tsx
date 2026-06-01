@@ -13,97 +13,65 @@ export default function ArgusNavbar() {
 
   return (
     <>
-      {/* Premium Modern Navbar - Updated */}
-      <nav className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
-        <div className="flex items-center justify-between h-20 px-8">
+      {/* Modern Clean Navbar with Inline Styles */}
+      <nav style={{ backgroundColor: '#FFFFFF', borderBottom: '1px solid #E5E7EB', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', position: 'sticky', top: 0, zIndex: 50 }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '80px', paddingLeft: '32px', paddingRight: '32px' }}>
           {/* Left: Logo */}
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center shadow-lg">
-              <span className="text-white font-bold text-16">A</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <div style={{ width: '40px', height: '40px', background: 'linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
+              <span style={{ color: 'white', fontWeight: 'bold', fontSize: '16px' }}>A</span>
             </div>
-            <div className="flex flex-col">
-              <span className="font-bold text-16 text-gray-900">Argus</span>
-              <span className="text-10 text-gray-500 -mt-0.5">Safety Training</span>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <span style={{ fontWeight: 'bold', fontSize: '16px', color: '#111827' }}>Argus</span>
+              <span style={{ fontSize: '10px', color: '#6B7280', marginTop: '-2px' }}>Safety Training</span>
             </div>
           </div>
 
           {/* Center: Main Navigation */}
-          <div className="flex items-center gap-8">
-            <Link
-              href="/dashboard"
-              className="text-13 font-semibold text-gray-700 hover:text-blue-600 transition-colors px-3 py-2"
-            >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
+            <Link href="/dashboard" style={{ fontSize: '13px', fontWeight: '600', color: '#374151', textDecoration: 'none', padding: '8px 12px', transition: 'color 0.2s' }} onMouseEnter={(e) => e.target.style.color = '#2563EB'} onMouseLeave={(e) => e.target.style.color = '#374151'}>
               Dashboard
             </Link>
-            <Link
-              href="/dashboard/cases"
-              className="text-13 font-semibold text-gray-700 hover:text-blue-600 transition-colors px-3 py-2"
-            >
+            <Link href="/dashboard/cases" style={{ fontSize: '13px', fontWeight: '600', color: '#374151', textDecoration: 'none', padding: '8px 12px', transition: 'color 0.2s' }} onMouseEnter={(e) => e.target.style.color = '#2563EB'} onMouseLeave={(e) => e.target.style.color = '#374151'}>
               Cases
             </Link>
-            <Link
-              href="/dashboard/reports/expedited"
-              className="text-13 font-semibold text-gray-700 hover:text-blue-600 transition-colors px-3 py-2"
-            >
+            <Link href="/dashboard/reports/expedited" style={{ fontSize: '13px', fontWeight: '600', color: '#374151', textDecoration: 'none', padding: '8px 12px', transition: 'color 0.2s' }} onMouseEnter={(e) => e.target.style.color = '#2563EB'} onMouseLeave={(e) => e.target.style.color = '#374151'}>
               Reports
             </Link>
-            <Link
-              href="/dashboard/workflow"
-              className="text-13 font-semibold text-gray-700 hover:text-blue-600 transition-colors px-3 py-2"
-            >
+            <Link href="/dashboard/workflow" style={{ fontSize: '13px', fontWeight: '600', color: '#374151', textDecoration: 'none', padding: '8px 12px', transition: 'color 0.2s' }} onMouseEnter={(e) => e.target.style.color = '#2563EB'} onMouseLeave={(e) => e.target.style.color = '#374151'}>
               Workflow
             </Link>
-            <Link
-              href="/dashboard/meddra"
-              className="text-13 font-semibold text-gray-700 hover:text-blue-600 transition-colors px-3 py-2"
-            >
+            <Link href="/dashboard/meddra" style={{ fontSize: '13px', fontWeight: '600', color: '#374151', textDecoration: 'none', padding: '8px 12px', transition: 'color 0.2s' }} onMouseEnter={(e) => e.target.style.color = '#2563EB'} onMouseLeave={(e) => e.target.style.color = '#374151'}>
               MedDRA
             </Link>
           </div>
 
           {/* Right: Action Buttons + User Menu */}
-          <div className="flex items-center gap-4">
-            <Link
-              href="/dashboard/cases/new"
-              className="px-4 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold text-12 rounded-lg hover:shadow-lg transition-all hover:from-blue-700 hover:to-blue-800"
-            >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <Link href="/dashboard/cases/new" style={{ padding: '10px 16px', background: 'linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)', color: 'white', fontWeight: '600', fontSize: '12px', borderRadius: '8px', textDecoration: 'none', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', transition: 'all 0.2s', cursor: 'pointer' }} onMouseEnter={(e) => e.target.style.boxShadow = '0 4px 12px rgba(37, 99, 235, 0.3)'} onMouseLeave={(e) => e.target.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)'}>
               + New Case
             </Link>
 
-            <div className="relative">
-              <button
-                onClick={() => setUserMenuOpen(!userMenuOpen)}
-                className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 rounded-lg transition-colors"
-              >
-                <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white text-11 font-bold">
-                  A
-                </div>
-                <span className="text-13 font-semibold text-gray-700">Admin</span>
-                <span className="text-gray-400">▼</span>
+            <div style={{ position: 'relative' }}>
+              <button onClick={() => setUserMenuOpen(!userMenuOpen)} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 12px', backgroundColor: 'transparent', border: 'none', borderRadius: '8px', cursor: 'pointer', transition: 'background-color 0.2s' }} onMouseEnter={(e) => e.target.style.backgroundColor = '#F3F4F6'} onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}>
+                <div style={{ width: '32px', height: '32px', background: 'linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '11px', fontWeight: 'bold' }}>A</div>
+                <span style={{ fontSize: '13px', fontWeight: '600', color: '#374151' }}>Admin</span>
+                <span style={{ color: '#9CA3AF' }}>▼</span>
               </button>
 
               {userMenuOpen && (
-                <div className="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-xl shadow-xl z-50 overflow-hidden">
-                  <div className="px-4 py-3 border-b border-gray-100 bg-gray-50">
-                    <div className="text-12 font-semibold text-gray-900">admin@argus.com</div>
-                    <div className="text-11 text-gray-500 mt-1">Administrator</div>
+                <div style={{ position: 'absolute', right: 0, marginTop: '8px', width: '224px', backgroundColor: 'white', border: '1px solid #E5E7EB', borderRadius: '12px', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)', zIndex: 50, overflow: 'hidden' }}>
+                  <div style={{ padding: '12px 16px', borderBottom: '1px solid #F3F4F6', backgroundColor: '#F9FAFB' }}>
+                    <div style={{ fontSize: '12px', fontWeight: '600', color: '#111827' }}>admin@argus.com</div>
+                    <div style={{ fontSize: '11px', color: '#6B7280', marginTop: '4px' }}>Administrator</div>
                   </div>
-                  <Link
-                    href="/dashboard"
-                    className="block px-4 py-3 text-12 font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
-                  >
+                  <Link href="/dashboard" style={{ display: 'block', padding: '12px 16px', fontSize: '12px', fontWeight: '500', color: '#374151', textDecoration: 'none', transition: 'all 0.2s', borderBottom: '1px solid #F3F4F6' }} onMouseEnter={(e) => { e.target.style.backgroundColor = '#EFF6FF'; e.target.style.color = '#2563EB'; }} onMouseLeave={(e) => { e.target.style.backgroundColor = 'transparent'; e.target.style.color = '#374151'; }}>
                     My Dashboard
                   </Link>
-                  <Link
-                    href="/dashboard/admin/users"
-                    className="block px-4 py-3 text-12 font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors border-t border-gray-100"
-                  >
+                  <Link href="/dashboard/admin/users" style={{ display: 'block', padding: '12px 16px', fontSize: '12px', fontWeight: '500', color: '#374151', textDecoration: 'none', transition: 'all 0.2s', borderBottom: '1px solid #F3F4F6' }} onMouseEnter={(e) => { e.target.style.backgroundColor = '#EFF6FF'; e.target.style.color = '#2563EB'; }} onMouseLeave={(e) => { e.target.style.backgroundColor = 'transparent'; e.target.style.color = '#374151'; }}>
                     User Management
                   </Link>
-                  <button
-                    onClick={handleLogout}
-                    className="block w-full text-left px-4 py-3 text-12 font-medium text-red-600 hover:bg-red-50 transition-colors border-t border-gray-100"
-                  >
+                  <button onClick={handleLogout} style={{ width: '100%', textAlign: 'left', padding: '12px 16px', fontSize: '12px', fontWeight: '500', color: '#DC2626', backgroundColor: 'transparent', border: 'none', cursor: 'pointer', transition: 'all 0.2s', borderTop: '1px solid #F3F4F6' }} onMouseEnter={(e) => e.target.style.backgroundColor = '#FEF2F2'} onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}>
                     Sign Out
                   </button>
                 </div>
@@ -113,13 +81,13 @@ export default function ArgusNavbar() {
         </div>
 
         {/* Status Bar */}
-        <div className="bg-blue-50 border-t border-gray-100 h-10 flex items-center px-8 text-11 gap-6">
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-            <span className="text-gray-700 font-medium">Online</span>
+        <div style={{ backgroundColor: '#EFF6FF', borderTop: '1px solid #F3F4F6', height: '40px', display: 'flex', alignItems: 'center', paddingLeft: '32px', paddingRight: '32px', fontSize: '11px', gap: '24px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <div style={{ width: '8px', height: '8px', backgroundColor: '#10B981', borderRadius: '50%' }}></div>
+            <span style={{ color: '#374151', fontWeight: '500' }}>Online</span>
           </div>
-          <div className="text-gray-600">Last sync: just now</div>
-          <div className="ml-auto text-gray-600">Training Mode: Enabled</div>
+          <div style={{ color: '#6B7280' }}>Last sync: just now</div>
+          <div style={{ marginLeft: 'auto', color: '#6B7280' }}>Training Mode: Enabled</div>
         </div>
       </nav>
     </>

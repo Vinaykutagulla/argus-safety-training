@@ -19,9 +19,18 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    await dbConnect();
+    const db = await dbConnect();
 
-    const users = await User.find({}, '-password').sort({ createdAt: -1 });
+    let users;
+    
+    // Check if using mock database
+    if (db && typeof db.getUsers === 'function') {
+      // Mock database
+      users = await db.getUsers();
+    } else {
+      // Real MongoDB
+      users = await User.find({}, '-password').sort({ createdAt: -1 });
+    }
 
     return NextResponse.json({ users });
   } catch (error) {
@@ -32,6 +41,7 @@ export async function GET(req: NextRequest) {
     );
   }
 }
+
 
 export async function POST(req: NextRequest) {
   try {
@@ -49,35 +59,59 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    await dbConnect();
+    const db = await dbConnect();
 
     const { name, email, password, role, department } = await req.json();
 
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return NextResponse.json(
-        { error: 'Email already in use' },
-        { status: 409 }
-      );
+    let userResponse;
+
+    // Check if using mock database
+    if (db && typeof db.createUser === 'function') {
+      // Mock database
+      const createdUser = await db.createUser({
+        name,
+        email,
+        password,
+        role,
+        department,
+        isActive: true,
+      });
+
+      userResponse = {
+        id: createdUser._id,
+        name: createdUser.name,
+        email: createdUser.email,
+        role: createdUser.role,
+        department: createdUser.department,
+      };
+    } else {
+      // Real MongoDB
+      const existingUser = await User.findOne({ email });
+      if (existingUser) {
+        return NextResponse.json(
+          { error: 'Email already in use' },
+          { status: 409 }
+        );
+      }
+
+      const user = new User({
+        name,
+        email,
+        password,
+        role,
+        department,
+      });
+
+      await user.save();
+
+      userResponse = {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        department: user.department,
+      };
     }
-
-    const user = new User({
-      name,
-      email,
-      password,
-      role,
-      department,
-    });
-
-    await user.save();
-
-    const userResponse = {
-      id: user._id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-      department: user.department,
-    };
 
     return NextResponse.json(userResponse, { status: 201 });
   } catch (error) {

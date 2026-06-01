@@ -115,6 +115,13 @@ export const mockDb = {
     return cases.delete(id);
   },
 
+  async getUsers() {
+    return Array.from(users.values()).map(user => {
+      const { password, ...userWithoutPassword } = user;
+      return userWithoutPassword;
+    });
+  },
+
   isConnected() {
     return isConnected;
   },

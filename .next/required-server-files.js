@@ -308,8 +308,8 @@ self.__SERVER_FILES_MANIFEST={
     },
     "distDirRoot": ".next"
   },
-  "appDir": "C:\\Users\\lenovo\\Desktop\\Argus",
-  "relativeAppDir": "Desktop\\Argus",
+  "appDir": "C:\\Users\\lenovo\\Desktop\\Argus.worktrees\\agents-deploy-request-urgent",
+  "relativeAppDir": "Desktop\\Argus.worktrees\\agents-deploy-request-urgent",
   "files": [
     ".next\\routes-manifest.json",
     ".next\\server\\pages-manifest.json",

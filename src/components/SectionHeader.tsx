@@ -9,8 +9,8 @@ interface SectionHeaderProps {
 
 export default function SectionHeader({ title, actions }: SectionHeaderProps) {
   return (
-    <div className="flex justify-between items-center bg-argus-navy text-argus-text-header px-2 py-1 text-11 font-bold uppercase my-2">
-      <span>{title}</span>
+    <div className="flex justify-between items-center bg-gradient-to-r from-argus-navy to-blue-900 text-white px-4 py-3 text-12 font-bold uppercase tracking-wider shadow-md rounded-t-lg">
+      <span className="flex items-center gap-2">{title}</span>
       {actions && <div className="flex gap-2">{actions}</div>}
     </div>
   );

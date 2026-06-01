@@ -15,135 +15,144 @@ export default function ArgusNavbar() {
 
   return (
     <>
-      {/* Main Navigation Bar */}
-      <div className="bg-argus-navy text-argus-text-header h-8 flex items-center px-4 text-11 font-sans shadow-lg border-b-2 border-argus-border-dark">
-        {/* Logo */}
-        <div className="flex items-center gap-2 pr-6 border-r border-argus-border-dark">
-          <span className="font-bold text-12">Argus</span>
-          <span className="text-10 opacity-75">Safety 8.4</span>
-        </div>
+      {/* Premium Navigation Bar */}
+      <nav className="bg-gradient-to-r from-argus-navy via-blue-900 to-argus-navy text-white shadow-xl border-b-4 border-argus-light">
+        <div className="flex items-center h-16 px-6">
+          {/* Logo Section */}
+          <div className="flex items-center gap-3 pr-8 border-r border-blue-700">
+            <div className="bg-gradient-to-br from-argus-light to-blue-600 p-2.5 rounded-lg shadow-lg">
+              <span className="text-white font-bold text-18">⚕️</span>
+            </div>
+            <div className="flex flex-col">
+              <span className="font-bold text-16 tracking-wider">ARGUS Safety</span>
+              <span className="text-11 opacity-75">Pharmacovigilance</span>
+            </div>
+          </div>
 
-        {/* Menu Items */}
-        <div className="flex items-center gap-4 flex-1 px-4">
-          {/* File Menu */}
-          <div className="relative group">
-            <button
-              onMouseEnter={() => setFileMenuOpen(true)}
-              onMouseLeave={() => setFileMenuOpen(false)}
-              className="hover:bg-argus-blue px-2 py-1 text-11 transition-colors"
-            >
-              File ▼
-            </button>
-            {fileMenuOpen && (
-              <div
+          {/* Main Menu */}
+          <div className="flex items-center gap-1 flex-1 px-6">
+            {/* File Menu */}
+            <div className="relative group">
+              <button
                 onMouseEnter={() => setFileMenuOpen(true)}
                 onMouseLeave={() => setFileMenuOpen(false)}
-                className="absolute top-full left-0 bg-white text-argus-text-primary border border-argus-border shadow-md z-50 mt-0"
+                className="hover:bg-blue-700 px-4 py-2 text-12 font-semibold transition-all rounded-lg hover:shadow-lg"
               >
-                <Link href="/dashboard/cases/new" className="block px-3 py-1 text-11 hover:bg-argus-bg-tab-inactive">
-                  New Case
-                </Link>
-                <div className="border-t border-argus-border"></div>
-                <button onClick={handleLogout} className="block w-full text-left px-3 py-1 text-11 hover:bg-argus-bg-tab-inactive text-red-600">
-                  Exit
-                </button>
-              </div>
-            )}
-          </div>
+                📁 File
+              </button>
+              {fileMenuOpen && (
+                <div
+                  onMouseEnter={() => setFileMenuOpen(true)}
+                  onMouseLeave={() => setFileMenuOpen(false)}
+                  className="absolute top-full left-0 bg-white text-argus-navy border-2 border-argus-light shadow-xl z-50 mt-2 rounded-lg overflow-hidden"
+                >
+                  <Link href="/dashboard/cases/new" className="block px-4 py-2.5 text-12 hover:bg-blue-100 transition-colors border-b border-gray-200 font-medium">
+                    ➕ New Case
+                  </Link>
+                  <button onClick={handleLogout} className="block w-full text-left px-4 py-2.5 text-12 hover:bg-red-50 transition-colors text-red-600 font-medium">
+                    🚪 Exit
+                  </button>
+                </div>
+              )}
+            </div>
 
-          {/* Case Menu */}
-          <div className="relative">
-            <button
-              onMouseEnter={() => setCaseMenuOpen(true)}
-              onMouseLeave={() => setCaseMenuOpen(false)}
-              className="hover:bg-argus-blue px-2 py-1 text-11 transition-colors"
-            >
-              Case ▼
-            </button>
-            {caseMenuOpen && (
-              <div
+            {/* Case Menu */}
+            <div className="relative">
+              <button
                 onMouseEnter={() => setCaseMenuOpen(true)}
                 onMouseLeave={() => setCaseMenuOpen(false)}
-                className="absolute top-full left-0 bg-white text-argus-text-primary border border-argus-border shadow-md z-50 mt-0"
+                className="hover:bg-blue-700 px-4 py-2 text-12 font-semibold transition-all rounded-lg hover:shadow-lg"
               >
-                <Link href="/dashboard/cases/new" className="block px-3 py-1 text-11 hover:bg-argus-bg-tab-inactive">
-                  New Case
-                </Link>
-                <Link href="/dashboard/cases" className="block px-3 py-1 text-11 hover:bg-argus-bg-tab-inactive">
-                  Search / Open Cases
-                </Link>
-              </div>
-            )}
-          </div>
-
-          <Link href="/dashboard" className="hover:bg-argus-blue px-2 py-1 text-11 transition-colors">
-            Dashboards
-          </Link>
-
-          <Link href="/dashboard/reports/expedited" className="hover:bg-argus-blue px-2 py-1 text-11 transition-colors">
-            Reports
-          </Link>
-
-          <Link href="/dashboard/workflow" className="hover:bg-argus-blue px-2 py-1 text-11 transition-colors">
-            Worklist
-          </Link>
-
-          <Link href="/dashboard/meddra" className="hover:bg-argus-blue px-2 py-1 text-11 transition-colors">
-            Utilities
-          </Link>
-        </div>
-
-        {/* Right side - User Menu */}
-        <div className="flex items-center gap-4 border-l border-argus-border-dark pl-4">
-          <div className="relative">
-            <button
-              onClick={() => setUserMenuOpen(!userMenuOpen)}
-              className="hover:bg-argus-blue px-2 py-1 text-11 transition-colors flex items-center gap-1"
-            >
-              👤 Admin ▼
-            </button>
-            {userMenuOpen && (
-              <div className="absolute top-full right-0 bg-white text-argus-text-primary border border-argus-border shadow-md z-50 mt-0 min-w-40">
-                <div className="px-3 py-1 text-11 border-b border-argus-border text-argus-text-muted">
-                  admin@argus.com
-                </div>
-                <Link href="/dashboard" className="block px-3 py-1 text-11 hover:bg-argus-bg-tab-inactive">
-                  My Profile
-                </Link>
-                <Link href="/dashboard/admin/users" className="block px-3 py-1 text-11 hover:bg-argus-bg-tab-inactive">
-                  User Administration
-                </Link>
-                <div className="border-t border-argus-border"></div>
-                <button
-                  onClick={handleLogout}
-                  className="block w-full text-left px-3 py-1 text-11 hover:bg-argus-bg-tab-inactive text-red-600"
+                📋 Case
+              </button>
+              {caseMenuOpen && (
+                <div
+                  onMouseEnter={() => setCaseMenuOpen(true)}
+                  onMouseLeave={() => setCaseMenuOpen(false)}
+                  className="absolute top-full left-0 bg-white text-argus-navy border-2 border-argus-light shadow-xl z-50 mt-2 rounded-lg overflow-hidden"
                 >
-                  Logout
-                </button>
-              </div>
-            )}
+                  <Link href="/dashboard/cases/new" className="block px-4 py-2.5 text-12 hover:bg-blue-100 transition-colors border-b border-gray-200 font-medium">
+                    ➕ Create Case
+                  </Link>
+                  <Link href="/dashboard/cases" className="block px-4 py-2.5 text-12 hover:bg-blue-100 transition-colors font-medium">
+                    🔍 Search & Open
+                  </Link>
+                </div>
+              )}
+            </div>
+
+            <Link href="/dashboard" className="hover:bg-blue-700 px-4 py-2 text-12 font-semibold transition-all rounded-lg hover:shadow-lg">
+              📊 Dashboard
+            </Link>
+
+            <Link href="/dashboard/reports/expedited" className="hover:bg-blue-700 px-4 py-2 text-12 font-semibold transition-all rounded-lg hover:shadow-lg">
+              📄 Reports
+            </Link>
+
+            <Link href="/dashboard/workflow" className="hover:bg-blue-700 px-4 py-2 text-12 font-semibold transition-all rounded-lg hover:shadow-lg">
+              ⚙️ Workflow
+            </Link>
+
+            <Link href="/dashboard/meddra" className="hover:bg-blue-700 px-4 py-2 text-12 font-semibold transition-all rounded-lg hover:shadow-lg">
+              💊 MedDRA
+            </Link>
+          </div>
+
+          {/* Right side - User Menu & Status */}
+          <div className="flex items-center gap-4 border-l border-blue-700 pl-6">
+            <div className="text-right text-10 opacity-80">
+              <div>👤 Admin</div>
+              <div className="text-green-300 font-semibold">● Online</div>
+            </div>
+            <div className="relative">
+              <button
+                onClick={() => setUserMenuOpen(!userMenuOpen)}
+                className="bg-blue-700 hover:bg-blue-600 px-3 py-2 text-11 font-bold rounded-lg transition-all hover:shadow-lg flex items-center gap-2"
+              >
+                ⚙️ Menu
+              </button>
+              {userMenuOpen && (
+                <div className="absolute top-full right-0 bg-white text-argus-navy border-2 border-argus-light shadow-xl z-50 mt-2 min-w-48 rounded-lg overflow-hidden">
+                  <div className="px-4 py-2.5 text-11 border-b-2 border-blue-200 bg-blue-50 font-bold text-argus-blue">
+                    admin@argus.com
+                  </div>
+                  <Link href="/dashboard" className="block px-4 py-2.5 text-11 hover:bg-blue-100 transition-colors border-b border-gray-200 font-medium">
+                    👤 My Profile
+                  </Link>
+                  <Link href="/dashboard/admin/users" className="block px-4 py-2.5 text-11 hover:bg-blue-100 transition-colors border-b border-gray-200 font-medium">
+                    👨‍💼 User Admin
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="block w-full text-left px-4 py-2.5 text-11 hover:bg-red-50 transition-colors text-red-600 font-bold"
+                  >
+                    🚪 Logout
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Quick Launch Toolbar */}
-      <div className="bg-argus-bg-tab-inactive border-b border-argus-border h-7 flex items-center px-4 gap-6 text-11">
-        <Link href="/dashboard/cases/new" className="hover:text-argus-blue transition-colors flex items-center gap-1">
-          📋 New Case
-        </Link>
-        <Link href="/dashboard/cases" className="hover:text-argus-blue transition-colors flex items-center gap-1">
-          🔍 Search Cases
-        </Link>
-        <Link href="/dashboard" className="hover:text-argus-blue transition-colors flex items-center gap-1">
-          📊 My Worklist
-        </Link>
-        <Link href="/dashboard/reports/expedited" className="hover:text-argus-blue transition-colors flex items-center gap-1">
-          ⚡ Reports Due
-        </Link>
-        <div className="ml-auto text-argus-text-muted text-10">
-          Last Login: Today 09:15 AM
+        {/* Quick Actions Bar */}
+        <div className="bg-gradient-to-r from-blue-700 to-blue-800 border-t border-blue-600 h-12 flex items-center px-6 gap-8 text-11 font-semibold">
+          <Link href="/dashboard/cases/new" className="hover:text-argus-light transition-colors flex items-center gap-2 hover:scale-110 transform">
+            ➕ New Case
+          </Link>
+          <Link href="/dashboard/cases" className="hover:text-argus-light transition-colors flex items-center gap-2 hover:scale-110 transform">
+            🔍 Search
+          </Link>
+          <Link href="/dashboard" className="hover:text-argus-light transition-colors flex items-center gap-2 hover:scale-110 transform">
+            📊 Worklist
+          </Link>
+          <Link href="/dashboard/reports/expedited" className="hover:text-argus-light transition-colors flex items-center gap-2 hover:scale-110 transform">
+            ⏰ Reports Due
+          </Link>
+          <div className="ml-auto text-blue-200 text-10">
+            Last Login: Today 09:15 AM
+          </div>
         </div>
-      </div>
+      </nav>
     </>
   );
 }

@@ -15,3 +15,4 @@ build/
 coverage/
 .dockerignore
 .git/
+.next/

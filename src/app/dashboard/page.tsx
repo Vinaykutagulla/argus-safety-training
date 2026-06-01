@@ -36,134 +36,99 @@ export default function DashboardPage() {
 
   return (
     <ArgusLayout>
-      <div className="bg-gradient-to-br from-gray-50 via-blue-50 to-gray-100 min-h-screen p-6 space-y-6 text-11 font-sans">
-        {/* HEADER with Refresh Button */}
-        <div className="flex justify-between items-center mb-4">
-          <div className="text-20 font-bold text-argus-navy tracking-wider flex items-center gap-3">
-            <div className="p-2 bg-gradient-to-br from-argus-blue to-argus-light rounded-lg">
-              <span className="text-white text-18">📊</span>
-            </div>
-            Personal Argus Status Dashboard
-          </div>
-          <button className="px-4 py-2 bg-gradient-to-r from-argus-blue to-argus-light text-white hover:shadow-xl text-11 font-bold border-0 rounded-lg transition-all transform hover:scale-105 flex items-center gap-2">
-            <span>🔄</span> Refresh Data
-          </button>
+      <div style={{ backgroundColor: '#F3F4F6', minHeight: '100vh', padding: '32px 24px', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+        {/* PAGE HEADER */}
+        <div style={{ marginBottom: '32px' }}>
+          <h1 style={{ fontSize: '32px', fontWeight: 'bold', color: '#111827', margin: 0, marginBottom: '8px' }}>
+            📊 Dashboard
+          </h1>
+          <p style={{ fontSize: '14px', color: '#6B7280', margin: 0 }}>
+            Welcome back! Here's your pharmacovigilance overview.
+          </p>
         </div>
 
-        {/* KEY METRICS - 4 COLUMN CARDS with Enhanced Styling */}
-        <div className="grid grid-cols-4 gap-4 mb-2">
-          {/* Card 1: Total Cases */}
-          <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all p-4 border-l-4 border-argus-blue overflow-hidden group">
-            <div className="flex justify-between items-start">
-              <div>
-                <div className="text-10 text-gray-500 font-bold uppercase tracking-wide">Total Cases</div>
-                <div className="text-32 font-bold text-argus-blue mt-2">{stats.totalMTD}</div>
-                <div className="text-9 text-gray-400 mt-2">Month to Date</div>
-              </div>
-              <div className="text-40 opacity-20 group-hover:opacity-40 transition-opacity">📦</div>
-            </div>
-            <div className="mt-3 h-1 bg-gradient-to-r from-argus-blue to-transparent rounded-full"></div>
+        {/* STATS GRID - 4 COLUMNS */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px', marginBottom: '32px' }}>
+          {/* Total Cases */}
+          <div style={{ backgroundColor: 'white', borderRadius: '12px', padding: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', borderLeft: '4px solid #2563EB' }}>
+            <div style={{ fontSize: '12px', fontWeight: '600', color: '#6B7280', textTransform: 'uppercase', marginBottom: '12px' }}>Total Cases</div>
+            <div style={{ fontSize: '36px', fontWeight: 'bold', color: '#2563EB', marginBottom: '8px' }}>{stats.totalMTD}</div>
+            <div style={{ fontSize: '12px', color: '#9CA3AF' }}>This Month</div>
           </div>
 
-          {/* Card 2: Serious Cases */}
-          <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all p-4 border-l-4 border-red-500 overflow-hidden group">
-            <div className="flex justify-between items-start">
-              <div>
-                <div className="text-10 text-red-600 font-bold uppercase tracking-wide">Serious Cases</div>
-                <div className="text-32 font-bold text-red-600 mt-2">{stats.seriousCases}</div>
-                <div className="text-9 text-red-400 mt-2">Expedited Reports</div>
-              </div>
-              <div className="text-40 opacity-20 group-hover:opacity-40 transition-opacity">⚠️</div>
-            </div>
-            <div className="mt-3 h-1 bg-gradient-to-r from-red-500 to-transparent rounded-full"></div>
+          {/* Serious Cases */}
+          <div style={{ backgroundColor: 'white', borderRadius: '12px', padding: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', borderLeft: '4px solid #DC2626' }}>
+            <div style={{ fontSize: '12px', fontWeight: '600', color: '#6B7280', textTransform: 'uppercase', marginBottom: '12px' }}>Serious Cases</div>
+            <div style={{ fontSize: '36px', fontWeight: 'bold', color: '#DC2626', marginBottom: '8px' }}>{stats.seriousCases}</div>
+            <div style={{ fontSize: '12px', color: '#9CA3AF' }}>Requiring Reports</div>
           </div>
 
-          {/* Card 3: Reports Due */}
-          <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all p-4 border-l-4 border-yellow-500 overflow-hidden group">
-            <div className="flex justify-between items-start">
-              <div>
-                <div className="text-10 text-yellow-700 font-bold uppercase tracking-wide">Reports Due</div>
-                <div className="text-32 font-bold text-yellow-600 mt-2">{reportsDueSoon.length}</div>
-                <div className="text-9 text-yellow-500 mt-2">Next 7 Days</div>
-              </div>
-              <div className="text-40 opacity-20 group-hover:opacity-40 transition-opacity">⏰</div>
-            </div>
-            <div className="mt-3 h-1 bg-gradient-to-r from-yellow-500 to-transparent rounded-full"></div>
+          {/* Reports Due */}
+          <div style={{ backgroundColor: 'white', borderRadius: '12px', padding: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', borderLeft: '4px solid #F59E0B' }}>
+            <div style={{ fontSize: '12px', fontWeight: '600', color: '#6B7280', textTransform: 'uppercase', marginBottom: '12px' }}>Reports Due</div>
+            <div style={{ fontSize: '36px', fontWeight: 'bold', color: '#F59E0B', marginBottom: '8px' }}>{reportsDueSoon.length}</div>
+            <div style={{ fontSize: '12px', color: '#9CA3AF' }}>Next 7 Days</div>
           </div>
 
-          {/* Card 4: Overdue */}
-          <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all p-4 border-l-4 border-orange-600 overflow-hidden group">
-            <div className="flex justify-between items-start">
-              <div>
-                <div className="text-10 text-orange-700 font-bold uppercase tracking-wide">🔴 Overdue</div>
-                <div className="text-32 font-bold text-orange-600 mt-2">{stats.overdueReports}</div>
-                <div className="text-9 text-orange-500 mt-2">Immediate Action</div>
-              </div>
-              <div className="text-40 opacity-20 group-hover:opacity-40 transition-opacity">🚨</div>
-            </div>
-            <div className="mt-3 h-1 bg-gradient-to-r from-orange-600 to-transparent rounded-full"></div>
+          {/* Overdue */}
+          <div style={{ backgroundColor: 'white', borderRadius: '12px', padding: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', borderLeft: '4px solid #EF4444' }}>
+            <div style={{ fontSize: '12px', fontWeight: '600', color: '#6B7280', textTransform: 'uppercase', marginBottom: '12px' }}>🔴 Overdue</div>
+            <div style={{ fontSize: '36px', fontWeight: 'bold', color: '#EF4444', marginBottom: '8px' }}>{stats.overdueReports}</div>
+            <div style={{ fontSize: '12px', color: '#9CA3AF' }}>Action Needed</div>
           </div>
         </div>
 
-        {/* MAIN CONTENT - 2 ROW LAYOUT */}
-        <div className="grid grid-cols-2 gap-6">
-          {/* LEFT: Worklist + Action Items */}
-          <div className="space-y-6">
-            {/* My Worklist */}
-            <div className="bg-white rounded-xl shadow-md overflow-hidden">
-              <div className="bg-gradient-to-r from-argus-blue to-argus-light text-white px-4 py-3">
-                <div className="text-12 font-bold uppercase tracking-wider">📋 My Worklist</div>
+        {/* MAIN CONTENT - 2 COLUMN GRID */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginBottom: '32px' }}>
+          {/* LEFT COLUMN */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+            {/* MY WORKLIST */}
+            <div style={{ backgroundColor: 'white', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', overflow: 'hidden' }}>
+              <div style={{ background: 'linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)', color: 'white', padding: '16px 24px' }}>
+                <h3 style={{ fontSize: '16px', fontWeight: 'bold', margin: 0 }}>📋 My Worklist</h3>
               </div>
-              <div className="p-4 space-y-3">
-                <div className="flex justify-between items-center p-3 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg hover:from-blue-100 hover:to-blue-200 transition-all">
-                  <span className="text-11 font-semibold text-gray-700">New Cases</span>
-                  <span className="text-18 font-bold text-argus-blue">{stats.newCases}</span>
+              <div style={{ padding: '24px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                <div style={{ backgroundColor: '#EFF6FF', padding: '16px', borderRadius: '8px', textAlign: 'center' }}>
+                  <div style={{ fontSize: '12px', color: '#6B7280', marginBottom: '8px' }}>New Cases</div>
+                  <div style={{ fontSize: '28px', fontWeight: 'bold', color: '#2563EB' }}>{stats.newCases}</div>
                 </div>
-                <div className="flex justify-between items-center p-3 bg-gradient-to-r from-cyan-50 to-cyan-100 rounded-lg hover:from-cyan-100 hover:to-cyan-200 transition-all">
-                  <span className="text-11 font-semibold text-gray-700">Open Cases</span>
-                  <span className="text-18 font-bold text-cyan-600">{stats.openCases}</span>
+                <div style={{ backgroundColor: '#DBEAFE', padding: '16px', borderRadius: '8px', textAlign: 'center' }}>
+                  <div style={{ fontSize: '12px', color: '#6B7280', marginBottom: '8px' }}>Open Cases</div>
+                  <div style={{ fontSize: '28px', fontWeight: 'bold', color: '#0284C7' }}>{stats.openCases}</div>
                 </div>
-                <div className="flex justify-between items-center p-3 bg-gradient-to-r from-indigo-50 to-indigo-100 rounded-lg hover:from-indigo-100 hover:to-indigo-200 transition-all">
-                  <span className="text-11 font-semibold text-gray-700">Under Review</span>
-                  <span className="text-18 font-bold text-indigo-600">{stats.reviewCases}</span>
+                <div style={{ backgroundColor: '#E0E7FF', padding: '16px', borderRadius: '8px', textAlign: 'center' }}>
+                  <div style={{ fontSize: '12px', color: '#6B7280', marginBottom: '8px' }}>In Review</div>
+                  <div style={{ fontSize: '28px', fontWeight: 'bold', color: '#4F46E5' }}>{stats.reviewCases}</div>
                 </div>
-                <div className="flex justify-between items-center p-3 bg-gradient-to-r from-purple-50 to-purple-100 rounded-lg hover:from-purple-100 hover:to-purple-200 transition-all">
-                  <span className="text-11 font-semibold text-gray-700">Locked</span>
-                  <span className="text-18 font-bold text-purple-600">{stats.lockedCases}</span>
-                </div>
-                <div className="flex justify-between items-center p-3 bg-gradient-to-r from-green-50 to-green-100 rounded-lg hover:from-green-100 hover:to-green-200 transition-all">
-                  <span className="text-11 font-semibold text-gray-700">Closed</span>
-                  <span className="text-18 font-bold text-green-600">{stats.closedCases}</span>
+                <div style={{ backgroundColor: '#F3E8FF', padding: '16px', borderRadius: '8px', textAlign: 'center' }}>
+                  <div style={{ fontSize: '12px', color: '#6B7280', marginBottom: '8px' }}>Locked</div>
+                  <div style={{ fontSize: '28px', fontWeight: 'bold', color: '#A855F7' }}>{stats.lockedCases}</div>
                 </div>
               </div>
             </div>
 
-            {/* My Action Items */}
-            <div className="bg-white rounded-xl shadow-md overflow-hidden">
-              <div className="bg-gradient-to-r from-argus-orange to-yellow-500 text-white px-4 py-3">
-                <div className="text-12 font-bold uppercase tracking-wider">⚡ High Priority Actions</div>
+            {/* HIGH PRIORITY ACTIONS TABLE */}
+            <div style={{ backgroundColor: 'white', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', overflow: 'hidden' }}>
+              <div style={{ background: 'linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%)', color: 'white', padding: '16px 24px' }}>
+                <h3 style={{ fontSize: '16px', fontWeight: 'bold', margin: 0 }}>⚡ High Priority Actions</h3>
               </div>
-              <div className="overflow-x-auto">
-                <table className="w-full text-10">
+              <div style={{ overflowX: 'auto' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
                   <thead>
-                    <tr className="bg-gradient-to-r from-orange-100 to-yellow-100 border-b-2 border-orange-300">
-                      <th className="px-4 py-2 text-left font-bold text-gray-700">Case ID</th>
-                      <th className="px-4 py-2 text-left font-bold text-gray-700">Action</th>
-                      <th className="px-4 py-2 text-left font-bold text-gray-700">Due Date</th>
-                      <th className="px-4 py-2 text-left font-bold text-gray-700">Status</th>
+                    <tr style={{ backgroundColor: '#F9FAFB', borderBottom: '2px solid #E5E7EB' }}>
+                      <th style={{ padding: '12px 16px', textAlign: 'left', fontWeight: '600', color: '#111827' }}>Case ID</th>
+                      <th style={{ padding: '12px 16px', textAlign: 'left', fontWeight: '600', color: '#111827' }}>Action</th>
+                      <th style={{ padding: '12px 16px', textAlign: 'left', fontWeight: '600', color: '#111827' }}>Due Date</th>
+                      <th style={{ padding: '12px 16px', textAlign: 'left', fontWeight: '600', color: '#111827' }}>Status</th>
                     </tr>
                   </thead>
                   <tbody>
                     {actionItems.map((item, idx) => (
-                      <tr key={idx} className={idx % 2 === 1 ? 'bg-orange-50' : 'bg-white'}>
-                        <td className="px-4 py-3 border-b border-orange-100">
-                          <a href={`/dashboard/cases/${item.caseId}`} className="text-argus-blue font-bold hover:underline hover:text-argus-light">
-                            {item.caseId}
-                          </a>
-                        </td>
-                        <td className="px-4 py-3 border-b border-orange-100 font-semibold text-gray-700">{item.action}</td>
-                        <td className="px-4 py-3 border-b border-orange-100 font-bold text-red-600">{item.dueDate}</td>
-                        <td className="px-4 py-3 border-b border-orange-100 font-bold">{item.status}</td>
+                      <tr key={idx} style={{ borderBottom: '1px solid #E5E7EB', backgroundColor: idx % 2 === 0 ? '#FFFFFF' : '#F9FAFB' }}>
+                        <td style={{ padding: '12px 16px', fontWeight: '600', color: '#2563EB' }}>{item.caseId}</td>
+                        <td style={{ padding: '12px 16px', color: '#111827' }}>{item.action}</td>
+                        <td style={{ padding: '12px 16px', color: '#DC2626', fontWeight: '600' }}>{item.dueDate}</td>
+                        <td style={{ padding: '12px 16px', fontWeight: '600', color: '#111827' }}>{item.status}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -172,57 +137,45 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* RIGHT: Reports Due + Quick Launch */}
-          <div className="space-y-6">
-            {/* Expedited Reports Due Soon */}
-            <div className="bg-white rounded-xl shadow-md overflow-hidden">
-              <div className="bg-gradient-to-r from-red-600 to-red-500 text-white px-4 py-3">
-                <div className="text-12 font-bold uppercase tracking-wider">⏰ Expedited Reports Due</div>
+          {/* RIGHT COLUMN */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+            {/* REPORTS DUE SOON */}
+            <div style={{ backgroundColor: 'white', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', overflow: 'hidden' }}>
+              <div style={{ background: 'linear-gradient(135deg, #DC2626 0%, #EF4444 100%)', color: 'white', padding: '16px 24px' }}>
+                <h3 style={{ fontSize: '16px', fontWeight: 'bold', margin: 0 }}>⏰ Reports Due Soon</h3>
               </div>
-              <div className="p-4 space-y-2">
+              <div style={{ padding: '16px' }}>
                 {reportsDueSoon.map((item, idx) => (
-                  <div key={idx} className="p-3 rounded-lg border-l-4 border-red-600 bg-gradient-to-r from-red-50 to-red-100 hover:from-red-100 hover:to-red-150 flex justify-between items-center transition-all">
-                    <div className="flex-1">
-                      <a href={`/dashboard/cases/${item.caseId}`} className="text-argus-blue font-bold hover:underline text-11">
+                  <div key={idx} style={{ padding: '16px', marginBottom: idx < reportsDueSoon.length - 1 ? '12px' : 0, backgroundColor: '#FEF2F2', borderLeft: '4px solid #DC2626', borderRadius: '8px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+                      <a href={`/dashboard/cases/${item.caseId}`} style={{ fontSize: '13px', fontWeight: '700', color: '#2563EB', textDecoration: 'none', cursor: 'pointer' }}>
                         {item.caseId}
                       </a>
-                      <div className="text-9 text-red-600 font-medium">{item.reportType}</div>
+                      <div style={{ fontSize: '12px', fontWeight: '700', color: '#111827' }}>{item.status}</div>
                     </div>
-                    <div className="text-right">
-                      <div className="font-bold text-11 text-gray-800">{item.status}</div>
-                      <div className="text-10 text-red-600 font-bold">{item.daysLeft} days left</div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <div style={{ fontSize: '12px', color: '#6B7280' }}>{item.reportType}</div>
+                      <div style={{ fontSize: '12px', color: '#DC2626', fontWeight: '600' }}>{item.daysLeft} days left</div>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Quick Actions */}
-            <div className="bg-white rounded-xl shadow-md p-4 border-t-4 border-argus-blue">
-              <div className="text-12 font-bold text-argus-navy mb-4 uppercase tracking-wider">🚀 Quick Actions</div>
-              <div className="space-y-3">
-                <a
-                  href="/dashboard/cases/new"
-                  className="block px-4 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white font-bold text-11 rounded-lg hover:shadow-lg hover:from-green-600 hover:to-green-700 transition-all transform hover:scale-105 text-center"
-                >
-                  + Create New Case
+            {/* QUICK ACTIONS */}
+            <div style={{ backgroundColor: 'white', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', padding: '24px', borderTop: '4px solid #2563EB' }}>
+              <h3 style={{ fontSize: '16px', fontWeight: 'bold', color: '#111827', marginTop: 0, marginBottom: '16px' }}>🚀 Quick Actions</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <a href="/dashboard/cases/new" style={{ padding: '12px 16px', background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)', color: 'white', fontWeight: '600', fontSize: '13px', borderRadius: '8px', textAlign: 'center', textDecoration: 'none', cursor: 'pointer', border: 'none' }}>
+                  ➕ Create New Case
                 </a>
-                <a
-                  href="/dashboard/cases"
-                  className="block px-4 py-3 bg-gradient-to-r from-argus-blue to-argus-light text-white font-bold text-11 rounded-lg hover:shadow-lg hover:from-argus-light hover:to-blue-600 transition-all transform hover:scale-105 text-center"
-                >
+                <a href="/dashboard/cases" style={{ padding: '12px 16px', background: 'linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)', color: 'white', fontWeight: '600', fontSize: '13px', borderRadius: '8px', textAlign: 'center', textDecoration: 'none', cursor: 'pointer', border: 'none' }}>
                   🔍 Search Cases
                 </a>
-                <a
-                  href="/dashboard/reports/expedited"
-                  className="block px-4 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white font-bold text-11 rounded-lg hover:shadow-lg hover:from-red-700 hover:to-red-800 transition-all transform hover:scale-105 text-center"
-                >
-                  📊 Expedited Reports
+                <a href="/dashboard/reports/expedited" style={{ padding: '12px 16px', background: 'linear-gradient(135deg, #DC2626 0%, #B91C1C 100%)', color: 'white', fontWeight: '600', fontSize: '13px', borderRadius: '8px', textAlign: 'center', textDecoration: 'none', cursor: 'pointer', border: 'none' }}>
+                  📊 View Reports
                 </a>
-                <a
-                  href="/dashboard/meddra"
-                  className="block px-4 py-3 bg-gradient-to-r from-purple-600 to-purple-700 text-white font-bold text-11 rounded-lg hover:shadow-lg hover:from-purple-700 hover:to-purple-800 transition-all transform hover:scale-105 text-center"
-                >
+                <a href="/dashboard/meddra" style={{ padding: '12px 16px', background: 'linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%)', color: 'white', fontWeight: '600', fontSize: '13px', borderRadius: '8px', textAlign: 'center', textDecoration: 'none', cursor: 'pointer', border: 'none' }}>
                   💊 MedDRA Coding
                 </a>
               </div>
@@ -230,14 +183,13 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* FOOTER INFO */}
-        <div className="bg-gradient-to-r from-gray-800 to-gray-900 rounded-xl p-4 mt-6 text-white shadow-lg">
-          <div className="text-10 flex items-center justify-between">
-            <div className="flex gap-6">
-              <span><span className="font-bold text-cyan-400">Last Updated:</span> {new Date().toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })}</span>
-              <span><span className="font-bold text-cyan-400">Training Mode:</span> Available in case entry - Enable 🎓 toggle</span>
-              <span><span className="font-bold text-cyan-400">Data Source:</span> Sample data (Demo Mode)</span>
-            </div>
+        {/* FOOTER */}
+        <div style={{ marginTop: '32px', padding: '16px 24px', backgroundColor: '#1F2937', color: 'white', borderRadius: '12px', fontSize: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div>
+            <span style={{ color: '#93C5FD', fontWeight: '600' }}>Last Updated:</span> {new Date().toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })}
+          </div>
+          <div>
+            <span style={{ color: '#93C5FD', fontWeight: '600' }}>Training Mode:</span> Enabled 🎓
           </div>
         </div>
       </div>

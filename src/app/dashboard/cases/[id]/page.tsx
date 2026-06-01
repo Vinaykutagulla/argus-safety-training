@@ -14,6 +14,7 @@ import TrainingModeToggle from '@/components/TrainingModeToggle';
 import TrainingTooltip from '@/components/TrainingTooltip';
 import RegulatoryReferencePanel from '@/components/RegulatoryReferencePanel';
 import TutorialMode, { TrainingStep } from '@/components/TutorialMode';
+import { useTraining } from '@/lib/training-context';
 
 export default function CaseFormPage() {
   return <CaseFormContent />;

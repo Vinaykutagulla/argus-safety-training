@@ -38,6 +38,26 @@ function CaseFormContent() {
   });
 
   const [activeTab, setActiveTab] = useState(0);
+  const [expandedSections, setExpandedSections] = useState({
+    drug1: true,
+    event1: true,
+  });
+
+  const toggleSection = (section: string) => {
+    setExpandedSections(prev => ({...prev, [section]: !prev[section]}));
+  };
+
+  const handleAddDrug = () => {
+    alert('Drug entry form will be added');
+  };
+
+  const handleAddDevice = () => {
+    alert('Device entry form will be added');
+  };
+
+  const handleAddEvent = () => {
+    alert('Event entry form will be added');
+  };
 
   const tabs = ['General', 'Patient', 'Products', 'Events', 'Analysis', 'Activities', 'Add. Info', 'Attachments'];
 
@@ -53,10 +73,12 @@ function CaseFormContent() {
 
   const handleSave = () => {
     console.log('Saving case:', caseData);
+    alert(`Case ${caseData.caseId || 'NEW'} saved successfully!`);
   };
 
   const handleLock = () => {
     console.log('Locking case:', caseId);
+    alert(`Case ${caseId} locked. No further modifications allowed.`);
   };
 
   // Training tutorial steps for new case entry
@@ -133,10 +155,16 @@ function CaseFormContent() {
           actions={
             <div className="flex gap-2">
               <TrainingModeToggle />
-              <button className="px-3 py-1 bg-argus-blue text-white text-10 border border-argus-border-dark hover:bg-argus-light">
+              <button 
+                onClick={handleSave}
+                className="px-3 py-1 bg-argus-blue text-white text-10 border border-argus-border-dark hover:bg-argus-light transition-all cursor-pointer active:scale-95"
+              >
                 Save
               </button>
-              <button className="px-3 py-1 bg-argus-orange text-white text-10 border border-yellow-600 hover:bg-yellow-500">
+              <button 
+                onClick={handleLock}
+                className="px-3 py-1 bg-argus-orange text-white text-10 border border-yellow-600 hover:bg-yellow-500 transition-all cursor-pointer active:scale-95"
+              >
                 Lock
               </button>
             </div>
@@ -385,15 +413,21 @@ function CaseFormContent() {
           {activeTab === 2 && (
             <div className="space-y-3">
               <div className="flex gap-2 mb-2">
-                <button className="px-2 py-1 bg-argus-blue text-white text-10 border border-argus-border-dark hover:bg-argus-light">
+                <button 
+                  onClick={handleAddDrug}
+                  className="px-2 py-1 bg-argus-blue text-white text-10 border border-argus-border-dark hover:bg-argus-light transition-all cursor-pointer active:scale-95"
+                >
                   + Add Drug
                 </button>
-                <button className="px-2 py-1 bg-argus-blue text-white text-10 border border-argus-border-dark hover:bg-argus-light">
+                <button 
+                  onClick={handleAddDevice}
+                  className="px-2 py-1 bg-argus-blue text-white text-10 border border-argus-border-dark hover:bg-argus-light transition-all cursor-pointer active:scale-95"
+                >
                   + Add Device
                 </button>
               </div>
 
-              <SectionHeader title="Drug #1: Metformin" actions={<button className="text-10">▲ Collapse</button>} />
+              <SectionHeader title="Drug #1: Metformin" actions={<button onClick={() => toggleSection('drug1')} className="text-10 cursor-pointer hover:text-argus-blue">▲ Collapse</button>} />
 
               <div className="flex gap-4">
                 <div className="flex-1">
@@ -525,11 +559,14 @@ function CaseFormContent() {
           {/* EVENTS TAB */}
           {activeTab === 3 && (
             <div className="space-y-3">
-              <button className="px-2 py-1 bg-argus-blue text-white text-10 border border-argus-border-dark hover:bg-argus-light">
+              <button 
+                onClick={handleAddEvent}
+                className="px-2 py-1 bg-argus-blue text-white text-10 border border-argus-border-dark hover:bg-argus-light transition-all cursor-pointer active:scale-95"
+              >
                 + Add Event
               </button>
 
-              <SectionHeader title="Event #1" actions={<button className="text-10">▲ Collapse</button>} />
+              <SectionHeader title="Event #1" actions={<button onClick={() => toggleSection('event1')} className="text-10 cursor-pointer hover:text-argus-blue">▲ Collapse</button>} />
 
               <ArgusFormField label="Verbatim Term:" required>
                 <textarea className="w-full border border-argus-border px-1 py-0.5 text-11 font-sans min-h-10 focus:outline-none focus:border-argus-light" defaultValue="Patient reported severe chest pain" />

@@ -1,5 +1,8 @@
 {
   "/api/auth/login/route": "app/api/auth/login/route.js",
+  "/api/users/route": "app/api/users/route.js",
+  "/dashboard/admin/users/page": "app/dashboard/admin/users/page.js",
+  "/dashboard/cases/page": "app/dashboard/cases/page.js",
   "/dashboard/page": "app/dashboard/page.js",
   "/login/page": "app/login/page.js"
 }

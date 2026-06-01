@@ -13,7 +13,7 @@ export default function ArgusNavbar() {
 
   return (
     <>
-      {/* Premium Modern Navbar */}
+      {/* Premium Modern Navbar - Updated */}
       <nav className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
         <div className="flex items-center justify-between h-20 px-8">
           {/* Left: Logo */}

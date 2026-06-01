@@ -253,11 +253,6 @@ export default function AdminUsersPage() {
     </ArgusLayout>
   );
 }
-                  <th className="text-left py-3 px-4 font-bold">Name</th>
-                  <th className="text-left py-3 px-4 font-bold">Email</th>
-                  <th className="text-left py-3 px-4 font-bold">Role</th>
-                  <th className="text-left py-3 px-4 font-bold">Department</th>
-                  <th className="text-left py-3 px-4 font-bold">Status</th>
                   <th className="text-left py-3 px-4 font-bold">Last Login</th>
                 </tr>
               </thead>

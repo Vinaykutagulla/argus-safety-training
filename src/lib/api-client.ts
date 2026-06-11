@@ -131,4 +131,15 @@ export const api = {
         body: JSON.stringify(payload),
       }),
   },
+  meddra: {
+    search: (query: string, params?: any) => {
+      const searchParams = new URLSearchParams({ query, ...params }).toString();
+      return apiCall(`/meddra/search?${searchParams}`);
+    },
+    create: (payload: any) =>
+      apiCall('/meddra/search', {
+        method: 'POST',
+        body: JSON.stringify(payload),
+      }),
+  },
 };

@@ -112,6 +112,81 @@ export default function NewCasePage() {
     });
   };
 
+  const handleSaveDraft = async () => {
+    setLoading(true);
+
+    try {
+      // Prepare case data with all required fields
+      const caseData = {
+        caseNumber: formData.caseNumber || `ARG-${Date.now()}`,
+        receiptDate: formData.receiptDate,
+        caseClassification: formData.caseClassification,
+        reportType: formData.reportType,
+        countryOfOccurrence: formData.countryOfOccurrence,
+        awarenessDate: formData.awarenessDate,
+        primaryReporterType: formData.reporterType,
+        isPregnancyCase: formData.isPregnancyCase,
+        patient: {
+          initials: formData.patient.initials || 'NA',
+          age: formData.patient.age || 0,
+          sex: formData.patient.sex || 'Unknown',
+          weight: formData.patient.weight,
+          height: formData.patient.height,
+          medicalHistory: formData.patient.medicalHistory,
+        },
+        products: products.length > 0 ? products : [{
+          productName: 'Unknown',
+          activeSubstance: 'Unknown',
+          drugRole: 'Suspect',
+        }],
+        reaction: {
+          reactionName: formData.reaction.reactionName || 'Unknown',
+          onsetDate: formData.reaction.onsetDate,
+          outcome: formData.reaction.outcome,
+          seriousness: formData.reaction.seriousness,
+        },
+        analysis: {
+          whoCausality: formData.analysis.whoCausality,
+          companyCausality: formData.analysis.companyCausality,
+          listedness: formData.analysis.listedness,
+          comments: formData.analysis.comments,
+        },
+        narrative: formData.narrative || 'Case entry in progress',
+        reporter: {
+          type: formData.reporterType,
+          name: formData.reporterName || 'Unknown',
+          qualification: formData.reporterQualification || 'Unknown',
+          institution: formData.reporterInstitution,
+          city: formData.reporterCity,
+          country: formData.countryOfOccurrence,
+          phone: formData.reporterPhone,
+          email: formData.reporterEmail,
+          sourceChannel: formData.reportSourceChannel,
+          sourceDocument: formData.reportSourceDocument,
+        },
+      };
+
+      const result = await api.cases.create(caseData);
+      
+      if (result && result._id) {
+        window.alert(`✓ Case saved as draft: ${result.caseId || result._id}`);
+        router.push(`/dashboard/cases/${result._id}`);
+      } else if (result && result.caseId) {
+        window.alert(`✓ Case saved as draft: ${result.caseId}`);
+        router.push(`/dashboard/cases`);
+      } else {
+        window.alert('✓ Case saved as draft');
+        router.push(`/dashboard`);
+      }
+    } catch (error: any) {
+      console.error('Failed to save draft:', error);
+      const errorMsg = error?.message || 'Unknown error occurred';
+      window.alert(`✗ Failed to save draft:\n${errorMsg}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -762,9 +837,11 @@ export default function NewCasePage() {
               </button>
               <button
                 type="button"
-                className="px-3 py-1 bg-argus-bg-tab-inactive text-argus-text-primary text-10 font-bold border border-argus-border hover:bg-white"
+                onClick={handleSaveDraft}
+                disabled={loading}
+                className="px-3 py-1 bg-argus-bg-tab-inactive text-argus-text-primary text-10 font-bold border border-argus-border hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Save as Draft
+                {loading ? 'Saving...' : 'Save as Draft'}
               </button>
               <button
                 type="submit"

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { verifyToken, getTokenFromRequest } from '@/lib/auth';
 import { dbConnect } from '@/lib/db';
 import { AECase } from '@/models/AECase';
+import { requirePermission } from '@/lib/rbac';
 
 export async function GET(
   req: NextRequest,
@@ -67,6 +68,14 @@ export async function PUT(
     const payload = verifyToken(token);
     if (!payload) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // Check role-based permission
+    if (!requirePermission(payload.role as any, 'canEditCase')) {
+      return NextResponse.json(
+        { error: 'Insufficient permissions. You do not have access to edit cases.' },
+        { status: 403 }
+      );
     }
 
     const { id } = await params;

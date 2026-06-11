@@ -12,10 +12,10 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_mod
 ;
 ;
 const metadata = {
-    title: "Argus Safety 8.4 - Pharmacovigilance Management System",
-    description: "Enterprise pharmacovigilance and adverse event management platform powered by Oracle",
+    title: "Firstpharmajob Safety Database - Pharmacovigilance Management",
+    description: "Professional pharmacovigilance and adverse event management platform for regulatory compliance",
     icons: {
-        icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%231a3a5c' width='100' height='100'/><text x='50' y='70' font-size='60' font-weight='bold' text-anchor='middle' fill='white'>A</text></svg>"
+        icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%230f172a' width='100' height='100'/><text x='50' y='70' font-size='60' font-weight='bold' text-anchor='middle' fill='white'>F</text></svg>"
     }
 };
 function RootLayout({ children }) {

@@ -100,14 +100,78 @@ function CaseFormContent() {
     { name: 'Submit', completed: false, current: false },
   ];
 
-  const handleSave = () => {
-    console.log('Saving case:', caseData);
-    alert(`Case ${caseData.caseId || 'NEW'} saved successfully!`);
+  const [isSaving, setIsSaving] = useState(false);
+
+  const handleSave = async () => {
+    if (!caseData) {
+      alert('No case data to save');
+      return;
+    }
+
+    setIsSaving(true);
+    try {
+      const url = isNewCase ? '/api/cases' : `/api/cases/${caseId}`;
+      const method = isNewCase ? 'POST' : 'PUT';
+
+      const response = await fetch(url, {
+        method,
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(caseData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || `Failed to save case (${response.status})`);
+      }
+
+      const savedCase = await response.json();
+      setCaseData(savedCase);
+      
+      alert(`Case ${savedCase.caseId} saved successfully!`);
+      
+      // If this was a new case, redirect to the case page
+      if (isNewCase) {
+        window.location.href = `/dashboard/cases/${savedCase._id}`;
+      }
+    } catch (error: any) {
+      console.error('Error saving case:', error);
+      alert(`Error saving case: ${error.message}`);
+    } finally {
+      setIsSaving(false);
+    }
   };
 
-  const handleLock = () => {
-    console.log('Locking case:', caseId);
-    alert(`Case ${caseId} locked. No further modifications allowed.`);
+  const handleLock = async () => {
+    if (!caseData?._id && !isNewCase) {
+      alert('Cannot lock a new case. Please save first.');
+      return;
+    }
+
+    try {
+      const lockUrl = `/api/cases/${caseData._id || caseId}/lock`;
+      const response = await fetch(lockUrl, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to lock case');
+      }
+
+      alert(`Case ${caseId} locked. No further modifications allowed.`);
+      // Refresh case data to reflect lock status
+      window.location.reload();
+    } catch (error: any) {
+      console.error('Error locking case:', error);
+      alert(`Error locking case: ${error.message}`);
+    }
   };
 
   // Training tutorial steps for new case entry
@@ -199,9 +263,10 @@ function CaseFormContent() {
               <TrainingModeToggle />
               <button 
                 onClick={handleSave}
-                className="px-3 py-1 bg-argus-blue text-white text-10 border border-argus-border-dark hover:bg-argus-light transition-all cursor-pointer active:scale-95"
+                disabled={isSaving}
+                className="px-3 py-1 bg-argus-blue text-white text-10 border border-argus-border-dark hover:bg-argus-light transition-all cursor-pointer active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Save
+                {isSaving ? 'Saving...' : 'Save'}
               </button>
               <button 
                 onClick={handleLock}
@@ -878,9 +943,10 @@ function CaseFormContent() {
           <div className="flex gap-2">
             <button
               onClick={handleSave}
-              className="px-4 py-1 bg-argus-blue text-white text-10 border border-argus-border-dark hover:bg-argus-light font-bold"
+              disabled={isSaving}
+              className="px-4 py-1 bg-argus-blue text-white text-10 border border-argus-border-dark hover:bg-argus-light font-bold disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Save
+              {isSaving ? 'Saving...' : 'Save'}
             </button>
             <button className="px-4 py-1 bg-gray-400 text-white text-10 border border-gray-600 hover:bg-gray-500">
               Cancel

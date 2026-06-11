@@ -189,16 +189,20 @@ async function dbConnect() {
     if (!cached.mongoose.promise) {
         const opts = {
             bufferCommands: false,
-            serverSelectionTimeoutMS: 3000,
-            connectTimeoutMS: 3000
+            serverSelectionTimeoutMS: 10000,
+            connectTimeoutMS: 10000,
+            retryWrites: true,
+            w: 'majority'
         };
         // Try to connect to MongoDB, fall back to mock if it fails
         cached.mongoose.promise = __TURBOPACK__imported__module__$5b$externals$5d2f$mongoose__$5b$external$5d$__$28$mongoose$2c$__cjs$2c$__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$mongoose$29$__["default"].connect(MONGODB_URI || 'mongodb://localhost:27017/argus-pv', opts).then((mongoose)=>{
-            console.log('✓ Connected to MongoDB');
+            console.log('✓ Connected to MongoDB - Cases will persist!');
+            cached.mongoose.useMock = false;
             return mongoose;
         }).catch(async (error)=>{
             console.warn('⚠ MongoDB connection failed, using mock database for development');
             console.warn('Error:', error.message);
+            console.warn('📌 To fix: Ensure MongoDB URI is set in .env.local');
             cached.mongoose.useMock = true;
             useMockDb = true;
             await __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$src$2f$lib$2f$mockDb$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["mockDb"].connect();
@@ -305,6 +309,8 @@ __turbopack_context__.s([
     ()=>getAuthToken,
     "getCurrentUser",
     ()=>getCurrentUser,
+    "getTokenFromRequest",
+    ()=>getTokenFromRequest,
     "removeAuthCookie",
     ()=>removeAuthCookie,
     "setAuthCookie",
@@ -333,6 +339,16 @@ function verifyToken(token) {
     } catch (error) {
         return null;
     }
+}
+function getTokenFromRequest(req) {
+    // Try Authorization header first
+    const authHeader = req.headers.get('authorization');
+    if (authHeader?.startsWith('Bearer ')) {
+        return authHeader.substring(7);
+    }
+    // Fall back to cookie
+    const token = req.cookies.get('auth-token')?.value;
+    return token || null;
 }
 async function setAuthCookie(token) {
     const cookieStore = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Argus$2f$node_modules$2f$next$2f$headers$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["cookies"])();

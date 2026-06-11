@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { verifyToken, getTokenFromRequest } from '@/lib/auth';
 import { dbConnect } from '@/lib/db';
 import { AECase } from '@/models/AECase';
+import { requirePermission } from '@/lib/rbac';
 
 function generateCaseId(): string {
   const year = new Date().getFullYear();
@@ -73,20 +74,56 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    const status = searchParams.get('status');
-    const product = searchParams.get('product');
-    const seriousness = searchParams.get('seriousness');
-    const search = searchParams.get('search');
-
+    // Build filter object from query parameters
     const filter: any = {};
 
-    if (status) filter.status = status;
+    const caseId = searchParams.get('caseId');
+    const product = searchParams.get('product');
+    const country = searchParams.get('country');
+    const status = searchParams.get('status');
+    const seriousness = searchParams.get('seriousness');
+    const reportType = searchParams.get('reportType');
+    const fromDate = searchParams.get('fromDate');
+    const toDate = searchParams.get('toDate');
+    const search = searchParams.get('search');
+
+    // Case ID search
+    if (caseId) filter.caseId = { $regex: caseId, $options: 'i' };
+
+    // Product search
     if (product) filter['drug.tradeName'] = { $regex: product, $options: 'i' };
-    if (seriousness) filter['reaction.seriousnessCriteria'] = seriousness;
+
+    // Country filter
+    if (country) filter['administration.countryOfOccurrence'] = country;
+
+    // Status filter
+    if (status) filter.status = status;
+
+    // Seriousness filter
+    if (seriousness) filter['reaction.seriousness'] = seriousness;
+
+    // Report type filter
+    if (reportType) filter['administration.reportType'] = reportType;
+
+    // Date range filter
+    if (fromDate || toDate) {
+      filter['administration.receiptDate'] = {};
+      if (fromDate) {
+        filter['administration.receiptDate'].$gte = new Date(fromDate);
+      }
+      if (toDate) {
+        const endDate = new Date(toDate);
+        endDate.setHours(23, 59, 59, 999);
+        filter['administration.receiptDate'].$lte = endDate;
+      }
+    }
+
+    // Generic search across multiple fields
     if (search) {
       filter.$or = [
         { caseId: { $regex: search, $options: 'i' } },
         { 'drug.tradeName': { $regex: search, $options: 'i' } },
+        { 'reporter.name': { $regex: search, $options: 'i' } },
       ];
     }
 
@@ -126,6 +163,14 @@ export async function POST(req: NextRequest) {
     const payload = verifyToken(token);
     if (!payload) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // Check role-based permission
+    if (!requirePermission(payload.role as any, 'canCreateCase')) {
+      return NextResponse.json(
+        { error: 'Insufficient permissions. You do not have access to create cases.' },
+        { status: 403 }
+      );
     }
 
     const db = await dbConnect();

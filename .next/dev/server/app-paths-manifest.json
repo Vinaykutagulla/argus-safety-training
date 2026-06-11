@@ -1,12 +1,15 @@
 {
+  "/api/admin/seed-meddra/route": "app/api/admin/seed-meddra/route.js",
+  "/api/admin/seed-users/route": "app/api/admin/seed-users/route.js",
   "/api/auth/login/route": "app/api/auth/login/route.js",
-  "/api/users/route": "app/api/users/route.js",
-  "/dashboard/admin/users/page": "app/dashboard/admin/users/page.js",
+  "/api/cases/[id]/route": "app/api/cases/[id]/route.js",
+  "/api/cases/route": "app/api/cases/route.js",
+  "/api/meddra/search/route": "app/api/meddra/search/route.js",
   "/dashboard/cases/[id]/page": "app/dashboard/cases/[id]/page.js",
   "/dashboard/cases/new/page": "app/dashboard/cases/new/page.js",
   "/dashboard/cases/page": "app/dashboard/cases/page.js",
+  "/dashboard/meddra/page": "app/dashboard/meddra/page.js",
   "/dashboard/page": "app/dashboard/page.js",
-  "/dashboard/reports/expedited/page": "app/dashboard/reports/expedited/page.js",
-  "/dashboard/workflow/page": "app/dashboard/workflow/page.js",
-  "/login/page": "app/login/page.js"
+  "/login/page": "app/login/page.js",
+  "/page": "app/page.js"
 }

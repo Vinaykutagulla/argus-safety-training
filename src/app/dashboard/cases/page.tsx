@@ -42,11 +42,21 @@ export default function CaseSearchPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  const fetchCases = async (params: Record<string, string> = {}) => {
+  const fetchCases = async (filters?: typeof searchFilters) => {
     setLoadingCases(true);
     try {
+      const filtersToUse = filters || searchFilters;
       const query: Record<string, string> = { page: '1', limit: '50' };
-      if (params.search) query.search = params.search;
+
+      // Add search filters
+      if (filtersToUse.caseId) query.caseId = filtersToUse.caseId;
+      if (filtersToUse.product) query.product = filtersToUse.product;
+      if (filtersToUse.country && filtersToUse.country !== 'All') query.country = filtersToUse.country;
+      if (filtersToUse.workflowState && filtersToUse.workflowState !== 'All') query.status = filtersToUse.workflowState;
+      if (filtersToUse.seriousness && filtersToUse.seriousness !== 'All') query.seriousness = filtersToUse.seriousness;
+      if (filtersToUse.reportType && filtersToUse.reportType !== 'All') query.reportType = filtersToUse.reportType;
+      if (filtersToUse.fromDate) query.fromDate = filtersToUse.fromDate;
+      if (filtersToUse.toDate) query.toDate = filtersToUse.toDate;
 
       const data = await api.cases.list(query);
       const mappedCases = (data.cases || []).map((c: any) => ({
@@ -74,8 +84,7 @@ export default function CaseSearchPage() {
   };
 
   const handleSearch = async () => {
-    const searchValue = searchFilters.caseId || searchFilters.product || searchFilters.reporter || '';
-    await fetchCases({ search: searchValue });
+    await fetchCases();
   };
 
   const handleClear = () => {

@@ -1,6 +1,7 @@
 {
   "/_global-error/page": "app/_global-error/page.js",
   "/_not-found/page": "app/_not-found/page.js",
+  "/api/admin/seed-meddra/route": "app/api/admin/seed-meddra/route.js",
   "/api/admin/seed-users/route": "app/api/admin/seed-users/route.js",
   "/api/admin/seed/route": "app/api/admin/seed/route.js",
   "/api/auth/login/route": "app/api/auth/login/route.js",
@@ -12,6 +13,7 @@
   "/api/cases/[id]/route": "app/api/cases/[id]/route.js",
   "/api/cases/[id]/unlock/route": "app/api/cases/[id]/unlock/route.js",
   "/api/cases/route": "app/api/cases/route.js",
+  "/api/meddra/search/route": "app/api/meddra/search/route.js",
   "/api/reports/[id]/route": "app/api/reports/[id]/route.js",
   "/api/reports/route": "app/api/reports/route.js",
   "/api/users/[id]/route": "app/api/users/[id]/route.js",

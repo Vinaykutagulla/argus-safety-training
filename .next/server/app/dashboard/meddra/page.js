@@ -1,7 +1,7 @@
 var R=require("../../../chunks/ssr/[turbopack]_runtime.js")("server/app/dashboard/meddra/page.js")
 R.c("server/chunks/ssr/[root-of-the-server]__07bqzmw._.js")
 R.c("server/chunks/ssr/0dv3_next_dist_esm_build_templates_app-page_0v4a5m_.js")
-R.c("server/chunks/ssr/[root-of-the-server]__13njcwm._.js")
+R.c("server/chunks/ssr/[root-of-the-server]__0zv5hx0._.js")
 R.c("server/chunks/ssr/[root-of-the-server]__0u0okqv._.js")
 R.c("server/chunks/ssr/Desktop_Argus_src_app_layout_tsx_04bfkjl._.js")
 R.c("server/chunks/ssr/0dv3_next_dist_client_components_0ef3t9e._.js")

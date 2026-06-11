@@ -113,6 +113,12 @@
       "namedRegex": "^/api/admin/seed(?:/)?$"
     },
     {
+      "page": "/api/admin/seed-meddra",
+      "regex": "^/api/admin/seed\\-meddra(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/admin/seed\\-meddra(?:/)?$"
+    },
+    {
       "page": "/api/admin/seed-users",
       "regex": "^/api/admin/seed\\-users(?:/)?$",
       "routeKeys": {},
@@ -147,6 +153,12 @@
       "regex": "^/api/cases(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/api/cases(?:/)?$"
+    },
+    {
+      "page": "/api/meddra/search",
+      "regex": "^/api/meddra/search(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/meddra/search(?:/)?$"
     },
     {
       "page": "/api/reports",

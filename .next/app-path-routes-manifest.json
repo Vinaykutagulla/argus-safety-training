@@ -1,6 +1,7 @@
 {
   "/_global-error/page": "/_global-error",
   "/_not-found/page": "/_not-found",
+  "/api/admin/seed-meddra/route": "/api/admin/seed-meddra",
   "/api/admin/seed-users/route": "/api/admin/seed-users",
   "/api/admin/seed/route": "/api/admin/seed",
   "/api/auth/login/route": "/api/auth/login",
@@ -12,6 +13,7 @@
   "/api/cases/[id]/route": "/api/cases/[id]",
   "/api/cases/[id]/unlock/route": "/api/cases/[id]/unlock",
   "/api/cases/route": "/api/cases",
+  "/api/meddra/search/route": "/api/meddra/search",
   "/api/reports/[id]/route": "/api/reports/[id]",
   "/api/reports/route": "/api/reports",
   "/api/users/[id]/route": "/api/users/[id]",

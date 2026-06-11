@@ -173,6 +173,15 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   type __Unused = __Check
 }
 
+// Validate ../../src/app/api/admin/seed-meddra/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/admin/seed-meddra">> = Specific
+  const handler = {} as typeof import("../../src/app/api/admin/seed-meddra/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../src/app/api/admin/seed-users/route.ts
 {
   type __IsExpected<Specific extends RouteHandlerConfig<"/api/admin/seed-users">> = Specific
@@ -267,6 +276,15 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
 {
   type __IsExpected<Specific extends RouteHandlerConfig<"/api/cases">> = Specific
   const handler = {} as typeof import("../../src/app/api/cases/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../src/app/api/meddra/search/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/meddra/search">> = Specific
+  const handler = {} as typeof import("../../src/app/api/meddra/search/route.js")
   type __Check = __IsExpected<typeof handler>
   // @ts-ignore
   type __Unused = __Check

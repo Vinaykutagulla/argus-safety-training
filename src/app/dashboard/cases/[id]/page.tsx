@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import ArgusLayout from '@/components/ArgusLayout';
 import CaseHeader from '@/components/CaseHeader';
 import WorkflowBar from '@/components/WorkflowBar';
@@ -15,7 +15,6 @@ import TrainingTooltip from '@/components/TrainingTooltip';
 import RegulatoryReferencePanel from '@/components/RegulatoryReferencePanel';
 import TutorialMode, { TrainingStep } from '@/components/TutorialMode';
 import { useTraining } from '@/lib/training-context';
-import { api } from '@/lib/api-client';
 
 export default function CaseFormPage() {
   return <CaseFormContent />;
@@ -23,108 +22,23 @@ export default function CaseFormPage() {
 
 function CaseFormContent() {
   const params = useParams();
-  const router = useRouter();
   const caseId = params.id as string;
   const isNewCase = caseId === 'new';
-  const { trainingMode } = useTraining();
+  const { trainingMode, setStep } = useTraining();
 
-  // Case state with proper structure
-  const [caseData, setCaseData] = useState<any>({
-    // Administrative
-    administration: {
-      receiptDate: new Date().toISOString().split('T')[0],
-      countryOfOccurrence: 'India',
-      awarenessDate: new Date().toISOString().split('T')[0],
-      primaryReporterType: 'Healthcare Professional',
-    },
-    // Reporter
-    reporter: {
-      name: '',
-      type: 'Healthcare Professional',
-      qualification: '',
-      institution: '',
-      city: '',
-      country: 'India',
-      sourceChannel: 'Direct',
-      sourceDocument: '',
-    },
-    // Case classification
-    reportType: 'Spontaneous',
-    serious: 'yes',
-    seriousnessReasons: [],
-    
-    // Patient
-    patient: {
-      initials: '',
-      dateOfBirth: '',
-      ageAtOnset: '',
-      ageUnit: 'Years',
-      gender: 'Unknown',
-      weight: '',
-      weightUnit: 'kg',
-      height: '',
-      heightUnit: 'cm',
-      ethnicity: '',
-      medicalHistory: '',
-    },
-    
-    // Products
-    products: [
-      {
-        type: 'Drug',
-        tradeName: '',
-        genericName: '',
-        manufacturer: '',
-        role: 'Suspect',
-        dose: '',
-        doseUnit: 'mg',
-        frequency: '',
-        route: '',
-        indication: '',
-        startDate: '',
-        endDate: '',
-        daysTherapy: '',
-      }
-    ],
-    
-    // Reactions/Events
-    reactions: [
-      {
-        verbatimTerm: '',
-        onsetDate: '',
-        outcomeTerm: 'Unknown',
-        meddraCode: '',
-        meddraPreferredTerm: '',
-        seriousness: 'Non-Serious',
-      }
-    ],
-    
-    // Assessment
-    assessment: {
-      causality: 'Possible',
-      temporalRelationship: 'Yes',
-      dechallenge: 'Unknown',
-      rechallenge: 'Unknown',
-      comments: '',
-    },
-    
-    // Workflow
-    status: 'New',
-    workflow: {
-      currentStep: 'Data Entry',
-      assignedTo: '',
-    },
-  });
-
+  const [caseData, setCaseData] = useState<any>(null);
   const [loadingCase, setLoadingCase] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
-  const [isSaving, setIsSaving] = useState(false);
-  const [saveError, setSaveError] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState(0);
-  const [isLocked, setIsLocked] = useState(false);
+  const [expandedSections, setExpandedSections] = useState({
+    drug1: true,
+    event1: true,
+  });
 
-  // Fetch existing case data
+  const toggleSection = (section: string) => {
+    setExpandedSections(prev => ({...prev, [section]: !prev[section]}));
+  };
+
   useEffect(() => {
     if (isNewCase) {
       setLoadError(null);
@@ -136,11 +50,23 @@ function CaseFormContent() {
       setLoadError(null);
 
       try {
-        const payload = await api.cases.get(caseId);
-        setCaseData(payload || caseData);
-        setIsLocked(payload?.status === 'Locked' || false);
+        const response = await fetch(`/api/cases/${caseId}`, {
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Failed to load case');
+        }
+
+        const payload = await response.json();
+        setCaseData(payload);
       } catch (error: any) {
-        console.error('Error loading case:', error);
+        console.error('Error loading case details:', error);
         setLoadError(error.message || 'Unable to load case');
       } finally {
         setLoadingCase(false);
@@ -150,81 +76,105 @@ function CaseFormContent() {
     fetchCase();
   }, [caseId, isNewCase]);
 
-  // Helper function to update nested object properties
-  const updateNestedField = (obj: any, path: string, value: any) => {
-    const keys = path.split('.');
-    let current = obj;
-    for (let i = 0; i < keys.length - 1; i++) {
-      current = current[keys[i]];
-    }
-    current[keys[keys.length - 1]] = value;
-    return { ...obj };
+  const handleAddDrug = () => {
+    alert('Drug entry form will be added');
   };
 
-  // Handle saving case
-  const handleSave = async () => {
-    setSaveError(null);
-    setSuccessMessage(null);
-    setIsSaving(true);
+  const handleAddDevice = () => {
+    alert('Device entry form will be added');
+  };
 
+  const handleAddEvent = () => {
+    alert('Event entry form will be added');
+  };
+
+  const tabs = ['General', 'Patient', 'Products', 'Events', 'Analysis', 'Activities', 'Add. Info', 'Attachments'];
+
+  const workflowStages = [
+    { name: 'Intake', completed: true, current: false },
+    { name: 'Triage', completed: true, current: false },
+    { name: 'Data Entry', completed: false, current: true },
+    { name: 'Med Review', completed: false, current: false },
+    { name: 'QC', completed: false, current: false },
+    { name: 'Lock', completed: false, current: false },
+    { name: 'Submit', completed: false, current: false },
+  ];
+
+  const [isSaving, setIsSaving] = useState(false);
+
+  const handleSave = async () => {
+    if (!caseData) {
+      alert('No case data to save');
+      return;
+    }
+
+    setIsSaving(true);
     try {
-      let savedCase;
-      if (isNewCase) {
-        savedCase = await api.cases.create(caseData);
-      } else {
-        savedCase = await api.cases.update(caseId, caseData);
+      const url = isNewCase ? '/api/cases' : `/api/cases/${caseId}`;
+      const method = isNewCase ? 'POST' : 'PUT';
+
+      const response = await fetch(url, {
+        method,
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(caseData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || `Failed to save case (${response.status})`);
       }
 
-      setSuccessMessage(`Case ${savedCase.caseId} saved successfully!`);
+      const savedCase = await response.json();
       setCaseData(savedCase);
-
-      // Redirect to case page if new
-      if (isNewCase && savedCase._id) {
-        setTimeout(() => {
-          router.push(`/dashboard/cases/${savedCase._id}`);
-        }, 1000);
+      
+      alert(`Case ${savedCase.caseId} saved successfully!`);
+      
+      // If this was a new case, redirect to the case page
+      if (isNewCase) {
+        window.location.href = `/dashboard/cases/${savedCase._id}`;
       }
     } catch (error: any) {
       console.error('Error saving case:', error);
-      setSaveError(error.message || 'Failed to save case');
+      alert(`Error saving case: ${error.message}`);
     } finally {
       setIsSaving(false);
     }
   };
 
-  // Handle locking case
   const handleLock = async () => {
+    if (!caseData?._id && !isNewCase) {
+      alert('Cannot lock a new case. Please save first.');
+      return;
+    }
+
     try {
-      const result = await api.cases.lock(caseId);
-      setIsLocked(true);
-      setSuccessMessage('Case locked successfully. No further modifications allowed.');
+      const lockUrl = `/api/cases/${caseData._id || caseId}/lock`;
+      const response = await fetch(lockUrl, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to lock case');
+      }
+
+      alert(`Case ${caseId} locked. No further modifications allowed.`);
+      // Refresh case data to reflect lock status
+      window.location.reload();
     } catch (error: any) {
-      setSaveError(error.message || 'Failed to lock case');
+      console.error('Error locking case:', error);
+      alert(`Error locking case: ${error.message}`);
     }
   };
 
-  // Handle unlocking case (admin only)
-  const handleUnlock = async () => {
-    try {
-      const result = await api.cases.unlock(caseId);
-      setIsLocked(false);
-      setSuccessMessage('Case unlocked successfully.');
-    } catch (error: any) {
-      setSaveError(error.message || 'Failed to unlock case');
-    }
-  };
-
-  const tabs = ['General', 'Patient', 'Products', 'Events', 'Assessment', 'Workflow', 'Attachments'];
-
-  const workflowStages = [
-    { name: 'Intake', completed: true, current: false },
-    { name: 'Data Entry', completed: false, current: true },
-    { name: 'Medical Review', completed: false, current: false },
-    { name: 'QC', completed: false, current: false },
-    { name: 'Locked', completed: false, current: false },
-    { name: 'Submitted', completed: false, current: false },
-  ];
-
+  // Training tutorial steps for new case entry
   const tutorialSteps: TrainingStep[] = [
     {
       id: '1',
@@ -236,51 +186,51 @@ function CaseFormContent() {
     },
     {
       id: '2',
-      title: 'General Information',
-      description: 'Capture the receipt date, country, and report type.',
-      hint: 'The receipt date starts the expedited reporting clock.',
-      learningObjective: 'Correctly document case intake',
-      guidelineReference: 'ICH E2A Section 3.1',
+      title: 'Step 1: General Information',
+      description: 'Capture the initial receipt date, country of incidence, and report type (Spontaneous/Study/Literature).',
+      hint: 'Always capture the date the case was first reported to your organization.',
+      learningObjective: 'Correctly classify and date an adverse event report',
+      guidelineReference: 'ICH E2A Section 3.1: Administrative Information',
     },
     {
       id: '3',
-      title: 'Patient Information',
-      description: 'Record patient demographics using initials only.',
-      hint: 'Always protect patient privacy.',
-      learningObjective: 'Protect patient privacy',
-      guidelineReference: 'ICH E2A Section 3.2',
+      title: 'Step 2: Patient Demographics',
+      description: 'Record patient age, gender, weight, and relevant medical history.',
+      hint: 'Use patient initials only; do not enter full names for privacy.',
+      learningObjective: 'Protect patient privacy while capturing essential data',
+      guidelineReference: 'ICH E2A Section 3.2: Patient Information',
     },
     {
       id: '4',
-      title: 'Product Information',
-      description: 'Document the suspected drug and concomitant medications.',
-      hint: 'Distinguish between Suspect and Concomitant roles.',
-      learningObjective: 'Identify suspect medication',
-      guidelineReference: 'ICH E2A Section 3.3',
+      title: 'Step 3: Product Information',
+      description: 'Document the suspected drug (trade name, dose, route, indication, dates of use).',
+      hint: 'Distinguish between Suspect, Concomitant, and Interacting medications.',
+      learningObjective: 'Accurately document product exposure and identify suspect medication',
+      guidelineReference: 'ICH E2A Section 3.3: Reaction & Product History',
     },
     {
       id: '5',
-      title: 'Adverse Events',
-      description: 'Record the verbatim term and code to MedDRA.',
-      hint: 'Always code to PT level.',
-      learningObjective: 'Apply MedDRA coding',
-      guidelineReference: 'ICH E2A Section 3.3',
+      title: 'Step 4: Adverse Event Reporting',
+      description: 'Record the verbatim term, onset date, outcome, and MedDRA coding.',
+      hint: 'Always code to Preferred Term (PT) level using current MedDRA version.',
+      learningObjective: 'Apply MedDRA coding and identify serious outcomes',
+      guidelineReference: 'ICH E2A Section 3.3: Reaction Description & MedDRA',
     },
     {
       id: '6',
-      title: 'Causality Assessment',
-      description: 'Assess relatedness using WHO-UMC scale.',
-      hint: 'Consider temporal relationship and alternative causes.',
-      learningObjective: 'Assess relatedness',
-      guidelineReference: 'WHO-UMC Scale',
+      title: 'Step 5: Causality Assessment',
+      description: 'Apply WHO-UMC causality scale (Certain/Probable/Possible/Unlikely).',
+      hint: 'Use temporal relationship, dechallenge/rechallenge, and alternative causes.',
+      learningObjective: 'Assess relatedness of adverse event to medication',
+      guidelineReference: 'WHO-UMC Causality Assessment Scale',
     },
     {
       id: '7',
-      title: 'Review & Submit',
-      description: 'Lock the case and submit for processing.',
-      hint: 'Check expedited reporting requirements.',
-      learningObjective: 'Identify reporting obligations',
-      guidelineReference: 'ICH E2A Section 7',
+      title: 'Step 6: Review & Submit',
+      description: 'Verify all information, check for expedited reporting requirements, and lock the case.',
+      hint: 'Expedited 7-day reporting: Fatal/Life-threatening unlisted reactions. 15-day: Other serious unexpected.',
+      learningObjective: 'Identify expedited reporting obligations per ICH E2A',
+      guidelineReference: 'ICH E2A Section 7: Expedited Reporting (7-day/15-day)',
     },
   ];
 
@@ -288,70 +238,42 @@ function CaseFormContent() {
     <ArgusLayout>
       <RegulatoryReferencePanel />
       <div className={`bg-argus-bg p-3 space-y-2 text-11 font-sans min-h-screen ${trainingMode.enabled ? 'mr-64' : ''}`}>
-        
-        {/* Loading/Error States */}
         {loadingCase && (
           <div className="rounded border border-argus-border bg-argus-bg p-3 text-11 text-argus-text-muted">
             Loading case details...
           </div>
         )}
-        
         {loadError && (
           <div className="rounded border border-red-500 bg-red-50 p-3 text-11 text-red-700">
-            Error: {loadError}
-          </div>
-        )}
-        
-        {saveError && (
-          <div className="rounded border border-red-500 bg-red-50 p-3 text-11 text-red-700">
-            Error: {saveError}
-          </div>
-        )}
-        
-        {successMessage && (
-          <div className="rounded border border-green-500 bg-green-50 p-3 text-11 text-green-700">
-            ✓ {successMessage}
-          </div>
-        )}
-
-        {isLocked && (
-          <div className="rounded border border-yellow-500 bg-yellow-50 p-3 text-11 text-yellow-700">
-            ⚠️ This case is locked. No modifications are allowed.
+            Error loading case: {loadError}
           </div>
         )}
 
         {/* Case Header */}
         <CaseHeader
-          caseId={caseData?.caseId || 'NEW CASE'}
-          receiptDate={caseData?.administration?.receiptDate || 'Unknown'}
-          product={caseData?.products?.[0]?.tradeName || 'Unknown'}
-          seriousness={caseData?.reactions?.[0]?.seriousness || 'Unknown'}
-          status={caseData?.status || 'New'}
+          caseId={caseData?.caseId || 'NEW'}
+          receiptDate={caseData?.administration?.receiptDate
+            ? new Date(caseData.administration.receiptDate).toISOString().slice(0, 10)
+            : caseData?.receiptDate || 'Unknown'}
+          product={caseData?.drug?.tradeName || caseData?.products?.[0]?.productName || 'Unknown'}
+          seriousness={caseData?.reaction?.outcome || caseData?.reaction?.seriousness || 'Unknown'}
+          status={caseData?.status || caseData?.workflow?.currentStep || 'New'}
           actions={
             <div className="flex gap-2">
               <TrainingModeToggle />
               <button 
                 onClick={handleSave}
-                disabled={isSaving || isLocked}
+                disabled={isSaving}
                 className="px-3 py-1 bg-argus-blue text-white text-10 border border-argus-border-dark hover:bg-argus-light transition-all cursor-pointer active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSaving ? 'Saving...' : 'Save'}
               </button>
-              {!isLocked ? (
-                <button 
-                  onClick={handleLock}
-                  className="px-3 py-1 bg-argus-orange text-white text-10 border border-yellow-600 hover:bg-yellow-500 transition-all cursor-pointer active:scale-95"
-                >
-                  🔒 Lock
-                </button>
-              ) : (
-                <button 
-                  onClick={handleUnlock}
-                  className="px-3 py-1 bg-gray-500 text-white text-10 border border-gray-600 hover:bg-gray-600 transition-all cursor-pointer active:scale-95"
-                >
-                  🔓 Unlock
-                </button>
-              )}
+              <button 
+                onClick={handleLock}
+                className="px-3 py-1 bg-argus-orange text-white text-10 border border-yellow-600 hover:bg-yellow-500 transition-all cursor-pointer active:scale-95"
+              >
+                Lock
+              </button>
             </div>
           }
         />
@@ -360,12 +282,12 @@ function CaseFormContent() {
         <WorkflowBar stages={workflowStages} />
 
         {/* Tab Navigation */}
-        <div className="flex gap-0 bg-argus-bg border-b-2 border-argus-border overflow-x-auto">
+        <div className="flex gap-0 bg-argus-bg border-b-2 border-argus-border">
           {tabs.map((tab, idx) => (
             <button
               key={idx}
               onClick={() => setActiveTab(idx)}
-              className={`px-3 py-1 text-11 font-bold border-r border-argus-border whitespace-nowrap ${
+              className={`px-3 py-1 text-11 font-bold border-r border-argus-border ${
                 idx === activeTab
                   ? 'bg-argus-bg-tab-active text-argus-text-primary border-b-2 border-argus-blue'
                   : 'bg-argus-bg-tab-inactive text-argus-text-label'
@@ -375,6 +297,13 @@ function CaseFormContent() {
             </button>
           ))}
         </div>
+
+        {/* Tab Content */}
+        <div className="bg-white border-2 border-argus-border p-3">
+          {/* GENERAL TAB */}
+          {activeTab === 0 && (
+            <div className="space-y-3">
+              <SectionHeader title="General Information" />
 
               <div className="flex gap-4">
                 <div className="flex-1">

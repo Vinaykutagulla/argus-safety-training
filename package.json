@@ -8,7 +8,16 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "seed": "ts-node src/scripts/seed.ts"
+    "seed": "ts-node src/scripts/seed.ts",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:api": "jest src/__tests__/api.cases.test.ts",
+    "test:components": "jest src/__tests__/components.test.ts",
+    "verify-auth": "ts-node src/scripts/verify-auth.ts",
+    "docker:build": "docker build -f Dockerfile.prod -t argus:latest .",
+    "docker:prod": "docker-compose -f docker-compose.prod.yml up -d",
+    "docker:prod:down": "docker-compose -f docker-compose.prod.yml down"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -28,5 +37,23 @@
     "postcss": "^8.4.0",
     "tailwindcss": "^4.0.0",
     "ts-node": "^10.9.0"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "roots": ["<rootDir>/src"],
+    "testMatch": ["**/__tests__/**/*.test.ts"],
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/src/$1"
+    },
+    "collectCoverageFrom": [
+      "src/**/*.ts",
+      "!src/**/*.d.ts",
+      "!src/**/index.ts"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/.next/"
+    ]
   }
 }

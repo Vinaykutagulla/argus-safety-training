@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { verifyToken } from '@/lib/auth';
+import { verifyToken, getTokenFromRequest } from '@/lib/auth';
 import { dbConnect } from '@/lib/db';
 import { AECase } from '@/models/AECase';
 
@@ -8,7 +8,7 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const token = req.cookies.get('auth-token')?.value;
+    const token = getTokenFromRequest(req);
     if (!token) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -50,7 +50,16 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const token = req.cookies.get('auth-token')?.value;
+    // Try to get token from cookies first, then from Authorization header
+    let token = req.cookies.get('auth-token')?.value;
+    
+    if (!token) {
+      const authHeader = req.headers.get('authorization');
+      if (authHeader?.startsWith('Bearer ')) {
+        token = authHeader.substring(7);
+      }
+    }
+
     if (!token) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -121,7 +130,16 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const token = req.cookies.get('auth-token')?.value;
+    // Try to get token from cookies first, then from Authorization header
+    let token = req.cookies.get('auth-token')?.value;
+    
+    if (!token) {
+      const authHeader = req.headers.get('authorization');
+      if (authHeader?.startsWith('Bearer ')) {
+        token = authHeader.substring(7);
+      }
+    }
+
     if (!token) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }

@@ -15,6 +15,16 @@ export default function NewCasePage() {
     caseClassification: 'Spontaneous',
     reportType: 'Initial',
     countryOfOccurrence: 'USA',
+    awarenessDate: new Date().toISOString().split('T')[0],
+    reporterType: 'Physician',
+    reporterName: '',
+    reporterQualification: '',
+    reporterInstitution: '',
+    reporterCity: '',
+    reporterPhone: '',
+    reporterEmail: '',
+    reportSourceChannel: 'Phone',
+    reportSourceDocument: '',
     isPregnancyCase: false,
     patient: {
       initials: '',
@@ -114,7 +124,8 @@ export default function NewCasePage() {
         caseClassification: formData.caseClassification,
         reportType: formData.reportType,
         countryOfOccurrence: formData.countryOfOccurrence,
-        primaryReporterType: 'Student',
+        awarenessDate: formData.awarenessDate,
+        primaryReporterType: formData.reporterType,
         isPregnancyCase: formData.isPregnancyCase,
         patient: {
           initials: formData.patient.initials || 'NA',
@@ -143,9 +154,16 @@ export default function NewCasePage() {
         },
         narrative: formData.narrative || 'Case entry in progress',
         reporter: {
-          name: 'Student',
-          qualification: 'Safety Analyst',
+          type: formData.reporterType,
+          name: formData.reporterName || 'Unknown',
+          qualification: formData.reporterQualification || 'Unknown',
+          institution: formData.reporterInstitution,
+          city: formData.reporterCity,
           country: formData.countryOfOccurrence,
+          phone: formData.reporterPhone,
+          email: formData.reporterEmail,
+          sourceChannel: formData.reportSourceChannel,
+          sourceDocument: formData.reportSourceDocument,
         },
       };
 
@@ -300,6 +318,122 @@ export default function NewCasePage() {
                     </label>
                   </div>
                 </div>
+
+                <div className="border-t border-argus-border pt-3">
+                  <div className="text-11 font-bold text-argus-navy mb-2">Report Source / Reporter Details</div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-10 font-bold text-argus-text-label mb-1">Awareness Date:</label>
+                      <input
+                        type="date"
+                        value={formData.awarenessDate}
+                        onChange={(e) => handleChange('awarenessDate', e.target.value)}
+                        className="w-full px-2 py-1 border border-argus-border text-10 focus:border-argus-light focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-10 font-bold text-argus-text-label mb-1">Report Source Channel:</label>
+                      <select
+                        value={formData.reportSourceChannel}
+                        onChange={(e) => handleChange('reportSourceChannel', e.target.value)}
+                        className="w-full px-2 py-1 border border-argus-border text-10 focus:border-argus-light focus:outline-none cursor-pointer bg-white"
+                      >
+                        <option value="Phone">Phone</option>
+                        <option value="Email">Email</option>
+                        <option value="Portal">Portal</option>
+                        <option value="Fax">Fax</option>
+                        <option value="Letter">Letter</option>
+                        <option value="Literature">Literature</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-10 font-bold text-argus-text-label mb-1">Source Document / Ref:</label>
+                      <input
+                        type="text"
+                        value={formData.reportSourceDocument}
+                        onChange={(e) => handleChange('reportSourceDocument', e.target.value)}
+                        placeholder="e.g. RA-2026-01"
+                        className="w-full px-2 py-1 border border-argus-border text-10 focus:border-argus-light focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-10 font-bold text-argus-text-label mb-1">Reporter Type:</label>
+                      <select
+                        value={formData.reporterType}
+                        onChange={(e) => handleChange('reporterType', e.target.value)}
+                        className="w-full px-2 py-1 border border-argus-border text-10 focus:border-argus-light focus:outline-none cursor-pointer bg-white"
+                      >
+                        <option value="Physician">Physician</option>
+                        <option value="Pharmacist">Pharmacist</option>
+                        <option value="Patient">Patient</option>
+                        <option value="Clinical Investigator">Clinical Investigator</option>
+                        <option value="Other Healthcare Provider">Other Healthcare Provider</option>
+                        <option value="Non-Professional">Non-Professional</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-10 font-bold text-argus-text-label mb-1">Reporter Name:</label>
+                      <input
+                        type="text"
+                        value={formData.reporterName}
+                        onChange={(e) => handleChange('reporterName', e.target.value)}
+                        placeholder="Dr. Jane Doe"
+                        className="w-full px-2 py-1 border border-argus-border text-10 focus:border-argus-light focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-10 font-bold text-argus-text-label mb-1">Qualification:</label>
+                      <input
+                        type="text"
+                        value={formData.reporterQualification}
+                        onChange={(e) => handleChange('reporterQualification', e.target.value)}
+                        placeholder="MD / Pharmacist"
+                        className="w-full px-2 py-1 border border-argus-border text-10 focus:border-argus-light focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-10 font-bold text-argus-text-label mb-1">Institution:</label>
+                      <input
+                        type="text"
+                        value={formData.reporterInstitution}
+                        onChange={(e) => handleChange('reporterInstitution', e.target.value)}
+                        placeholder="City Hospital"
+                        className="w-full px-2 py-1 border border-argus-border text-10 focus:border-argus-light focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-10 font-bold text-argus-text-label mb-1">City:</label>
+                      <input
+                        type="text"
+                        value={formData.reporterCity}
+                        onChange={(e) => handleChange('reporterCity', e.target.value)}
+                        placeholder="New York"
+                        className="w-full px-2 py-1 border border-argus-border text-10 focus:border-argus-light focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-10 font-bold text-argus-text-label mb-1">Phone:</label>
+                      <input
+                        type="tel"
+                        value={formData.reporterPhone}
+                        onChange={(e) => handleChange('reporterPhone', e.target.value)}
+                        placeholder="+1 555 123 4567"
+                        className="w-full px-2 py-1 border border-argus-border text-10 focus:border-argus-light focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-10 font-bold text-argus-text-label mb-1">Email:</label>
+                      <input
+                        type="email"
+                        value={formData.reporterEmail}
+                        onChange={(e) => handleChange('reporterEmail', e.target.value)}
+                        placeholder="reporter@example.com"
+                        className="w-full px-2 py-1 border border-argus-border text-10 focus:border-argus-light focus:outline-none"
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
             )}
 
@@ -336,8 +470,8 @@ export default function NewCasePage() {
                       className="w-full px-2 py-1 border border-argus-border text-10 focus:border-argus-light focus:outline-none cursor-pointer bg-white"
                     >
                       <option value="Unknown">Unknown</option>
-                      <option value="Male">Male</option>
-                      <option value="Female">Female</option>
+                      <option value="M">Male</option>
+                      <option value="F">Female</option>
                     </select>
                   </div>
                 </div>

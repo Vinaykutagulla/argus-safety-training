@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
+import { NextRequest } from 'next/server';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 const JWT_EXPIRES_IN = '7d';
@@ -26,6 +27,22 @@ export function verifyToken(token: string): JWTPayload | null {
   } catch (error) {
     return null;
   }
+}
+
+/**
+ * Extract JWT token from NextRequest
+ * Checks Authorization header first (Bearer token), then cookies
+ */
+export function getTokenFromRequest(req: NextRequest): string | null {
+  // Try Authorization header first
+  const authHeader = req.headers.get('authorization');
+  if (authHeader?.startsWith('Bearer ')) {
+    return authHeader.substring(7);
+  }
+
+  // Fall back to cookie
+  const token = req.cookies.get('auth-token')?.value;
+  return token || null;
 }
 
 export async function setAuthCookie(token: string) {

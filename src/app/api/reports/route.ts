@@ -5,7 +5,16 @@ import { SafetyReport } from '@/models/SafetyReport';
 
 export async function GET(req: NextRequest) {
   try {
-    const token = req.cookies.get('auth-token')?.value;
+    // Try to get token from cookies first, then from Authorization header
+    let token = req.cookies.get('auth-token')?.value;
+    
+    if (!token) {
+      const authHeader = req.headers.get('authorization');
+      if (authHeader?.startsWith('Bearer ')) {
+        token = authHeader.substring(7);
+      }
+    }
+
     if (!token) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }

@@ -121,7 +121,7 @@ export interface IAECase extends Document {
   
   // Reporter Information
   reporter: {
-    type: 'Physician' | 'Pharmacist' | 'Patient' | 'Other Healthcare Provider' | 'Non-Professional';
+    type: 'Physician' | 'Pharmacist' | 'Patient' | 'Other Healthcare Provider' | 'Non-Professional' | 'Clinical Investigator' | 'Other';
     name: string;
     qualification?: string;
     institution?: string;
@@ -129,6 +129,8 @@ export interface IAECase extends Document {
     country: string;
     phone?: string;
     email?: string;
+    sourceChannel?: string;
+    sourceDocument?: string;
   };
   
   // Geographic & Administrative
@@ -246,6 +248,11 @@ const aeCaseSchema = new Schema<IAECase>(
       additionalNotes: { type: String },
     },
     reporter: {
+      type: {
+        type: String,
+        enum: ['Physician', 'Pharmacist', 'Patient', 'Other Healthcare Provider', 'Non-Professional', 'Clinical Investigator', 'Other'],
+        default: 'Physician',
+      },
       title: { type: String },
       name: { type: String, required: true },
       qualification: { type: String, required: true },
@@ -254,6 +261,8 @@ const aeCaseSchema = new Schema<IAECase>(
       country: { type: String },
       phone: { type: String },
       email: { type: String },
+      sourceChannel: { type: String },
+      sourceDocument: { type: String },
       reporterCausality: { type: String },
     },
     assessment: {

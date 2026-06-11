@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { verifyToken } from '@/lib/auth';
+import { verifyToken, getTokenFromRequest } from '@/lib/auth';
 import { dbConnect } from '@/lib/db';
 import { AECase } from '@/models/AECase';
 
@@ -32,16 +32,7 @@ function normalizeSeriousnessCriteria(seriousness?: string) {
 
 export async function GET(req: NextRequest) {
   try {
-    // Try to get token from cookies first, then from Authorization header
-    let token = req.cookies.get('auth-token')?.value;
-    
-    if (!token) {
-      const authHeader = req.headers.get('authorization');
-      if (authHeader?.startsWith('Bearer ')) {
-        token = authHeader.substring(7);
-      }
-    }
-
+    const token = getTokenFromRequest(req);
     if (!token) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -127,7 +118,7 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const token = req.cookies.get('auth-token')?.value;
+    const token = getTokenFromRequest(req);
     if (!token) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -148,13 +139,13 @@ export async function POST(req: NextRequest) {
       caseId,
       createdBy: payload.userId,
       administration: {
-        receiptDate: data.receiptDate || new Date(),
-        caseClassification: data.caseClassification || 'Spontaneous',
-        reportType: data.reportType || 'Initial',
-        primaryReporterType: data.primaryReporterType || 'Physician',
-        countryOfOccurrence: data.countryOfOccurrence || 'USA',
-        awarenessDate: data.awarenessDate || new Date(),
-        isPregnancyCase: data.isPregnancyCase || false,
+        receiptDate: data.administration?.receiptDate || data.receiptDate || new Date(),
+        caseClassification: data.administration?.caseClassification || data.caseClassification || 'Spontaneous',
+        reportType: data.administration?.reportType || 'Initial',
+        primaryReporterType: data.administration?.primaryReporterType || data.primaryReporterType || 'Physician',
+        countryOfOccurrence: data.administration?.countryOfOccurrence || data.countryOfOccurrence || 'USA',
+        awarenessDate: data.administration?.awarenessDate || data.awarenessDate || new Date(),
+        isPregnancyCase: data.administration?.isPregnancyCase || data.isPregnancyCase || false,
       },
       patient: {
         initials: data.patient?.initials || 'N/A',

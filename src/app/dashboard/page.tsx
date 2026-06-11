@@ -2,226 +2,174 @@
 
 import { useState } from 'react';
 import ArgusLayout from '@/components/ArgusLayout';
-import SectionHeader from '@/components/SectionHeader';
 
-// Sample data - loaded by default, not dependent on database
+// Safety Database Key Metrics
 const SAMPLE_STATS = {
-  newCases: 5,
-  openCases: 12,
-  reviewCases: 3,
-  lockedCases: 8,
-  closedCases: 45,
-  totalMTD: 73,
+  totalCases: 73,
+  complianceRate: 96,
+  seriousEvents: 8,
   overdueReports: 1,
-  seriousCases: 8,
+  onTrack: 65,
+  escalated: 2,
 };
 
-const SAMPLE_ACTION_ITEMS = [
-  { caseId: 'ARG-001', action: 'Medical Review', dueDate: '20-JAN-2024', priority: 'HIGH', status: '🔴 CRITICAL' },
-  { caseId: 'ARG-002', action: 'QC Review', dueDate: '22-JAN-2024', priority: 'MEDIUM', status: '🟡 URGENT' },
-  { caseId: 'ARG-004', action: 'Submit Report', dueDate: '25-JAN-2024', priority: 'HIGH', status: '🔴 CRITICAL' },
-];
-
-const SAMPLE_REPORTS = [
-  { caseId: 'ARG-001', reportType: '7-day (CDSCO)', daysLeft: 0, authority: 'CDSCO', status: 'OVERDUE ⚠️' },
-  { caseId: 'ARG-003', reportType: '15-day (EMA)', daysLeft: 2, authority: 'EMA', status: 'DUE SOON 🟡' },
-  { caseId: 'ARG-007', reportType: '7-day (FDA)', daysLeft: 5, authority: 'FDA', status: 'ON TRACK 🟢' },
+const PRIORITY_ITEMS = [
+  { caseId: 'ARG-001', action: 'Medical Review - Serious SAE', dueDate: '20-JUN-2026', priority: 'CRITICAL', authority: 'CDSCO' },
+  { caseId: 'ARG-004', action: '7-Day Report Submission', dueDate: '22-JUN-2026', priority: 'HIGH', authority: 'FDA' },
+  { caseId: 'ARG-003', action: 'Case Review & Coding', dueDate: '25-JUN-2026', priority: 'HIGH', authority: 'EMA' },
 ];
 
 export default function DashboardPage() {
   const [stats] = useState(SAMPLE_STATS);
-  const [actionItems] = useState(SAMPLE_ACTION_ITEMS);
-  const [reportsDueSoon] = useState(SAMPLE_REPORTS);
-  const [searchCaseId, setSearchCaseId] = useState('');
+
 
   return (
     <ArgusLayout>
-      <div className="bg-gray-50 min-h-screen p-8">
-        <div className="max-w-7xl mx-auto space-y-8">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-6 md:p-8">
+        <div className="max-w-7xl mx-auto">
           
-          {/* HEADER */}
-          <div className="flex justify-between items-center">
-            <div>
-              <h1 className="text-28 font-bold text-argus-navy mb-1">Personal Argus Status Dashboard</h1>
-              <p className="text-12 text-gray-600">Welcome back. Here's your safety operations overview.</p>
-            </div>
-            <button className="px-6 py-3 bg-gradient-to-r from-argus-blue to-argus-light text-white font-bold rounded-lg hover:shadow-lg transition-all transform hover:scale-105">
-              🔄 Refresh Data
-            </button>
+          {/* PAGE HEADER */}
+          <div className="mb-8">
+            <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2">
+              Firstpharmajob Safety Database
+            </h1>
+            <p className="text-slate-600 font-medium">
+              Pharmacovigilance Management & Regulatory Compliance
+            </p>
           </div>
 
-          {/* KEY METRICS - 4 CARDS IN CLEAN GRID */}
-          <div className="grid grid-cols-4 gap-6">
-            {/* Metric 1 */}
-            <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-all border-l-4 border-argus-blue p-6">
-              <div className="flex justify-between items-start mb-4">
-                <div>
-                  <p className="text-11 text-gray-500 font-semibold uppercase tracking-wide">Total Cases</p>
-                  <p className="text-36 font-bold text-argus-blue mt-3">{stats.totalMTD}</p>
-                  <p className="text-10 text-gray-400 mt-2">Month to Date</p>
-                </div>
+          {/* KPI CARDS - CLEAN GRID */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+            {/* Card 1: Total Cases */}
+            <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6 hover:shadow-md transition-shadow">
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-sm font-semibold text-slate-600 uppercase tracking-wide">Total Cases</span>
+                <span className="text-2xl">📋</span>
               </div>
-              <div className="h-1 bg-gradient-to-r from-argus-blue to-transparent rounded"></div>
+              <p className="text-3xl font-bold text-slate-900 mb-2">{stats.totalCases}</p>
+              <p className="text-xs text-slate-500">Month to Date</p>
             </div>
 
-            {/* Metric 2 */}
-            <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-all border-l-4 border-red-500 p-6">
-              <div className="flex justify-between items-start mb-4">
-                <div>
-                  <p className="text-11 text-red-600 font-semibold uppercase tracking-wide">Serious Cases</p>
-                  <p className="text-36 font-bold text-red-600 mt-3">{stats.seriousCases}</p>
-                  <p className="text-10 text-red-400 mt-2">Expedited Reports</p>
-                </div>
+            {/* Card 2: Compliance Rate */}
+            <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6 hover:shadow-md transition-shadow">
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-sm font-semibold text-slate-600 uppercase tracking-wide">Compliance Rate</span>
+                <span className="text-2xl">✅</span>
               </div>
-              <div className="h-1 bg-gradient-to-r from-red-500 to-transparent rounded"></div>
+              <p className="text-3xl font-bold text-emerald-600 mb-2">{stats.complianceRate}%</p>
+              <p className="text-xs text-slate-500">SLA Adherence</p>
             </div>
 
-            {/* Metric 3 */}
-            <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-all border-l-4 border-yellow-500 p-6">
-              <div className="flex justify-between items-start mb-4">
-                <div>
-                  <p className="text-11 text-yellow-700 font-semibold uppercase tracking-wide">Reports Due</p>
-                  <p className="text-36 font-bold text-yellow-600 mt-3">{reportsDueSoon.length}</p>
-                  <p className="text-10 text-yellow-500 mt-2">Next 7 Days</p>
-                </div>
+            {/* Card 3: Serious Events */}
+            <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6 hover:shadow-md transition-shadow">
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-sm font-semibold text-slate-600 uppercase tracking-wide">Serious Events</span>
+                <span className="text-2xl">⚠️</span>
               </div>
-              <div className="h-1 bg-gradient-to-r from-yellow-500 to-transparent rounded"></div>
+              <p className="text-3xl font-bold text-amber-600 mb-2">{stats.seriousEvents}</p>
+              <p className="text-xs text-slate-500">Expedited Reports Required</p>
             </div>
 
-            {/* Metric 4 */}
-            <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-all border-l-4 border-orange-600 p-6">
-              <div className="flex justify-between items-start mb-4">
-                <div>
-                  <p className="text-11 text-orange-700 font-semibold uppercase tracking-wide">Overdue</p>
-                  <p className="text-36 font-bold text-orange-600 mt-3">{stats.overdueReports}</p>
-                  <p className="text-10 text-orange-500 mt-2">Immediate Action</p>
-                </div>
+            {/* Card 4: Overdue Actions */}
+            <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6 hover:shadow-md transition-shadow">
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-sm font-semibold text-slate-600 uppercase tracking-wide">Overdue</span>
+                <span className="text-2xl">🔴</span>
               </div>
-              <div className="h-1 bg-gradient-to-r from-orange-600 to-transparent rounded"></div>
+              <p className="text-3xl font-bold text-red-600 mb-2">{stats.overdueReports}</p>
+              <p className="text-xs text-slate-500">Requires Attention</p>
             </div>
           </div>
 
-          {/* TWO-COLUMN LAYOUT */}
-          <div className="grid grid-cols-3 gap-6">
+          {/* MAIN CONTENT GRID */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
             
-            {/* LEFT COLUMN - WIDER (2 cols) */}
-            <div className="col-span-2 space-y-6">
-              
-              {/* MY WORKLIST */}
-              <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-                <div className="bg-gradient-to-r from-argus-blue to-argus-light px-6 py-4">
-                  <h2 className="text-13 font-bold text-white uppercase tracking-wider">📋 My Worklist</h2>
+            {/* LEFT: Priority Actions (2 cols) */}
+            <div className="lg:col-span-2 bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
+              <div className="bg-slate-900 px-6 py-4 border-b border-slate-800">
+                <h2 className="text-lg font-bold text-white flex items-center gap-2">
+                  ⚡ Priority Actions
+                </h2>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="bg-slate-50 border-b border-slate-200">
+                      <th className="px-6 py-3 text-left font-semibold text-slate-700">Case ID</th>
+                      <th className="px-6 py-3 text-left font-semibold text-slate-700">Action</th>
+                      <th className="px-6 py-3 text-left font-semibold text-slate-700">Authority</th>
+                      <th className="px-6 py-3 text-left font-semibold text-slate-700">Due Date</th>
+                      <th className="px-6 py-3 text-center font-semibold text-slate-700">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-200">
+                    {PRIORITY_ITEMS.map((item, idx) => (
+                      <tr key={idx} className="hover:bg-slate-50 transition-colors">
+                        <td className="px-6 py-4">
+                          <a href={`/dashboard/cases/${item.caseId}`} className="font-semibold text-blue-600 hover:text-blue-700">
+                            {item.caseId}
+                          </a>
+                        </td>
+                        <td className="px-6 py-4 text-slate-700">{item.action}</td>
+                        <td className="px-6 py-4 text-slate-700">{item.authority}</td>
+                        <td className="px-6 py-4 font-medium text-slate-900">{item.dueDate}</td>
+                        <td className="px-6 py-4 text-center">
+                          <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                            item.priority === 'CRITICAL' ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-700'
+                          }`}>
+                            {item.priority}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* RIGHT: Quick Stats */}
+            <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+              <h2 className="text-lg font-bold text-slate-900 mb-6">Metrics Summary</h2>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between py-3 border-b border-slate-200">
+                  <span className="text-slate-600">On Track</span>
+                  <span className="text-2xl font-bold text-emerald-600">{stats.onTrack}</span>
                 </div>
-                <div className="p-6">
-                  <div className="grid grid-cols-5 gap-4">
-                    <div className="text-center p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg">
-                      <p className="text-11 text-gray-600 font-semibold mb-2">New Cases</p>
-                      <p className="text-28 font-bold text-argus-blue">{stats.newCases}</p>
+                <div className="flex items-center justify-between py-3 border-b border-slate-200">
+                  <span className="text-slate-600">Escalated</span>
+                  <span className="text-2xl font-bold text-amber-600">{stats.escalated}</span>
+                </div>
+                <div className="flex items-center justify-between py-3">
+                  <span className="text-slate-600">Compliance</span>
+                  <div className="flex items-center gap-2">
+                    <div className="w-24 h-2 bg-slate-200 rounded-full overflow-hidden">
+                      <div className="h-full bg-emerald-600" style={{width: `${stats.complianceRate}%`}}></div>
                     </div>
-                    <div className="text-center p-4 bg-gradient-to-br from-cyan-50 to-cyan-100 rounded-lg">
-                      <p className="text-11 text-gray-600 font-semibold mb-2">Open Cases</p>
-                      <p className="text-28 font-bold text-cyan-600">{stats.openCases}</p>
-                    </div>
-                    <div className="text-center p-4 bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-lg">
-                      <p className="text-11 text-gray-600 font-semibold mb-2">Under Review</p>
-                      <p className="text-28 font-bold text-indigo-600">{stats.reviewCases}</p>
-                    </div>
-                    <div className="text-center p-4 bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg">
-                      <p className="text-11 text-gray-600 font-semibold mb-2">Locked</p>
-                      <p className="text-28 font-bold text-purple-600">{stats.lockedCases}</p>
-                    </div>
-                    <div className="text-center p-4 bg-gradient-to-br from-green-50 to-green-100 rounded-lg">
-                      <p className="text-11 text-gray-600 font-semibold mb-2">Closed</p>
-                      <p className="text-28 font-bold text-green-600">{stats.closedCases}</p>
-                    </div>
+                    <span className="text-sm font-bold text-slate-900">{stats.complianceRate}%</span>
                   </div>
                 </div>
               </div>
 
-              {/* HIGH PRIORITY ACTIONS TABLE */}
-              <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-                <div className="bg-gradient-to-r from-orange-600 to-orange-500 px-6 py-4">
-                  <h2 className="text-13 font-bold text-white uppercase tracking-wider">⚡ High Priority Actions</h2>
-                </div>
-                <div className="overflow-x-auto">
-                  <table className="w-full">
-                    <thead>
-                      <tr className="bg-orange-50 border-b border-orange-200">
-                        <th className="px-6 py-3 text-left text-11 font-bold text-gray-700 uppercase tracking-wider">Case ID</th>
-                        <th className="px-6 py-3 text-left text-11 font-bold text-gray-700 uppercase tracking-wider">Action Required</th>
-                        <th className="px-6 py-3 text-left text-11 font-bold text-gray-700 uppercase tracking-wider">Due Date</th>
-                        <th className="px-6 py-3 text-left text-11 font-bold text-gray-700 uppercase tracking-wider">Status</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-orange-100">
-                      {actionItems.map((item, idx) => (
-                        <tr key={idx} className="hover:bg-orange-50 transition-colors">
-                          <td className="px-6 py-4">
-                            <a href={`/dashboard/cases/${item.caseId}`} className="text-argus-blue font-bold hover:text-argus-light">
-                              {item.caseId}
-                            </a>
-                          </td>
-                          <td className="px-6 py-4 text-11 font-medium text-gray-700">{item.action}</td>
-                          <td className="px-6 py-4 text-11 font-bold text-red-600">{item.dueDate}</td>
-                          <td className="px-6 py-4 text-11 font-bold">{item.status}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-
-            {/* RIGHT COLUMN - NARROW (1 col) */}
-            <div className="space-y-6">
-              
-              {/* EXPEDITED REPORTS */}
-              <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-                <div className="bg-gradient-to-r from-red-600 to-red-500 px-6 py-4">
-                  <h2 className="text-13 font-bold text-white uppercase tracking-wider">⏰ Expedited Reports</h2>
-                </div>
-                <div className="p-6 space-y-4">
-                  {reportsDueSoon.map((item, idx) => (
-                    <div key={idx} className="p-4 border-l-4 border-red-500 bg-red-50 rounded-lg hover:bg-red-100 transition-colors">
-                      <div className="mb-2">
-                        <a href={`/dashboard/cases/${item.caseId}`} className="text-argus-blue font-bold hover:text-argus-light text-12">
-                          {item.caseId}
-                        </a>
-                      </div>
-                      <p className="text-10 text-red-700 font-medium mb-3 leading-snug">{item.reportType}</p>
-                      <div className="space-y-2">
-                        <div className="flex items-start gap-2">
-                          <span className="text-9 font-bold text-gray-700 whitespace-nowrap">Status:</span>
-                          <span className="text-9 font-bold text-red-600 text-right flex-1">{item.status}</span>
-                        </div>
-                        <div className="flex items-center justify-between pt-2 border-t border-red-200">
-                          <span className="text-11 font-bold text-red-600">{item.daysLeft} days left</span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* QUICK ACTIONS */}
-              <div className="bg-white rounded-lg shadow-sm p-6 border-t-4 border-argus-blue">
-                <h2 className="text-13 font-bold text-argus-navy uppercase tracking-wider mb-6">🚀 Quick Actions</h2>
-                <div className="space-y-3">
-                  <a href="/dashboard/cases/new" className="block px-4 py-3 bg-green-600 text-white font-bold text-11 rounded-lg hover:bg-green-700 transition-all text-center">
+              <div className="mt-8 pt-6 border-t border-slate-200">
+                <h3 className="text-sm font-semibold text-slate-700 mb-4 uppercase tracking-wide">Quick Actions</h3>
+                <div className="space-y-2">
+                  <a href="/dashboard/cases/new" className="block w-full px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors text-center text-sm">
                     + New Case
                   </a>
-                  <a href="/dashboard/cases" className="block px-4 py-3 bg-argus-blue text-white font-bold text-11 rounded-lg hover:bg-argus-light transition-all text-center">
+                  <a href="/dashboard/cases" className="block w-full px-4 py-2 bg-slate-600 text-white font-medium rounded-lg hover:bg-slate-700 transition-colors text-center text-sm">
                     🔍 Search Cases
                   </a>
-                  <a href="/dashboard/reports/expedited" className="block px-4 py-3 bg-red-600 text-white font-bold text-11 rounded-lg hover:bg-red-700 transition-all text-center">
+                  <a href="/dashboard/reports/expedited" className="block w-full px-4 py-2 bg-amber-600 text-white font-medium rounded-lg hover:bg-amber-700 transition-colors text-center text-sm">
                     📊 Reports
-                  </a>
-                  <a href="/dashboard/meddra" className="block px-4 py-3 bg-purple-600 text-white font-bold text-11 rounded-lg hover:bg-purple-700 transition-all text-center">
-                    💊 MedDRA
                   </a>
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* FOOTER INFO */}
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center text-sm text-blue-900">
+            <p>💡 <strong>Pro Tip:</strong> All cases are automatically synced with MongoDB. Use the case search to filter and manage your safety database efficiently.</p>
           </div>
 
         </div>
@@ -229,3 +177,4 @@ export default function DashboardPage() {
     </ArgusLayout>
   );
 }
+

@@ -18,12 +18,12 @@ export default function ArgusNavbar() {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '80px', paddingLeft: '32px', paddingRight: '32px' }}>
           {/* Left: Logo */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <div style={{ width: '40px', height: '40px', background: 'linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
-              <span style={{ color: 'white', fontWeight: 'bold', fontSize: '16px' }}>A</span>
+            <div style={{ width: '40px', height: '40px', background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
+              <span style={{ color: 'white', fontWeight: 'bold', fontSize: '16px' }}>F</span>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <span style={{ fontWeight: 'bold', fontSize: '16px', color: '#111827' }}>Argus</span>
-              <span style={{ fontSize: '10px', color: '#6B7280', marginTop: '-2px' }}>Safety Training</span>
+              <span style={{ fontWeight: 'bold', fontSize: '16px', color: '#111827' }}>Firstpharmajob</span>
+              <span style={{ fontSize: '10px', color: '#6B7280', marginTop: '-2px' }}>Safety Database</span>
             </div>
           </div>
 

@@ -4,7 +4,7 @@
   "installCommand": "npm install",
   "framework": "nextjs",
   "env": {
-    "MONGODB_URI": "mongodb+srv://firstpharmajob_db_user:<db_password>@cluster0.q0hgd3v.mongodb.net/?appName=Cluster0",
+    "MONGODB_URI": "mongodb+srv://firstpharmajob_db_user:Vinay%401997@cluster0.q0hgd3v.mongodb.net/argus-pv?appName=Cluster0",
     "JWT_SECRET": "argus-safety-jwt-secret-production-key",
     "NODE_ENV": "production",
     "SEED_PASSWORD": "dev-seed-key"

@@ -1,0 +1,668 @@
+﻿ M .next/BUILD_ID
+ M .next/build-manifest.json
+ M .next/dev/build-manifest.json
+ M .next/dev/cache/turbopack/2275bd85/CURRENT
+ M .next/dev/cache/turbopack/2275bd85/LOG
+ M .next/dev/fallback-build-manifest.json
+ D .next/dev/lock
+ M .next/dev/prerender-manifest.json
+ M .next/dev/server/app-paths-manifest.json
+ M .next/dev/server/app/dashboard/cases/page_client-reference-manifest.js
+ M .next/dev/server/middleware-build-manifest.js
+ M .next/dev/server/pages-manifest.json
+ M .next/dev/static/chunks/Desktop_Argus_src_app_dashboard_cases_page_tsx_0szqfiz._.js
+ M .next/dev/static/chunks/Desktop_Argus_src_app_globals_0-cuwep.css
+ M .next/dev/static/chunks/Desktop_Argus_src_app_globals_0-cuwep.css.map
+ M .next/dev/static/development/_buildManifest.js
+ M .next/dev/trace
+ M .next/diagnostics/route-bundle-stats.json
+ M .next/fallback-build-manifest.json
+ M .next/required-server-files.js
+ M .next/required-server-files.json
+ M .next/server/app/_global-error.html
+ M .next/server/app/_global-error.rsc
+ M .next/server/app/_global-error.segments/__PAGE__.segment.rsc
+ M .next/server/app/_global-error.segments/_full.segment.rsc
+ M .next/server/app/_global-error.segments/_head.segment.rsc
+ M .next/server/app/_global-error.segments/_index.segment.rsc
+ M .next/server/app/_global-error.segments/_tree.segment.rsc
+ M .next/server/app/_global-error/page.js
+ M .next/server/app/_global-error/page.js.nft.json
+ M .next/server/app/_global-error/page/build-manifest.json
+ M .next/server/app/_global-error/page_client-reference-manifest.js
+ M .next/server/app/_not-found.html
+ M .next/server/app/_not-found.rsc
+ M .next/server/app/_not-found.segments/_full.segment.rsc
+ M .next/server/app/_not-found.segments/_head.segment.rsc
+ M .next/server/app/_not-found.segments/_index.segment.rsc
+ M .next/server/app/_not-found.segments/_not-found.segment.rsc
+ M .next/server/app/_not-found.segments/_not-found/__PAGE__.segment.rsc
+ M .next/server/app/_not-found.segments/_tree.segment.rsc
+ M .next/server/app/_not-found/page.js
+ M .next/server/app/_not-found/page.js.nft.json
+ M .next/server/app/_not-found/page/build-manifest.json
+ M .next/server/app/_not-found/page_client-reference-manifest.js
+ M .next/server/app/api/admin/seed/route.js
+ M .next/server/app/api/admin/seed/route.js.nft.json
+ M .next/server/app/api/auth/login/route.js
+ M .next/server/app/api/auth/login/route.js.nft.json
+ M .next/server/app/api/auth/logout/route.js
+ M .next/server/app/api/auth/logout/route.js.nft.json
+ M .next/server/app/api/auth/me/route.js
+ M .next/server/app/api/auth/me/route.js.nft.json
+ M .next/server/app/api/auth/register/route.js
+ M .next/server/app/api/auth/register/route.js.nft.json
+ M .next/server/app/api/cases/[id]/assign/route.js
+ M .next/server/app/api/cases/[id]/assign/route.js.nft.json
+ M .next/server/app/api/cases/[id]/lock/route.js
+ M .next/server/app/api/cases/[id]/lock/route.js.nft.json
+ M .next/server/app/api/cases/[id]/route.js
+ M .next/server/app/api/cases/[id]/route.js.nft.json
+ M .next/server/app/api/cases/[id]/unlock/route.js
+ M .next/server/app/api/cases/[id]/unlock/route.js.nft.json
+ M .next/server/app/api/cases/route.js
+ M .next/server/app/api/cases/route.js.nft.json
+ M .next/server/app/api/reports/[id]/route.js
+ M .next/server/app/api/reports/[id]/route.js.nft.json
+ M .next/server/app/api/reports/route.js
+ M .next/server/app/api/reports/route.js.nft.json
+ M .next/server/app/api/users/[id]/route.js
+ M .next/server/app/api/users/[id]/route.js.nft.json
+ M .next/server/app/api/users/route.js
+ M .next/server/app/api/users/route.js.nft.json
+ M .next/server/app/dashboard.html
+ M .next/server/app/dashboard.rsc
+ M .next/server/app/dashboard.segments/_full.segment.rsc
+ M .next/server/app/dashboard.segments/_head.segment.rsc
+ M .next/server/app/dashboard.segments/_index.segment.rsc
+ M .next/server/app/dashboard.segments/_tree.segment.rsc
+ M .next/server/app/dashboard.segments/dashboard.segment.rsc
+ M .next/server/app/dashboard.segments/dashboard/__PAGE__.segment.rsc
+ M .next/server/app/dashboard/admin/users.html
+ M .next/server/app/dashboard/admin/users.rsc
+ M .next/server/app/dashboard/admin/users.segments/_full.segment.rsc
+ M .next/server/app/dashboard/admin/users.segments/_head.segment.rsc
+ M .next/server/app/dashboard/admin/users.segments/_index.segment.rsc
+ M .next/server/app/dashboard/admin/users.segments/_tree.segment.rsc
+ M .next/server/app/dashboard/admin/users.segments/dashboard.segment.rsc
+ M .next/server/app/dashboard/admin/users.segments/dashboard/admin.segment.rsc
+ M .next/server/app/dashboard/admin/users.segments/dashboard/admin/users.segment.rsc
+ M .next/server/app/dashboard/admin/users.segments/dashboard/admin/users/__PAGE__.segment.rsc
+ M .next/server/app/dashboard/admin/users/page.js
+ M .next/server/app/dashboard/admin/users/page.js.nft.json
+ M .next/server/app/dashboard/admin/users/page/build-manifest.json
+ M .next/server/app/dashboard/admin/users/page_client-reference-manifest.js
+ M .next/server/app/dashboard/assessment.html
+ M .next/server/app/dashboard/assessment.rsc
+ M .next/server/app/dashboard/assessment.segments/_full.segment.rsc
+ M .next/server/app/dashboard/assessment.segments/_head.segment.rsc
+ M .next/server/app/dashboard/assessment.segments/_index.segment.rsc
+ M .next/server/app/dashboard/assessment.segments/_tree.segment.rsc
+ M .next/server/app/dashboard/assessment.segments/dashboard.segment.rsc
+ M .next/server/app/dashboard/assessment.segments/dashboard/assessment.segment.rsc
+ M .next/server/app/dashboard/assessment.segments/dashboard/assessment/__PAGE__.segment.rsc
+ M .next/server/app/dashboard/assessment/page.js
+ M .next/server/app/dashboard/assessment/page.js.nft.json
+ M .next/server/app/dashboard/assessment/page/build-manifest.json
+ M .next/server/app/dashboard/assessment/page_client-reference-manifest.js
+ M .next/server/app/dashboard/cases.html
+ M .next/server/app/dashboard/cases.rsc
+ M .next/server/app/dashboard/cases.segments/_full.segment.rsc
+ M .next/server/app/dashboard/cases.segments/_head.segment.rsc
+ M .next/server/app/dashboard/cases.segments/_index.segment.rsc
+ M .next/server/app/dashboard/cases.segments/_tree.segment.rsc
+ M .next/server/app/dashboard/cases.segments/dashboard.segment.rsc
+ M .next/server/app/dashboard/cases.segments/dashboard/cases.segment.rsc
+ M .next/server/app/dashboard/cases.segments/dashboard/cases/__PAGE__.segment.rsc
+ M .next/server/app/dashboard/cases/[id]/audit/page.js
+ M .next/server/app/dashboard/cases/[id]/audit/page.js.nft.json
+ M .next/server/app/dashboard/cases/[id]/audit/page/build-manifest.json
+ M .next/server/app/dashboard/cases/[id]/audit/page_client-reference-manifest.js
+ M .next/server/app/dashboard/cases/[id]/page.js
+ M .next/server/app/dashboard/cases/[id]/page.js.nft.json
+ M .next/server/app/dashboard/cases/[id]/page/build-manifest.json
+ M .next/server/app/dashboard/cases/[id]/page_client-reference-manifest.js
+ M .next/server/app/dashboard/cases/new.html
+ M .next/server/app/dashboard/cases/new.rsc
+ M .next/server/app/dashboard/cases/new.segments/_full.segment.rsc
+ M .next/server/app/dashboard/cases/new.segments/_head.segment.rsc
+ M .next/server/app/dashboard/cases/new.segments/_index.segment.rsc
+ M .next/server/app/dashboard/cases/new.segments/_tree.segment.rsc
+ M .next/server/app/dashboard/cases/new.segments/dashboard.segment.rsc
+ M .next/server/app/dashboard/cases/new.segments/dashboard/cases.segment.rsc
+ M .next/server/app/dashboard/cases/new.segments/dashboard/cases/new.segment.rsc
+ M .next/server/app/dashboard/cases/new.segments/dashboard/cases/new/__PAGE__.segment.rsc
+ M .next/server/app/dashboard/cases/new/page.js
+ M .next/server/app/dashboard/cases/new/page.js.nft.json
+ M .next/server/app/dashboard/cases/new/page/build-manifest.json
+ M .next/server/app/dashboard/cases/new/page_client-reference-manifest.js
+ M .next/server/app/dashboard/cases/page.js
+ M .next/server/app/dashboard/cases/page.js.nft.json
+ M .next/server/app/dashboard/cases/page/build-manifest.json
+ M .next/server/app/dashboard/cases/page_client-reference-manifest.js
+ M .next/server/app/dashboard/meddra.html
+ M .next/server/app/dashboard/meddra.rsc
+ M .next/server/app/dashboard/meddra.segments/_full.segment.rsc
+ M .next/server/app/dashboard/meddra.segments/_head.segment.rsc
+ M .next/server/app/dashboard/meddra.segments/_index.segment.rsc
+ M .next/server/app/dashboard/meddra.segments/_tree.segment.rsc
+ M .next/server/app/dashboard/meddra.segments/dashboard.segment.rsc
+ M .next/server/app/dashboard/meddra.segments/dashboard/meddra.segment.rsc
+ M .next/server/app/dashboard/meddra.segments/dashboard/meddra/__PAGE__.segment.rsc
+ M .next/server/app/dashboard/meddra/page.js
+ M .next/server/app/dashboard/meddra/page.js.nft.json
+ M .next/server/app/dashboard/meddra/page/build-manifest.json
+ M .next/server/app/dashboard/meddra/page_client-reference-manifest.js
+ M .next/server/app/dashboard/page.js
+ M .next/server/app/dashboard/page.js.nft.json
+ M .next/server/app/dashboard/page/build-manifest.json
+ M .next/server/app/dashboard/page_client-reference-manifest.js
+ M .next/server/app/dashboard/reports/expedited.html
+ M .next/server/app/dashboard/reports/expedited.rsc
+ M .next/server/app/dashboard/reports/expedited.segments/_full.segment.rsc
+ M .next/server/app/dashboard/reports/expedited.segments/_head.segment.rsc
+ M .next/server/app/dashboard/reports/expedited.segments/_index.segment.rsc
+ M .next/server/app/dashboard/reports/expedited.segments/_tree.segment.rsc
+ M .next/server/app/dashboard/reports/expedited.segments/dashboard.segment.rsc
+ M .next/server/app/dashboard/reports/expedited.segments/dashboard/reports.segment.rsc
+ M .next/server/app/dashboard/reports/expedited.segments/dashboard/reports/expedited.segment.rsc
+ M .next/server/app/dashboard/reports/expedited.segments/dashboard/reports/expedited/__PAGE__.segment.rsc
+ M .next/server/app/dashboard/reports/expedited/page.js
+ M .next/server/app/dashboard/reports/expedited/page.js.nft.json
+ M .next/server/app/dashboard/reports/expedited/page/build-manifest.json
+ M .next/server/app/dashboard/reports/expedited/page_client-reference-manifest.js
+ M .next/server/app/dashboard/reports/periodic.html
+ M .next/server/app/dashboard/reports/periodic.rsc
+ M .next/server/app/dashboard/reports/periodic.segments/_full.segment.rsc
+ M .next/server/app/dashboard/reports/periodic.segments/_head.segment.rsc
+ M .next/server/app/dashboard/reports/periodic.segments/_index.segment.rsc
+ M .next/server/app/dashboard/reports/periodic.segments/_tree.segment.rsc
+ M .next/server/app/dashboard/reports/periodic.segments/dashboard.segment.rsc
+ M .next/server/app/dashboard/reports/periodic.segments/dashboard/reports.segment.rsc
+ M .next/server/app/dashboard/reports/periodic.segments/dashboard/reports/periodic.segment.rsc
+ M .next/server/app/dashboard/reports/periodic.segments/dashboard/reports/periodic/__PAGE__.segment.rsc
+ M .next/server/app/dashboard/reports/periodic/page.js
+ M .next/server/app/dashboard/reports/periodic/page.js.nft.json
+ M .next/server/app/dashboard/reports/periodic/page/build-manifest.json
+ M .next/server/app/dashboard/reports/periodic/page_client-reference-manifest.js
+ M .next/server/app/dashboard/workflow.html
+ M .next/server/app/dashboard/workflow.rsc
+ M .next/server/app/dashboard/workflow.segments/_full.segment.rsc
+ M .next/server/app/dashboard/workflow.segments/_head.segment.rsc
+ M .next/server/app/dashboard/workflow.segments/_index.segment.rsc
+ M .next/server/app/dashboard/workflow.segments/_tree.segment.rsc
+ M .next/server/app/dashboard/workflow.segments/dashboard.segment.rsc
+ M .next/server/app/dashboard/workflow.segments/dashboard/workflow.segment.rsc
+ M .next/server/app/dashboard/workflow.segments/dashboard/workflow/__PAGE__.segment.rsc
+ M .next/server/app/dashboard/workflow/page.js
+ M .next/server/app/dashboard/workflow/page.js.nft.json
+ M .next/server/app/dashboard/workflow/page/build-manifest.json
+ M .next/server/app/dashboard/workflow/page_client-reference-manifest.js
+ M .next/server/app/index.html
+ M .next/server/app/index.rsc
+ M .next/server/app/index.segments/__PAGE__.segment.rsc
+ M .next/server/app/index.segments/_full.segment.rsc
+ M .next/server/app/index.segments/_head.segment.rsc
+ M .next/server/app/index.segments/_index.segment.rsc
+ M .next/server/app/index.segments/_tree.segment.rsc
+ M .next/server/app/login.html
+ M .next/server/app/login.rsc
+ M .next/server/app/login.segments/_full.segment.rsc
+ M .next/server/app/login.segments/_head.segment.rsc
+ M .next/server/app/login.segments/_index.segment.rsc
+ M .next/server/app/login.segments/_tree.segment.rsc
+ M .next/server/app/login.segments/login.segment.rsc
+ M .next/server/app/login.segments/login/__PAGE__.segment.rsc
+ M .next/server/app/login/page.js
+ M .next/server/app/login/page.js.nft.json
+ M .next/server/app/login/page/build-manifest.json
+ M .next/server/app/login/page_client-reference-manifest.js
+ M .next/server/app/page.js
+ M .next/server/app/page.js.nft.json
+ M .next/server/app/page/build-manifest.json
+ M .next/server/app/page_client-reference-manifest.js
+ M .next/server/app/register.html
+ M .next/server/app/register.rsc
+ M .next/server/app/register.segments/_full.segment.rsc
+ M .next/server/app/register.segments/_head.segment.rsc
+ M .next/server/app/register.segments/_index.segment.rsc
+ M .next/server/app/register.segments/_tree.segment.rsc
+ M .next/server/app/register.segments/register.segment.rsc
+ M .next/server/app/register.segments/register/__PAGE__.segment.rsc
+ M .next/server/app/register/page.js
+ M .next/server/app/register/page.js.nft.json
+ M .next/server/app/register/page/build-manifest.json
+ M .next/server/app/register/page_client-reference-manifest.js
+ D .next/server/chunks/002w__next-internal_server_app_api_admin_seed_route_actions_0ryi5y2.js
+ D .next/server/chunks/002w__next-internal_server_app_api_admin_seed_route_actions_0ryi5y2.js.map
+ D .next/server/chunks/002w__next-internal_server_app_api_auth_login_route_actions_0190rj3.js
+ D .next/server/chunks/002w__next-internal_server_app_api_auth_login_route_actions_0190rj3.js.map
+ D .next/server/chunks/002w__next-internal_server_app_api_auth_logout_route_actions_110hygl.js
+ D .next/server/chunks/002w__next-internal_server_app_api_auth_logout_route_actions_110hygl.js.map
+ D .next/server/chunks/002w__next-internal_server_app_api_auth_register_route_actions_0z0rdzi.js
+ D .next/server/chunks/002w__next-internal_server_app_api_auth_register_route_actions_0z0rdzi.js.map
+ D .next/server/chunks/002w__next-internal_server_app_api_cases_[id]_assign_route_actions_0ia6ytx.js
+ D .next/server/chunks/002w__next-internal_server_app_api_cases_[id]_assign_route_actions_0ia6ytx.js.map
+ D .next/server/chunks/002w__next-internal_server_app_api_cases_[id]_lock_route_actions_13-19kr.js
+ D .next/server/chunks/002w__next-internal_server_app_api_cases_[id]_lock_route_actions_13-19kr.js.map
+ D .next/server/chunks/002w__next-internal_server_app_api_cases_[id]_route_actions_0g0bns4.js
+ D .next/server/chunks/002w__next-internal_server_app_api_cases_[id]_route_actions_0g0bns4.js.map
+ D .next/server/chunks/002w__next-internal_server_app_api_cases_[id]_unlock_route_actions_0b5vwvz.js
+ D .next/server/chunks/002w__next-internal_server_app_api_cases_[id]_unlock_route_actions_0b5vwvz.js.map
+ D .next/server/chunks/002w__next-internal_server_app_api_reports_[id]_route_actions_0zjyol6.js
+ D .next/server/chunks/002w__next-internal_server_app_api_reports_[id]_route_actions_0zjyol6.js.map
+ D .next/server/chunks/002w__next-internal_server_app_api_users_[id]_route_actions_0n05skm.js
+ D .next/server/chunks/002w__next-internal_server_app_api_users_[id]_route_actions_0n05skm.js.map
+ D .next/server/chunks/0l2~_eploy-request-urgent__next-internal_server_app_api_auth_me_route_actions_067gcej.js
+ D .next/server/chunks/0l2~_eploy-request-urgent__next-internal_server_app_api_auth_me_route_actions_067gcej.js.map
+ D .next/server/chunks/0l2~_eploy-request-urgent__next-internal_server_app_api_reports_route_actions_0ww2_gb.js
+ D .next/server/chunks/0l2~_eploy-request-urgent__next-internal_server_app_api_reports_route_actions_0ww2_gb.js.map
+ D .next/server/chunks/0mxv_-deploy-request-urgent__next-internal_server_app_api_cases_route_actions_0r1m1~j.js
+ D .next/server/chunks/0mxv_-deploy-request-urgent__next-internal_server_app_api_cases_route_actions_0r1m1~j.js.map
+ D .next/server/chunks/0mxv_-deploy-request-urgent__next-internal_server_app_api_users_route_actions_0myief6.js
+ D .next/server/chunks/0mxv_-deploy-request-urgent__next-internal_server_app_api_users_route_actions_0myief6.js.map
+ D .next/server/chunks/[root-of-the-server]__03eh_s1._.js
+ D .next/server/chunks/[root-of-the-server]__03eh_s1._.js.map
+ D .next/server/chunks/[root-of-the-server]__03gliqc._.js
+ D .next/server/chunks/[root-of-the-server]__03gliqc._.js.map
+ D .next/server/chunks/[root-of-the-server]__04kjc-v._.js
+ D .next/server/chunks/[root-of-the-server]__04kjc-v._.js.map
+ D .next/server/chunks/[root-of-the-server]__05m81x7._.js
+ D .next/server/chunks/[root-of-the-server]__05m81x7._.js.map
+ D .next/server/chunks/[root-of-the-server]__07iegx0._.js
+ D .next/server/chunks/[root-of-the-server]__07iegx0._.js.map
+ D .next/server/chunks/[root-of-the-server]__08ydz_y._.js
+ D .next/server/chunks/[root-of-the-server]__08ydz_y._.js.map
+ D .next/server/chunks/[root-of-the-server]__0ckn9.m._.js
+ D .next/server/chunks/[root-of-the-server]__0ckn9.m._.js.map
+ D .next/server/chunks/[root-of-the-server]__0e1113t._.js
+ D .next/server/chunks/[root-of-the-server]__0e1113t._.js.map
+ D .next/server/chunks/[root-of-the-server]__0fdk5h3._.js
+ D .next/server/chunks/[root-of-the-server]__0fdk5h3._.js.map
+ D .next/server/chunks/[root-of-the-server]__0ki~8jl._.js
+ D .next/server/chunks/[root-of-the-server]__0ki~8jl._.js.map
+ D .next/server/chunks/[root-of-the-server]__0ln-cba._.js
+ D .next/server/chunks/[root-of-the-server]__0ln-cba._.js.map
+ D .next/server/chunks/[root-of-the-server]__0rbzm2b._.js
+ D .next/server/chunks/[root-of-the-server]__0rbzm2b._.js.map
+ D .next/server/chunks/[root-of-the-server]__0t1z40x._.js
+ D .next/server/chunks/[root-of-the-server]__0t1z40x._.js.map
+ D .next/server/chunks/[root-of-the-server]__0y~vs0w._.js
+ D .next/server/chunks/[root-of-the-server]__0y~vs0w._.js.map
+ D .next/server/chunks/[root-of-the-server]__0z9tsxy._.js
+ D .next/server/chunks/[root-of-the-server]__0z9tsxy._.js.map
+ D .next/server/chunks/[root-of-the-server]__11c2lsh._.js
+ D .next/server/chunks/[root-of-the-server]__11c2lsh._.js.map
+ D .next/server/chunks/[root-of-the-server]__1237ed-._.js
+ D .next/server/chunks/[root-of-the-server]__1237ed-._.js.map
+ D .next/server/chunks/[root-of-the-server]__12tlo7m._.js
+ D .next/server/chunks/[root-of-the-server]__12tlo7m._.js.map
+ M .next/server/chunks/[turbopack]_runtime.js
+ D .next/server/chunks/ssr/002w__next-internal_server_app__global-error_page_actions_02v-na-.js
+ D .next/server/chunks/ssr/002w__next-internal_server_app__global-error_page_actions_02v-na-.js.map
+ D .next/server/chunks/ssr/002w__next-internal_server_app_dashboard_admin_users_page_actions_0te206..js
+ D .next/server/chunks/ssr/002w__next-internal_server_app_dashboard_admin_users_page_actions_0te206..js.map
+ D .next/server/chunks/ssr/002w__next-internal_server_app_dashboard_assessment_page_actions_0cfze9a.js
+ D .next/server/chunks/ssr/002w__next-internal_server_app_dashboard_assessment_page_actions_0cfze9a.js.map
+ D .next/server/chunks/ssr/002w__next-internal_server_app_dashboard_cases_[id]_audit_page_actions_084hg~_.js
+ D .next/server/chunks/ssr/002w__next-internal_server_app_dashboard_cases_[id]_audit_page_actions_084hg~_.js.map
+ D .next/server/chunks/ssr/002w__next-internal_server_app_dashboard_cases_[id]_page_actions_0iuc.~..js
+ D .next/server/chunks/ssr/002w__next-internal_server_app_dashboard_cases_[id]_page_actions_0iuc.~..js.map
+ D .next/server/chunks/ssr/002w__next-internal_server_app_dashboard_cases_new_page_actions_02tntq..js
+ D .next/server/chunks/ssr/002w__next-internal_server_app_dashboard_cases_new_page_actions_02tntq..js.map
+ D .next/server/chunks/ssr/002w__next-internal_server_app_dashboard_cases_page_actions_0xalgyg.js
+ D .next/server/chunks/ssr/002w__next-internal_server_app_dashboard_cases_page_actions_0xalgyg.js.map
+ D .next/server/chunks/ssr/002w__next-internal_server_app_dashboard_meddra_page_actions_0a5ovu5.js
+ D .next/server/chunks/ssr/002w__next-internal_server_app_dashboard_meddra_page_actions_0a5ovu5.js.map
+ D .next/server/chunks/ssr/002w__next-internal_server_app_dashboard_reports_expedited_page_actions_0g401ww.js
+ D .next/server/chunks/ssr/002w__next-internal_server_app_dashboard_reports_expedited_page_actions_0g401ww.js.map
+ D .next/server/chunks/ssr/002w__next-internal_server_app_dashboard_reports_periodic_page_actions_07e..2e.js
+ D .next/server/chunks/ssr/002w__next-internal_server_app_dashboard_reports_periodic_page_actions_07e..2e.js.map
+ D .next/server/chunks/ssr/002w__next-internal_server_app_dashboard_workflow_page_actions_0qupmhi.js
+ D .next/server/chunks/ssr/002w__next-internal_server_app_dashboard_workflow_page_actions_0qupmhi.js.map
+ D .next/server/chunks/ssr/00~h_ts-deploy-request-urgent__next-internal_server_app_register_page_actions_0iiw_oo.js
+ D .next/server/chunks/ssr/00~h_ts-deploy-request-urgent__next-internal_server_app_register_page_actions_0iiw_oo.js.map
+ D .next/server/chunks/ssr/04_n_agents-deploy-request-urgent__next-internal_server_app_page_actions_0ny3dy1.js
+ D .next/server/chunks/ssr/04_n_agents-deploy-request-urgent__next-internal_server_app_page_actions_0ny3dy1.js.map
+ D .next/server/chunks/ssr/04_n_agents-deploy-request-urgent_src_app_dashboard_cases_[id]_page_tsx_0wdw82t._.js
+ D .next/server/chunks/ssr/04_n_agents-deploy-request-urgent_src_app_dashboard_cases_[id]_page_tsx_0wdw82t._.js.map
+ D .next/server/chunks/ssr/04_n_agents-deploy-request-urgent_src_app_dashboard_cases_new_page_tsx_0u.qn1_._.js
+ D .next/server/chunks/ssr/04_n_agents-deploy-request-urgent_src_app_dashboard_cases_new_page_tsx_0u.qn1_._.js.map
+ D .next/server/chunks/ssr/0dfu_gents-deploy-request-urgent__next-internal_server_app_login_page_actions_0.apb~~.js
+ D .next/server/chunks/ssr/0dfu_gents-deploy-request-urgent__next-internal_server_app_login_page_actions_0.apb~~.js.map
+ D .next/server/chunks/ssr/0i36_02kwjsy._.js
+ D .next/server/chunks/ssr/0i36_02kwjsy._.js.map
+ D .next/server/chunks/ssr/0i36_next_0.esnfy._.js
+ D .next/server/chunks/ssr/0i36_next_0.esnfy._.js.map
+ D .next/server/chunks/ssr/0i36_next_dist_0h~muyi._.js
+ D .next/server/chunks/ssr/0i36_next_dist_0h~muyi._.js.map
+ D .next/server/chunks/ssr/0i36_next_dist_0xh7rod._.js
+ D .next/server/chunks/ssr/0i36_next_dist_0xh7rod._.js.map
+ D .next/server/chunks/ssr/0i36_next_dist_client_components_0i38jjx._.js
+ D .next/server/chunks/ssr/0i36_next_dist_client_components_0i38jjx._.js.map
+ D .next/server/chunks/ssr/0i36_next_dist_client_components_builtin_forbidden_0o7lg42.js
+ D .next/server/chunks/ssr/0i36_next_dist_client_components_builtin_forbidden_0o7lg42.js.map
+ D .next/server/chunks/ssr/0i36_next_dist_client_components_builtin_global-error_0rerg~-.js
+ D .next/server/chunks/ssr/0i36_next_dist_client_components_builtin_global-error_0rerg~-.js.map
+ D .next/server/chunks/ssr/0i36_next_dist_client_components_builtin_unauthorized_0gdk2jv.js
+ D .next/server/chunks/ssr/0i36_next_dist_client_components_builtin_unauthorized_0gdk2jv.js.map
+ D .next/server/chunks/ssr/0i36_next_dist_esm_build_templates_app-page_0.mp_a6.js
+ D .next/server/chunks/ssr/0i36_next_dist_esm_build_templates_app-page_0.mp_a6.js.map
+ D .next/server/chunks/ssr/0i36_next_dist_esm_build_templates_app-page_04wru.n.js
+ D .next/server/chunks/ssr/0i36_next_dist_esm_build_templates_app-page_04wru.n.js.map
+ D .next/server/chunks/ssr/0i36_next_dist_esm_build_templates_app-page_04xdj1t.js
+ D .next/server/chunks/ssr/0i36_next_dist_esm_build_templates_app-page_04xdj1t.js.map
+ D .next/server/chunks/ssr/0i36_next_dist_esm_build_templates_app-page_08d_i8y.js
+ D .next/server/chunks/ssr/0i36_next_dist_esm_build_templates_app-page_08d_i8y.js.map
+ D .next/server/chunks/ssr/0i36_next_dist_esm_build_templates_app-page_0dkw6mu.js
+ D .next/server/chunks/ssr/0i36_next_dist_esm_build_templates_app-page_0dkw6mu.js.map
+ D .next/server/chunks/ssr/0i36_next_dist_esm_build_templates_app-page_0fbu4pe.js
+ D .next/server/chunks/ssr/0i36_next_dist_esm_build_templates_app-page_0fbu4pe.js.map
+ D .next/server/chunks/ssr/0i36_next_dist_esm_build_templates_app-page_0i40qmb.js
+ D .next/server/chunks/ssr/0i36_next_dist_esm_build_templates_app-page_0i40qmb.js.map
+ D .next/server/chunks/ssr/0i36_next_dist_esm_build_templates_app-page_0m1xdpo.js
+ D .next/server/chunks/ssr/0i36_next_dist_esm_build_templates_app-page_0m1xdpo.js.map
+ D .next/server/chunks/ssr/0i36_next_dist_esm_build_templates_app-page_0o5b~7g.js
+ D .next/server/chunks/ssr/0i36_next_dist_esm_build_templates_app-page_0o5b~7g.js.map
+ D .next/server/chunks/ssr/0i36_next_dist_esm_build_templates_app-page_0oo-idb.js
+ D .next/server/chunks/ssr/0i36_next_dist_esm_build_templates_app-page_0oo-idb.js.map
+ D .next/server/chunks/ssr/0i36_next_dist_esm_build_templates_app-page_0qg~lrm.js
+ D .next/server/chunks/ssr/0i36_next_dist_esm_build_templates_app-page_0qg~lrm.js.map
+ D .next/server/chunks/ssr/0i36_next_dist_esm_build_templates_app-page_0us91iq.js
+ D .next/server/chunks/ssr/0i36_next_dist_esm_build_templates_app-page_0us91iq.js.map
+ D .next/server/chunks/ssr/0i36_next_dist_esm_build_templates_app-page_0wjhip~.js
+ D .next/server/chunks/ssr/0i36_next_dist_esm_build_templates_app-page_0wjhip~.js.map
+ D .next/server/chunks/ssr/0i36_next_dist_esm_build_templates_app-page_0y.kw.0.js
+ D .next/server/chunks/ssr/0i36_next_dist_esm_build_templates_app-page_0y.kw.0.js.map
+ D .next/server/chunks/ssr/0i36_next_dist_esm_build_templates_app-page_0ya7yr6.js
+ D .next/server/chunks/ssr/0i36_next_dist_esm_build_templates_app-page_0ya7yr6.js.map
+ D .next/server/chunks/ssr/0i36_next_dist_esm_build_templates_app-page_12unhep.js
+ D .next/server/chunks/ssr/0i36_next_dist_esm_build_templates_app-page_12unhep.js.map
+ D .next/server/chunks/ssr/0mxv_-deploy-request-urgent__next-internal_server_app__not-found_page_actions_10bq8._.js
+ D .next/server/chunks/ssr/0mxv_-deploy-request-urgent__next-internal_server_app__not-found_page_actions_10bq8._.js.map
+ D .next/server/chunks/ssr/0~fp_s-deploy-request-urgent__next-internal_server_app_dashboard_page_actions_0518pyo.js
+ D .next/server/chunks/ssr/0~fp_s-deploy-request-urgent__next-internal_server_app_dashboard_page_actions_0518pyo.js.map
+ D .next/server/chunks/ssr/11_6_worktrees_agents-deploy-request-urgent_src_app_dashboard_layout_tsx_05kkbzq._.js
+ D .next/server/chunks/ssr/11_6_worktrees_agents-deploy-request-urgent_src_app_dashboard_layout_tsx_05kkbzq._.js.map
+ D .next/server/chunks/ssr/Desktop_Argus_worktrees_agents-deploy-request-urgent_0i_2jem._.js
+ D .next/server/chunks/ssr/Desktop_Argus_worktrees_agents-deploy-request-urgent_0i_2jem._.js.map
+ D .next/server/chunks/ssr/Desktop_Argus_worktrees_agents-deploy-request-urgent_0iz7yp1._.js
+ D .next/server/chunks/ssr/Desktop_Argus_worktrees_agents-deploy-request-urgent_0iz7yp1._.js.map
+ D .next/server/chunks/ssr/Desktop_Argus_worktrees_agents-deploy-request-urgent_0kuwk-u._.js
+ D .next/server/chunks/ssr/Desktop_Argus_worktrees_agents-deploy-request-urgent_0kuwk-u._.js.map
+ D .next/server/chunks/ssr/Desktop_Argus_worktrees_agents-deploy-request-urgent_0~0v~rc._.js
+ D .next/server/chunks/ssr/Desktop_Argus_worktrees_agents-deploy-request-urgent_0~0v~rc._.js.map
+ D .next/server/chunks/ssr/Desktop_Argus_worktrees_agents-deploy-request-urgent_src_0b-4rgm._.js
+ D .next/server/chunks/ssr/Desktop_Argus_worktrees_agents-deploy-request-urgent_src_0b-4rgm._.js.map
+ D .next/server/chunks/ssr/Desktop_Argus_worktrees_agents-deploy-request-urgent_src_0bra2xq._.js
+ D .next/server/chunks/ssr/Desktop_Argus_worktrees_agents-deploy-request-urgent_src_0bra2xq._.js.map
+ D .next/server/chunks/ssr/Desktop_Argus_worktrees_agents-deploy-request-urgent_src_0cmvro9._.js
+ D .next/server/chunks/ssr/Desktop_Argus_worktrees_agents-deploy-request-urgent_src_0cmvro9._.js.map
+ D .next/server/chunks/ssr/Desktop_Argus_worktrees_agents-deploy-request-urgent_src_0dpbzqb._.js
+ D .next/server/chunks/ssr/Desktop_Argus_worktrees_agents-deploy-request-urgent_src_0dpbzqb._.js.map
+ D .next/server/chunks/ssr/Desktop_Argus_worktrees_agents-deploy-request-urgent_src_0fq~6ik._.js
+ D .next/server/chunks/ssr/Desktop_Argus_worktrees_agents-deploy-request-urgent_src_0fq~6ik._.js.map
+ D .next/server/chunks/ssr/Desktop_Argus_worktrees_agents-deploy-request-urgent_src_0qnh_wn._.js
+ D .next/server/chunks/ssr/Desktop_Argus_worktrees_agents-deploy-request-urgent_src_0qnh_wn._.js.map
+ D .next/server/chunks/ssr/Desktop_Argus_worktrees_agents-deploy-request-urgent_src_0te4v8u._.js
+ D .next/server/chunks/ssr/Desktop_Argus_worktrees_agents-deploy-request-urgent_src_0te4v8u._.js.map
+ D .next/server/chunks/ssr/Desktop_Argus_worktrees_agents-deploy-request-urgent_src_0w2aog0._.js
+ D .next/server/chunks/ssr/Desktop_Argus_worktrees_agents-deploy-request-urgent_src_0w2aog0._.js.map
+ D .next/server/chunks/ssr/Desktop_Argus_worktrees_agents-deploy-request-urgent_src_0w8axzp._.js
+ D .next/server/chunks/ssr/Desktop_Argus_worktrees_agents-deploy-request-urgent_src_0w8axzp._.js.map
+ D .next/server/chunks/ssr/Desktop_Argus_worktrees_agents-deploy-request-urgent_src_0ykytx8._.js
+ D .next/server/chunks/ssr/Desktop_Argus_worktrees_agents-deploy-request-urgent_src_0ykytx8._.js.map
+ D .next/server/chunks/ssr/Desktop_Argus_worktrees_agents-deploy-request-urgent_src_app_layout_tsx_0-l-03_._.js
+ D .next/server/chunks/ssr/Desktop_Argus_worktrees_agents-deploy-request-urgent_src_app_layout_tsx_0-l-03_._.js.map
+ D .next/server/chunks/ssr/Desktop_Argus_worktrees_agents-deploy-request-urgent_src_components_05ktpox._.js
+ D .next/server/chunks/ssr/Desktop_Argus_worktrees_agents-deploy-request-urgent_src_components_05ktpox._.js.map
+ D .next/server/chunks/ssr/[root-of-the-server]__0268snw._.js
+ D .next/server/chunks/ssr/[root-of-the-server]__0268snw._.js.map
+ D .next/server/chunks/ssr/[root-of-the-server]__03cfp-n._.js
+ D .next/server/chunks/ssr/[root-of-the-server]__03cfp-n._.js.map
+ D .next/server/chunks/ssr/[root-of-the-server]__04d_ssk._.js
+ D .next/server/chunks/ssr/[root-of-the-server]__04d_ssk._.js.map
+ D .next/server/chunks/ssr/[root-of-the-server]__06dwl6k._.js
+ D .next/server/chunks/ssr/[root-of-the-server]__06dwl6k._.js.map
+ D .next/server/chunks/ssr/[root-of-the-server]__09~udud._.js
+ D .next/server/chunks/ssr/[root-of-the-server]__09~udud._.js.map
+ D .next/server/chunks/ssr/[root-of-the-server]__0aj4io2._.js
+ D .next/server/chunks/ssr/[root-of-the-server]__0aj4io2._.js.map
+ D .next/server/chunks/ssr/[root-of-the-server]__0amefi2._.js
+ D .next/server/chunks/ssr/[root-of-the-server]__0amefi2._.js.map
+ D .next/server/chunks/ssr/[root-of-the-server]__0ezse2h._.js
+ D .next/server/chunks/ssr/[root-of-the-server]__0ezse2h._.js.map
+ D .next/server/chunks/ssr/[root-of-the-server]__0fc6pon._.js
+ D .next/server/chunks/ssr/[root-of-the-server]__0fc6pon._.js.map
+ D .next/server/chunks/ssr/[root-of-the-server]__0hk1gwn._.js
+ D .next/server/chunks/ssr/[root-of-the-server]__0hk1gwn._.js.map
+ D .next/server/chunks/ssr/[root-of-the-server]__0lh-_yn._.js
+ D .next/server/chunks/ssr/[root-of-the-server]__0lh-_yn._.js.map
+ D .next/server/chunks/ssr/[root-of-the-server]__0o7oxx3._.js
+ D .next/server/chunks/ssr/[root-of-the-server]__0o7oxx3._.js.map
+ D .next/server/chunks/ssr/[root-of-the-server]__0obh6~a._.js
+ D .next/server/chunks/ssr/[root-of-the-server]__0obh6~a._.js.map
+ D .next/server/chunks/ssr/[root-of-the-server]__0r_db9~._.js
+ D .next/server/chunks/ssr/[root-of-the-server]__0r_db9~._.js.map
+ D .next/server/chunks/ssr/[root-of-the-server]__0t0a0rt._.js
+ D .next/server/chunks/ssr/[root-of-the-server]__0t0a0rt._.js.map
+ D .next/server/chunks/ssr/[root-of-the-server]__0u6~buc._.js
+ D .next/server/chunks/ssr/[root-of-the-server]__0u6~buc._.js.map
+ D .next/server/chunks/ssr/[root-of-the-server]__0vogb6v._.js
+ D .next/server/chunks/ssr/[root-of-the-server]__0vogb6v._.js.map
+ D .next/server/chunks/ssr/[root-of-the-server]__0xj4njo._.js
+ D .next/server/chunks/ssr/[root-of-the-server]__0xj4njo._.js.map
+ D .next/server/chunks/ssr/[root-of-the-server]__0z-76m1._.js
+ D .next/server/chunks/ssr/[root-of-the-server]__0z-76m1._.js.map
+ D .next/server/chunks/ssr/[root-of-the-server]__1100ga3._.js
+ D .next/server/chunks/ssr/[root-of-the-server]__1100ga3._.js.map
+ M .next/server/chunks/ssr/[turbopack]_runtime.js
+ M .next/server/middleware-build-manifest.js
+ M .next/server/pages/404.html
+ M .next/server/pages/500.html
+ D .next/static/chunks/0.we3hhzkciz..js
+ D .next/static/chunks/0.wez4m5ws4ka.js
+ D .next/static/chunks/01waso37c32ud.js
+ D .next/static/chunks/08bib8p4jydeo.js
+ D .next/static/chunks/0b-c-xx2hf7xm.js
+ D .next/static/chunks/0cixt..hnxn91.js
+ D .next/static/chunks/0fnok4ljae6ex.js
+ D .next/static/chunks/0foaw_493islm.js
+ D .next/static/chunks/0g34k_hiuqtnc.js
+ D .next/static/chunks/0hzocdsyvczhm.js
+ D .next/static/chunks/0ia8u~d02_x19.js
+ D .next/static/chunks/0jc-w0q97z3_f.js
+ D .next/static/chunks/0l2rz7efy-063.js
+ D .next/static/chunks/0qk3zsv69gctv.js
+ D .next/static/chunks/0qxr-hlzjw7_b.js
+ D .next/static/chunks/0sseh0se9.zl_.js
+ D .next/static/chunks/0wv-_n6fomn3j.js
+ D .next/static/chunks/0wyc874dpqz.n.js
+ D .next/static/chunks/0yiufv281qjhn.js
+ D .next/static/chunks/0z4~zm8hvj72d.css
+ D .next/static/chunks/0zc6jb0x12_t6.js
+ D .next/static/chunks/15wquif0wtsno.js
+ D .next/static/chunks/turbopack-0r3wir00x46i0.js
+ D .next/static/w2Z2181PlGoU8RARYQqMn/_buildManifest.js
+ D .next/static/w2Z2181PlGoU8RARYQqMn/_clientMiddlewareManifest.js
+ D .next/static/w2Z2181PlGoU8RARYQqMn/_ssgManifest.js
+ M .next/trace
+ M .next/trace-build
+ M next-env.d.ts
+ M src/app/api/cases/[id]/route.ts
+ M src/app/api/cases/route.ts
+ M src/app/dashboard/cases/[id]/page.tsx
+ M src/app/dashboard/cases/new/page.tsx
+?? git-check-utf8.txt
+?? git-check.txt
+?? git-review.txt
+---
+diff --git a/src/app/api/cases/[id]/route.ts b/src/app/api/cases/[id]/route.ts
+index bfb7419..510f1c6 100644
+--- a/src/app/api/cases/[id]/route.ts
++++ b/src/app/api/cases/[id]/route.ts
+@@ -5,7 +5,7 @@ import { AECase } from '@/models/AECase';
+ 
+ export async function GET(
+   req: NextRequest,
+-  { params }: { params: { id: string } }
++  { params }: { params: Promise<{ id: string }> }
+ ) {
+   try {
+     const token = req.cookies.get('auth-token')?.value;
+@@ -18,9 +18,15 @@ export async function GET(
+       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+     }
+ 
+-    await dbConnect();
++    const { id } = await params;
++    const db = await dbConnect();
+ 
+-    const aeCase = await AECase.findById(params.id);
++    let aeCase;
++    if (db && typeof db.getCaseById === 'function') {
++      aeCase = await db.getCaseById(id);
++    } else {
++      aeCase = await AECase.findById(id);
++    }
+ 
+     if (!aeCase) {
+       return NextResponse.json(
+@@ -41,7 +47,7 @@ export async function GET(
+ 
+ export async function PUT(
+   req: NextRequest,
+-  { params }: { params: { id: string } }
++  { params }: { params: Promise<{ id: string }> }
+ ) {
+   try {
+     const token = req.cookies.get('auth-token')?.value;
+@@ -54,9 +60,15 @@ export async function PUT(
+       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+     }
+ 
+-    await dbConnect();
++    const { id } = await params;
++    const db = await dbConnect();
+ 
+-    const aeCase = await AECase.findById(params.id);
++    let aeCase = null;
++    if (db && typeof db.getCaseById === 'function') {
++      aeCase = await db.getCaseById(id);
++    } else {
++      aeCase = await AECase.findById(id);
++    }
+ 
+     if (!aeCase) {
+       return NextResponse.json({ error: 'Case not found' }, { status: 404 });
+@@ -71,15 +83,27 @@ export async function PUT(
+ 
+     const data = await req.json();
+ 
+-    Object.assign(aeCase, data);
+-    aeCase.updatedBy = payload.userId;
+-    aeCase.auditTrail.push({
+-      action: 'Case Updated',
+-      performedBy: payload.userId,
+-      timestamp: new Date(),
+-      details: 'Case information updated',
+-    });
++    const updatedCase = {
++      ...aeCase,
++      ...data,
++      updatedBy: payload.userId,
++      auditTrail: [
++        ...(aeCase.auditTrail || []),
++        {
++          action: 'Case Updated',
++          performedBy: payload.userId,
++          timestamp: new Date(),
++          details: 'Case information updated',
++        },
++      ],
++    };
++
++    if (db && typeof db.updateCase === 'function') {
++      const saved = await db.updateCase(id, updatedCase);
++      return NextResponse.json(saved);
++    }
+ 
++    Object.assign(aeCase, updatedCase);
+     await aeCase.save();
+ 
+     return NextResponse.json(aeCase);
+@@ -94,7 +118,7 @@ export async function PUT(
+ 
+ export async function DELETE(
+   req: NextRequest,
+-  { params }: { params: { id: string } }
++  { params }: { params: Promise<{ id: string }> }
+ ) {
+   try {
+     const token = req.cookies.get('auth-token')?.value;
+@@ -111,9 +135,15 @@ export async function DELETE(
+       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+     }
+ 
+-    await dbConnect();
++    const { id } = await params;
++    const db = await dbConnect();
+ 
+-    const aeCase = await AECase.findByIdAndDelete(params.id);
++    let aeCase = null;
++    if (db && typeof db.deleteCase === 'function') {
++      aeCase = await db.deleteCase(id);
++    } else {
++      aeCase = await AECase.findByIdAndDelete(id);
++    }
+ 
+     if (!aeCase) {
+       return NextResponse.json({ error: 'Case not found' }, { status: 404 });
+diff --git a/src/app/api/cases/route.ts b/src/app/api/cases/route.ts
+index 1e654b8..2e20c09 100644
+--- a/src/app/api/cases/route.ts
++++ b/src/app/api/cases/route.ts
+@@ -11,6 +11,25 @@ function generateCaseId(): string {
+   return `CASE-${year}-${random}`;
+ }
+ 
++function normalizePatientSex(sex?: string): string {
++  if (!sex) return 'Unknown';
++  const normalized = sex.toString().trim().toLowerCase();
++  if (normalized === 'male' || normalized === 'm') return 'M';
++  if (normalized === 'female' || normalized === 'f') return 'F';
++  return 'Unknown';
++}
++
++function normalizeSeriousnessCriteria(seriousness?: string) {
++  const map: Record<string, string[]> = {
++    'Not Serious': [],
++    Serious: ['Other'],
++    'Serious - Death': ['Death'],
++    'Serious - Hospitalization': ['Hospitalized'],
++    'Serious - Disability': ['Disability'],
++  };
++  return seriousness ? map[seriousness] ?? [seriousness] : [];
++}
++
+ export async function GET(req: NextRequest) {
+   try {
+     // Try to get token from cookies first, then from Authorization header
+@@ -140,7 +159,7 @@ export async function POST(req: NextRequest) {
+       patient: {
+         initials: data.patient?.initials || 'N/A',
+         age: data.patient?.age || 0,
+-        sex: data.patient?.sex || 'Unknown',
++        sex: normalizePatientSex(data.patient?.sex),
+         medicalHistory: data.patient?.medicalHistory || '',
+       },
+       reaction: {
+@@ -149,7 +168,7 @@ export async function POST(req: NextRequest) {
+         meddraCode: data.reaction?.meddraCode || 'UNKNOWN',
+         meddraSoc: data.reaction?.meddraSoc || 'Unknown',
+         outcome: data.reaction?.outcome || 'Unknown',
+-        seriousnessCriteria: data.reaction?.seriousnessCriteria || [],
++        seriousnessCriteria: normalizeSeriousnessCriteria(data.reaction?.seriousness),
+       },
+       drug: {
+         tradeName: data.drug?.tradeName || data.products?.[0]?.productName || 'Unknown',

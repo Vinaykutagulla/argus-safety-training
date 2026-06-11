@@ -113,6 +113,12 @@
       "namedRegex": "^/api/admin/seed(?:/)?$"
     },
     {
+      "page": "/api/admin/seed-users",
+      "regex": "^/api/admin/seed\\-users(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/admin/seed\\-users(?:/)?$"
+    },
+    {
       "page": "/api/auth/login",
       "regex": "^/api/auth/login(?:/)?$",
       "routeKeys": {},

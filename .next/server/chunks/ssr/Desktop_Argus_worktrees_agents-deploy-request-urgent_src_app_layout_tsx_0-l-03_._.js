@@ -1,3 +1,0 @@
-module.exports=[34815,a=>{"use strict";var b=a.i(63260);a.s(["default",0,function({children:a}){return(0,b.jsx)("html",{lang:"en",children:(0,b.jsx)("body",{className:"bg-gray-50 text-gray-900",children:a})})},"metadata",0,{title:"Argus Safety Training Platform",description:"Pharmacovigilance training application"}])},96652,a=>{a.n(a.i(34815))}];
-
-//# sourceMappingURL=Desktop_Argus_worktrees_agents-deploy-request-urgent_src_app_layout_tsx_0-l-03_._.js.map

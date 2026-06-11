@@ -45,81 +45,88 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-argus-navy to-argus-blue flex items-center justify-center px-4 font-sans">
-      {/* Registration Card - Argus Style */}
-      <div className="w-full max-w-md bg-white border-2 border-argus-border shadow-2xl" style={{ boxShadow: '0 4px 12px rgba(26, 58, 92, 0.3)' }}>
+    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+      {/* Registration Card */}
+      <div style={{ width: '100%', maxWidth: '420px', backgroundColor: 'white', borderRadius: '16px', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)', overflow: 'hidden' }}>
         {/* Header Section */}
-        <div className="bg-argus-navy text-argus-text-header px-6 py-8 text-center">
-          <div className="text-14 font-bold mb-2">ARGUS SAFETY</div>
-          <div className="text-11 opacity-90 mb-4">Release 8.4</div>
-          <div className="text-10 opacity-75">Pharmacovigilance Management System</div>
-          <div className="text-10 opacity-75 mt-1">User Registration</div>
+        <div style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', color: 'white', padding: '40px 24px', textAlign: 'center' }}>
+          <div style={{ fontSize: '28px', fontWeight: 'bold', marginBottom: '8px' }}>💊 Firstpharmajob</div>
+          <div style={{ fontSize: '14px', opacity: 0.9, marginBottom: '8px' }}>Safety Database</div>
+          <div style={{ fontSize: '12px', opacity: 0.8 }}>Create Your Account</div>
         </div>
 
         {/* Registration Form */}
-        <form onSubmit={handleSubmit} className="px-6 py-6">
+        <form onSubmit={handleSubmit} style={{ padding: '32px 24px' }}>
           {/* Error Message */}
           {error && (
-            <div className="mb-4 p-3 bg-red-50 border border-red-300 text-red-700 text-11">
+            <div style={{ marginBottom: '16px', padding: '12px', backgroundColor: '#FEE2E2', border: '1px solid #FCA5A5', borderRadius: '8px', color: '#DC2626', fontSize: '13px', fontWeight: '500' }}>
               ❌ {error}
             </div>
           )}
 
           {/* Full Name Field */}
-          <div className="mb-4">
-            <label className="block text-11 font-bold text-argus-text-label mb-1">
-              Full Name:
+          <div style={{ marginBottom: '20px' }}>
+            <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', color: '#111827', marginBottom: '8px' }}>
+              Full Name
             </label>
             <input
               type="text"
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className="w-full px-2 py-2 text-11 border border-argus-border focus:border-argus-light focus:outline-none bg-white"
+              style={{ width: '100%', padding: '12px', fontSize: '14px', border: '1px solid #E5E7EB', borderRadius: '8px', outline: 'none', transition: 'all 0.2s', boxSizing: 'border-box' }}
+              onFocus={(e) => e.target.style.borderColor = '#1e293b'}
+              onBlur={(e) => e.target.style.borderColor = '#E5E7EB'}
+              placeholder="Enter your full name"
               required
             />
           </div>
 
           {/* Email Field */}
-          <div className="mb-4">
-            <label className="block text-11 font-bold text-argus-text-label mb-1">
-              Email Address:
+          <div style={{ marginBottom: '20px' }}>
+            <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', color: '#111827', marginBottom: '8px' }}>
+              Email Address
             </label>
             <input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full px-2 py-2 text-11 border border-argus-border focus:border-argus-light focus:outline-none bg-white"
+              style={{ width: '100%', padding: '12px', fontSize: '14px', border: '1px solid #E5E7EB', borderRadius: '8px', outline: 'none', transition: 'all 0.2s', boxSizing: 'border-box' }}
+              onFocus={(e) => e.target.style.borderColor = '#1e293b'}
+              onBlur={(e) => e.target.style.borderColor = '#E5E7EB'}
+              placeholder="your.email@company.com"
               required
             />
           </div>
 
           {/* Department Field */}
-          <div className="mb-4">
-            <label className="block text-11 font-bold text-argus-text-label mb-1">
-              Department:
+          <div style={{ marginBottom: '20px' }}>
+            <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', color: '#111827', marginBottom: '8px' }}>
+              Department
             </label>
             <input
               type="text"
               name="department"
               value={formData.department}
               onChange={handleChange}
-              placeholder="e.g., Pharmacovigilance, Medical Affairs"
-              className="w-full px-2 py-2 text-11 border border-argus-border focus:border-argus-light focus:outline-none bg-white"
+              style={{ width: '100%', padding: '12px', fontSize: '14px', border: '1px solid #E5E7EB', borderRadius: '8px', outline: 'none', transition: 'all 0.2s', boxSizing: 'border-box' }}
+              onFocus={(e) => e.target.style.borderColor = '#1e293b'}
+              onBlur={(e) => e.target.style.borderColor = '#E5E7EB'}
+              placeholder="e.g., Pharmacovigilance"
             />
           </div>
 
           {/* Role Field */}
-          <div className="mb-4">
-            <label className="block text-11 font-bold text-argus-text-label mb-1">
-              Role:
+          <div style={{ marginBottom: '20px' }}>
+            <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', color: '#111827', marginBottom: '8px' }}>
+              Role
             </label>
             <select
               name="role"
               value={formData.role}
               onChange={handleChange}
-              className="w-full px-2 py-2 text-11 border border-argus-border focus:border-argus-light focus:outline-none bg-white cursor-pointer"
+              style={{ width: '100%', padding: '12px', fontSize: '14px', border: '1px solid #E5E7EB', borderRadius: '8px', outline: 'none', cursor: 'pointer', boxSizing: 'border-box', backgroundColor: 'white' }}
             >
               <option value="analyst">Analyst</option>
               <option value="safety_officer">Safety Officer</option>
@@ -129,31 +136,37 @@ export default function RegisterPage() {
           </div>
 
           {/* Password Field */}
-          <div className="mb-4">
-            <label className="block text-11 font-bold text-argus-text-label mb-1">
-              Password:
+          <div style={{ marginBottom: '20px' }}>
+            <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', color: '#111827', marginBottom: '8px' }}>
+              Password
             </label>
             <input
               type="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className="w-full px-2 py-2 text-11 border border-argus-border focus:border-argus-light focus:outline-none bg-white"
+              style={{ width: '100%', padding: '12px', fontSize: '14px', border: '1px solid #E5E7EB', borderRadius: '8px', outline: 'none', transition: 'all 0.2s', boxSizing: 'border-box' }}
+              onFocus={(e) => e.target.style.borderColor = '#1e293b'}
+              onBlur={(e) => e.target.style.borderColor = '#E5E7EB'}
+              placeholder="Create a strong password"
               required
             />
           </div>
 
           {/* Confirm Password Field */}
-          <div className="mb-4">
-            <label className="block text-11 font-bold text-argus-text-label mb-1">
-              Confirm Password:
+          <div style={{ marginBottom: '28px' }}>
+            <label style={{ display: 'block', fontSize: '13px', fontWeight: '600', color: '#111827', marginBottom: '8px' }}>
+              Confirm Password
             </label>
             <input
               type="password"
               name="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleChange}
-              className="w-full px-2 py-2 text-11 border border-argus-border focus:border-argus-light focus:outline-none bg-white"
+              style={{ width: '100%', padding: '12px', fontSize: '14px', border: '1px solid #E5E7EB', borderRadius: '8px', outline: 'none', transition: 'all 0.2s', boxSizing: 'border-box' }}
+              onFocus={(e) => e.target.style.borderColor = '#1e293b'}
+              onBlur={(e) => e.target.style.borderColor = '#E5E7EB'}
+              placeholder="Re-enter your password"
               required
             />
           </div>
@@ -162,18 +175,20 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full px-3 py-2 bg-gradient-to-r from-argus-blue to-argus-light text-white hover:shadow-lg text-11 font-bold border-2 border-argus-navy rounded transition-all disabled:opacity-50 disabled:cursor-not-allowed mt-4"
+            style={{ width: '100%', padding: '12px', fontSize: '14px', fontWeight: '700', background: loading ? '#9CA3AF' : 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)', color: 'white', border: 'none', borderRadius: '8px', cursor: loading ? 'not-allowed' : 'pointer', transition: 'all 0.2s', boxShadow: '0 4px 6px rgba(15, 23, 42, 0.3)' }}
+            onMouseEnter={(e) => !loading && (e.currentTarget.style.boxShadow = '0 8px 12px rgba(15, 23, 42, 0.4)')}
+            onMouseLeave={(e) => !loading && (e.currentTarget.style.boxShadow = '0 4px 6px rgba(15, 23, 42, 0.3)')}
           >
-            {loading ? '⏳ Creating Account...' : '✓ Register'}
+            {loading ? '⏳ Creating Account...' : '✓ Create Account'}
           </button>
         </form>
 
         {/* Link to Login */}
-        <div className="border-t border-argus-border mt-4 pt-4 text-center">
-          <p className="text-11 text-argus-text-muted">
+        <div style={{ borderTop: '1px solid #E5E7EB', padding: '16px 24px', backgroundColor: '#F3F4F6', textAlign: 'center' }}>
+          <p style={{ fontSize: '13px', color: '#6B7280' }}>
             Already have an account?{' '}
-            <Link href="/login" className="text-argus-light font-bold hover:text-argus-blue underline">
-              Sign in here
+            <Link href="/login" style={{ color: '#1e293b', fontWeight: '600', textDecoration: 'none', cursor: 'pointer' }} onMouseEnter={(e) => e.currentTarget.style.textDecoration = 'underline'} onMouseLeave={(e) => e.currentTarget.style.textDecoration = 'none'}>
+              Sign in
             </Link>
           </p>
         </div>

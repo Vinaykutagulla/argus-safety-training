@@ -1,11 +1,10 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import ArgusLayout from '@/components/ArgusLayout';
 import { Button } from '@/components/Button';
 import IconPlus from '@/components/icons/Plus';
 
-// Sample data - loaded by default, not dependent on database
 const SAMPLE_STATS = {
   newCases: 5,
   openCases: 12,
@@ -39,164 +38,181 @@ export default function DashboardPage() {
     <ArgusLayout>
       <div className="min-h-screen bg-argus-bg p-4 sm:p-6 lg:p-8">
         <div className="mx-auto max-w-7xl space-y-6">
-          <div className="rounded-sm border border-argus-border bg-[color:var(--argus-classic-top)] p-4 text-argus-navy shadow-sm sm:p-6">
+          <section className="rounded-sm border border-argus-border bg-[color:var(--argus-classic-top)] p-4 text-argus-navy shadow-sm sm:p-6">
             <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-wider text-white/80">Safety operations center</p>
-                <h1 className="mt-2 text-3xl font-bold sm:text-4xl">Argus Dashboard</h1>
-                <p className="mt-3 max-w-2xl text-sm text-white/90 sm:text-base">
-                  Monitor active cases, critical follow-ups, and report deadlines in one clear view.
+                <p className="text-xs font-semibold uppercase tracking-wider text-slate-600">Personal Argus Status</p>
+                <h1 className="mt-2 text-3xl font-bold sm:text-4xl">Welcome to Argus Safety</h1>
+                <p className="mt-3 max-w-2xl text-sm text-slate-700 sm:text-base">
+                  Your personal operational dashboard for case review, report tracking, and workflow follow-up.
                 </p>
               </div>
-              <div className="rounded-2xl border border-white/20 bg-white/10 px-4 py-3">
-                <p className="text-[11px] uppercase tracking-[0.3em] text-slate-300">Priority focus</p>
-                <p className="mt-1 text-lg font-semibold">3 urgent items</p>
+              <div className="rounded-2xl border border-white/20 bg-white/90 px-4 py-3 shadow-sm">
+                <p className="text-[11px] uppercase tracking-[0.3em] text-slate-500">Today</p>
+                <p className="mt-1 text-lg font-semibold">2 cases assigned</p>
               </div>
             </div>
-          </div>
+          </section>
 
           <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-            <div className="rounded-xl border border-argus-border bg-argus-bg-panel p-6 shadow-sm transition hover:shadow-md">
-              <div className="bg-[color:var(--argus-classic-tab)] px-3 py-2 text-xs font-semibold">TOTAL CASES</div>
+            <div className="rounded-xl border border-argus-border bg-argus-bg-panel p-6 shadow-sm">
+              <div className="bg-[color:var(--argus-classic-tab)] px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em]">Total Cases</div>
               <div className="p-3">
                 <p className="text-3xl font-bold text-argus-blue">{stats.totalMTD}</p>
-                <p className="text-sm text-gray-600">Month to date</p>
+                <p className="text-sm text-slate-600">Month to date</p>
               </div>
             </div>
-
-            <div className="rounded-xl border border-argus-border bg-argus-bg-panel p-6 shadow-sm transition hover:shadow-md">
-              <div className="bg-[color:var(--argus-classic-tab)] px-3 py-2 text-xs font-semibold">SERIOUS CASES</div>
+            <div className="rounded-xl border border-argus-border bg-argus-bg-panel p-6 shadow-sm">
+              <div className="bg-[color:var(--argus-classic-tab)] px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em]">Serious Cases</div>
               <div className="p-3">
                 <p className="text-3xl font-bold text-red-600">{stats.seriousCases}</p>
-                <p className="text-sm text-gray-600">Expedited reports</p>
+                <p className="text-sm text-slate-600">Expedited reports</p>
               </div>
             </div>
-
-            <div className="rounded-xl border border-argus-border bg-argus-bg-panel p-6 shadow-sm transition hover:shadow-md">
-              <div className="bg-[color:var(--argus-classic-tab)] px-3 py-2 text-xs font-semibold">REPORTS DUE</div>
+            <div className="rounded-xl border border-argus-border bg-argus-bg-panel p-6 shadow-sm">
+              <div className="bg-[color:var(--argus-classic-tab)] px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em]">Reports Due</div>
               <div className="p-3">
                 <p className="text-3xl font-bold text-amber-600">{reportsDueSoon.length}</p>
-                <p className="text-sm text-gray-600">Next 7 days</p>
+                <p className="text-sm text-slate-600">Next 7 days</p>
               </div>
             </div>
-
-            <div className="rounded-xl border border-argus-border bg-argus-bg-panel p-6 shadow-sm transition hover:shadow-md">
-              <div className="bg-[color:var(--argus-classic-tab)] px-3 py-2 text-xs font-semibold">OVERDUE</div>
+            <div className="rounded-xl border border-argus-border bg-argus-bg-panel p-6 shadow-sm">
+              <div className="bg-[color:var(--argus-classic-tab)] px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em]">Overdue</div>
               <div className="p-3">
                 <p className="text-3xl font-bold text-orange-600">{stats.overdueReports}</p>
-                <p className="text-sm text-gray-600">Immediate action</p>
+                <p className="text-sm text-slate-600">Immediate action</p>
               </div>
             </div>
           </div>
 
-          {/* TWO-COLUMN LAYOUT */}
           <div className="grid grid-cols-3 gap-6">
-            
-            {/* LEFT COLUMN - WIDER (2 cols) */}
             <div className="col-span-2 space-y-6">
-              
-              {/* MY WORKLIST */}
-              <div className="overflow-hidden rounded-xl border border-argus-border bg-argus-bg-panel shadow-sm">
-                <div className="px-6 py-4 bg-gradient-to-r from-argus-blue to-argus-light">
-                  <h2 className="text-sm font-bold uppercase tracking-wider text-white">📋 My Worklist</h2>
+              <section className="overflow-hidden rounded-xl border border-argus-border bg-argus-bg-panel shadow-sm">
+                <div className="px-6 py-4 bg-[color:var(--argus-classic-bar)]">
+                  <h2 className="text-sm font-bold uppercase tracking-[0.2em] text-slate-900">Case Quick Launch</h2>
                 </div>
-                <div className="p-6">
-                  <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
-                    <div className="rounded-xl bg-blue-50 p-4 text-center">
-                      <p className="text-[11px] font-semibold text-slate-600">New Cases</p>
-                      <p className="mt-2 text-2xl font-bold text-argus-blue">{stats.newCases}</p>
+                <div className="p-6 space-y-6">
+                  <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+                    <div>
+                      <p className="text-sm font-semibold text-slate-700">Search case by number</p>
+                      <p className="text-xs text-slate-500">Launch your investigation fast.</p>
                     </div>
-                    <div className="rounded-xl bg-cyan-50 p-4 text-center">
-                      <p className="text-[11px] font-semibold text-slate-600">Open Cases</p>
-                      <p className="mt-2 text-2xl font-bold text-cyan-600">{stats.openCases}</p>
+                    <div className="flex flex-col gap-3 sm:flex-row">
+                      <input
+                        type="text"
+                        value={searchCaseId}
+                        onChange={(e) => setSearchCaseId(e.target.value)}
+                        placeholder="Enter case ID"
+                        className="w-full max-w-md rounded-sm border border-argus-border bg-white px-3 py-2 text-sm text-argus-text-primary focus:border-argus-blue focus:outline-none"
+                      />
+                      <button className="rounded-sm bg-[color:var(--argus-classic-tab)] px-4 py-2 text-sm font-semibold text-argus-navy border border-argus-border hover:bg-[color:var(--argus-classic-top)]">
+                        Search
+                      </button>
                     </div>
-                    <div className="rounded-xl bg-indigo-50 p-4 text-center">
-                      <p className="text-[11px] font-semibold text-slate-600">Under Review</p>
-                      <p className="mt-2 text-2xl font-bold text-indigo-600">{stats.reviewCases}</p>
+                  </div>
+
+                  <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+                    <div className="rounded-sm bg-[color:var(--argus-classic-top)] p-4">
+                      <p className="text-[10px] uppercase tracking-[0.25em] text-slate-600">Assigned Cases</p>
+                      <p className="mt-2 text-3xl font-bold text-argus-blue">2</p>
                     </div>
-                    <div className="rounded-xl bg-purple-50 p-4 text-center">
-                      <p className="text-[11px] font-semibold text-slate-600">Locked</p>
-                      <p className="mt-2 text-2xl font-bold text-purple-600">{stats.lockedCases}</p>
+                    <div className="rounded-sm bg-[color:var(--argus-classic-top)] p-4">
+                      <p className="text-[10px] uppercase tracking-[0.25em] text-slate-600">Contact Logs</p>
+                      <p className="mt-2 text-3xl font-bold text-argus-blue">2</p>
                     </div>
-                    <div className="rounded-xl bg-green-50 p-4 text-center">
-                      <p className="text-[11px] font-semibold text-slate-600">Closed</p>
-                      <p className="mt-2 text-2xl font-bold text-green-600">{stats.closedCases}</p>
+                    <div className="rounded-sm bg-[color:var(--argus-classic-top)] p-4">
+                      <p className="text-[10px] uppercase tracking-[0.25em] text-slate-600">Action Items</p>
+                      <p className="mt-2 text-3xl font-bold text-argus-blue">0</p>
+                    </div>
+                    <div className="rounded-sm bg-[color:var(--argus-classic-top)] p-4">
+                      <p className="text-[10px] uppercase tracking-[0.25em] text-slate-600">Overdue</p>
+                      <p className="mt-2 text-3xl font-bold text-orange-600">1</p>
                     </div>
                   </div>
                 </div>
-              </div>
+              </section>
 
-              <div className="overflow-hidden rounded-xl border border-argus-border bg-argus-bg-panel shadow-sm">
-                <div className="px-6 py-4 bg-gradient-to-r from-orange-600 to-orange-500">
-                  <h2 className="text-sm font-bold uppercase tracking-wider text-white">⚡ High Priority Actions</h2>
+              <section className="overflow-hidden rounded-xl border border-argus-border bg-argus-bg-panel shadow-sm">
+                <div className="px-6 py-4 bg-[color:var(--argus-classic-bar)]">
+                  <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-slate-900">Cases Assigned</h3>
                 </div>
-                <div className="overflow-x-auto">
-                  <table className="w-full">
+                <div className="overflow-x-auto p-6">
+                  <table className="min-w-full border-collapse text-sm">
                     <thead>
-                              <tr className="border-b border-orange-100 bg-orange-50">
-                              <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-[0.2em] text-slate-700">Case ID</th>
-                              <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-[0.2em] text-slate-700">Action Required</th>
-                              <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-[0.2em] text-slate-700">Due Date</th>
-                              <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-[0.2em] text-slate-700">Status</th>
-                              <th className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-[0.2em] text-slate-700">Action</th>
-                            </tr>
+                      <tr className="border-b border-argus-border bg-[color:var(--argus-classic-top)] text-left uppercase tracking-[0.15em] text-slate-700">
+                        <th className="px-4 py-3">Country / Case Number</th>
+                        <th className="px-4 py-3">Report Type</th>
+                        <th className="px-4 py-3">Product</th>
+                        <th className="px-4 py-3">Workflow Status</th>
+                        <th className="px-4 py-3">Event</th>
+                      </tr>
                     </thead>
-                    <tbody className="divide-y divide-orange-100">
-                      {actionItems.map((item, idx) => (
-                        <tr key={idx} className="transition hover:bg-orange-50">
-                          <td className="px-6 py-4">
-                            <a href={`/dashboard/cases/${item.caseId}`} className="font-bold text-argus-blue hover:text-argus-light">
-                              {item.caseId}
-                            </a>
-                          </td>
-                          <td className="px-6 py-4 text-sm font-medium text-slate-700">{item.action}</td>
-                          <td className="px-6 py-4 text-sm font-bold text-red-600">{item.dueDate}</td>
-                          <td className="px-6 py-4 text-sm font-bold text-slate-700">{item.status}</td>
-                          <td className="px-4 py-4">
-                            <a href={`/dashboard/cases/${item.caseId}`} className="inline-flex">
-                              <button className="inline-flex items-center px-2 py-1 text-xs bg-white border rounded-sm hover:bg-[color:var(--argus-classic-tab)]">
-                                <svg className="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-                                  <path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
-                                Open
-                              </button>
-                            </a>
-                          </td>
-                        </tr>
-                      ))}
+                    <tbody>
+                      <tr className="border-b border-argus-border hover:bg-argus-bg-row-alt">
+                        <td className="px-4 py-3 text-argus-blue font-semibold"><a href="/dashboard/cases/ARG-001" className="hover:underline">(GB) ARG-001</a></td>
+                        <td className="px-4 py-3">Sponsored Trial</td>
+                        <td className="px-4 py-3">ABC</td>
+                        <td className="px-4 py-3">Book-in</td>
+                        <td className="px-4 py-3">XYZ</td>
+                      </tr>
+                      <tr className="hover:bg-argus-bg-row-alt">
+                        <td className="px-4 py-3 text-argus-blue font-semibold"><a href="/dashboard/cases/ARG-002" className="hover:underline">(US) ARG-002</a></td>
+                        <td className="px-4 py-3">Spontaneous</td>
+                        <td className="px-4 py-3">ALPROSTADIL</td>
+                        <td className="px-4 py-3">Book-in</td>
+                        <td className="px-4 py-3">Pyrexia</td>
+                      </tr>
                     </tbody>
                   </table>
                 </div>
-              </div>
+              </section>
             </div>
 
-            {/* RIGHT COLUMN - NARROW (1 col) */}
-            <div className="space-y-6">
-              
-              {/* EXPEDITED REPORTS */}
-              <div className="overflow-hidden rounded-xl border border-argus-border bg-argus-bg-panel shadow-sm">
-                <div className="px-6 py-4 bg-gradient-to-r from-red-600 to-red-500">
-                  <h2 className="text-sm font-bold uppercase tracking-wider text-white">⏰ Expedited Reports</h2>
+            <aside className="space-y-6">
+              <section className="overflow-hidden rounded-xl border border-argus-border bg-argus-bg-panel shadow-sm">
+                <div className="px-6 py-4 bg-[color:var(--argus-classic-bar)]">
+                  <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-slate-900">Contact Log Entries</h3>
                 </div>
-                <div className="space-y-3 p-5">
-                  {reportsDueSoon.map((item, idx) => (
-                    <div key={idx} className="rounded-xl border border-red-100 bg-red-50 p-4 transition hover:bg-red-100">
-                      <a href={`/dashboard/cases/${item.caseId}`} className="font-bold text-argus-blue hover:text-argus-light">
-                        {item.caseId}
-                      </a>
-                      <p className="mt-1 text-sm text-red-700">{item.reportType}</p>
-                      <div className="mt-3 flex items-center justify-between text-sm">
-                        <span className="font-semibold text-slate-700">{item.status}</span>
-                        <span className="font-bold text-red-600">{item.daysLeft} days left</span>
-                      </div>
-                    </div>
-                  ))}
+                <div className="overflow-x-auto p-6">
+                  <table className="min-w-full border-collapse text-sm">
+                    <thead>
+                      <tr className="border-b border-argus-border bg-[color:var(--argus-classic-top)] text-left uppercase tracking-[0.15em] text-slate-700">
+                        <th className="px-4 py-3">Country / Case Number</th>
+                        <th className="px-4 py-3">Contact Date</th>
+                        <th className="px-4 py-3">Description</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="border-b border-argus-border hover:bg-argus-bg-row-alt">
+                        <td className="px-4 py-3 text-argus-blue font-semibold"><a href="/dashboard/cases/ARG-001" className="hover:underline">(US) ARG-001</a></td>
+                        <td className="px-4 py-3">25-NOV-2019</td>
+                        <td className="px-4 py-3">NON-HCP Letter</td>
+                      </tr>
+                      <tr className="hover:bg-argus-bg-row-alt">
+                        <td className="px-4 py-3 text-argus-blue font-semibold"><a href="/dashboard/cases/ARG-002" className="hover:underline">(US) ARG-002</a></td>
+                        <td className="px-4 py-3">30-NOV-2019</td>
+                        <td className="px-4 py-3">Health Care Professional Letter</td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
-              </div>
+              </section>
 
-              <div className="rounded-xl border border-argus-border bg-argus-bg-panel p-6 shadow-sm">
-                <h2 className="text-sm font-bold uppercase tracking-[0.25em] text-slate-800">🚀 Quick Actions</h2>
-                <div className="mt-5 space-y-3">
+              <section className="overflow-hidden rounded-xl border border-argus-border bg-argus-bg-panel shadow-sm">
+                <div className="px-6 py-4 bg-[color:var(--argus-classic-bar)]">
+                  <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-slate-900">Action Item Entries</h3>
+                </div>
+                <div className="p-6 text-sm text-slate-600">
+                  <p className="font-semibold">No action items currently assigned.</p>
+                  <p className="mt-2">Use the Case Actions menu to open a new case, assign follow-ups, or review overdue tasks.</p>
+                </div>
+              </section>
+
+              <section className="overflow-hidden rounded-xl border border-argus-border bg-argus-bg-panel shadow-sm">
+                <div className="px-6 py-4 bg-[color:var(--argus-classic-bar)]">
+                  <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-slate-900">Quick Actions</h3>
+                </div>
+                <div className="p-6 space-y-3">
                   <Button
                     variant="primary"
                     size="sm"
@@ -231,11 +247,9 @@ export default function DashboardPage() {
                     MedDRA
                   </Button>
                 </div>
-              </div>
-
-            </div>
+              </section>
+            </aside>
           </div>
-
         </div>
       </div>
     </ArgusLayout>

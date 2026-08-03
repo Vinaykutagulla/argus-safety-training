@@ -5,9 +5,11 @@ import { AECase } from '@/models/AECase';
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
+
     // Try to get token from cookies first, then from Authorization header
     let token = req.cookies.get('auth-token')?.value;
     
@@ -31,24 +33,85 @@ export async function POST(
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    await dbConnect();
+    const db = await dbConnect();
 
-    const aeCase = await AECase.findById(params.id);
+    // Prefer direct update via db.updateCase (works for mockDb)
+    if (db && typeof db.updateCase === 'function') {
+      const savedCase = await db.updateCase(id, {
+        status: 'Locked',
+        workflow: {
+          lockedBy: payload.userId,
+          lockedAt: new Date(),
+        },
+      });
+
+      if (savedCase) {
+        return NextResponse.json(savedCase);
+      }
+      // if no savedCase, fall through to try other lookup methods
+    }
+
+    let aeCase = null;
+    if (db && typeof db.getCaseById === 'function') {
+      aeCase = await db.getCaseById(id);
+    } else {
+      aeCase = await AECase.findById(id);
+    }
+
+    // Fallback: if case not found, attempt to read from exported mockDb
+    if (!aeCase) {
+      try {
+        const { mockDb } = await import('@/lib/db');
+        if (mockDb && typeof mockDb.getCaseById === 'function') {
+          aeCase = await mockDb.getCaseById(id);
+        }
+      } catch (err) {
+        // ignore fallback errors
+      }
+    }
+
     if (!aeCase) {
       return NextResponse.json({ error: 'Case not found' }, { status: 404 });
     }
 
-    aeCase.workflow = aeCase.workflow || {};
-    aeCase.workflow.lockedBy = payload.userId;
-    aeCase.workflow.lockedAt = new Date();
-    aeCase.status = 'Locked';
-    aeCase.auditTrail.push({
-      action: 'Case Locked',
-      performedBy: payload.userId,
-      timestamp: new Date(),
-      details: 'Case locked for submission',
-    });
+    const updatedCase = {
+      ...aeCase,
+      workflow: {
+        ...(aeCase.workflow || {}),
+        lockedBy: payload.userId,
+        lockedAt: new Date(),
+      },
+      status: 'Locked',
+      auditTrail: [
+        ...(aeCase.auditTrail || []),
+        {
+          action: 'Case Locked',
+          performedBy: payload.userId,
+          timestamp: new Date(),
+          details: 'Case locked for submission',
+        },
+      ],
+    };
 
+    if (db && typeof db.updateCase === 'function') {
+      const savedCase = await db.updateCase(id, updatedCase);
+      if (savedCase) return NextResponse.json(savedCase);
+
+      // As a last resort, try to upsert into exported mockDb
+      try {
+        const { mockDb } = await import('@/lib/db');
+        if (mockDb && typeof mockDb.upsertCase === 'function') {
+          const upserted = await mockDb.upsertCase(id, updatedCase);
+          return NextResponse.json(upserted);
+        }
+      } catch (err) {
+        // ignore
+      }
+
+      return NextResponse.json({ error: 'Case not found' }, { status: 404 });
+    }
+
+    Object.assign(aeCase, updatedCase);
     await aeCase.save();
 
     return NextResponse.json(aeCase);

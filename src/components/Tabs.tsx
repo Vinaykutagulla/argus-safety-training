@@ -11,18 +11,18 @@ interface TabsProps {
 export function Tabs({ tabs, activeTab, onTabChange }: TabsProps) {
   return (
     <div className="w-full">
-      <div className="flex border-b border-gray-300">
+      <div className="flex border-b border-argus-border tabs-sm">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => onTabChange(tab.id)}
-            className={`px-4 py-2 font-medium text-sm transition-colors ${
+            className={`rounded-t-sm mr-1 transition-colors ${
               activeTab === tab.id
-                ? 'border-b-2 border-blue-600 text-blue-600'
+                ? 'bg-[color:var(--argus-classic-tab)] text-argus-text-primary font-semibold'
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
-            {tab.label}
+            <span className="px-2 py-1 text-xs">{tab.label}</span>
           </button>
         ))}
       </div>

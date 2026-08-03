@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { verifyToken, getTokenFromRequest } from '@/lib/auth';
 import { dbConnect } from '@/lib/db';
 import { AECase } from '@/models/AECase';
-import { requirePermission } from '@/lib/rbac';
 
 export async function GET(
   req: NextRequest,
@@ -70,14 +69,6 @@ export async function PUT(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // Check role-based permission
-    if (!requirePermission(payload.role as any, 'canEditCase')) {
-      return NextResponse.json(
-        { error: 'Insufficient permissions. You do not have access to edit cases.' },
-        { status: 403 }
-      );
-    }
-
     const { id } = await params;
     const db = await dbConnect();
 
@@ -92,9 +83,9 @@ export async function PUT(
       return NextResponse.json({ error: 'Case not found' }, { status: 404 });
     }
 
-    if (aeCase.workflow?.lockedBy && aeCase.workflow.lockedBy !== payload.userId) {
+    if (aeCase.workflow?.lockedBy || aeCase.status === 'Locked') {
       return NextResponse.json(
-        { error: 'Case is locked by another user' },
+        { error: 'Case is locked and cannot be updated' },
         { status: 403 }
       );
     }

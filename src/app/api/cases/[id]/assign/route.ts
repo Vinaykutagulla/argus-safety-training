@@ -5,9 +5,11 @@ import { AECase } from '@/models/AECase';
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
+
     // Try to get token from cookies first, then from Authorization header
     let token = req.cookies.get('auth-token')?.value;
     
@@ -31,24 +33,44 @@ export async function POST(
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    await dbConnect();
+    const db = await dbConnect();
 
     const { assignedTo } = await req.json();
 
-    const aeCase = await AECase.findById(params.id);
+    let aeCase = null;
+    if (db && typeof db.getCaseById === 'function') {
+      aeCase = await db.getCaseById(id);
+    } else {
+      aeCase = await AECase.findById(id);
+    }
+
     if (!aeCase) {
       return NextResponse.json({ error: 'Case not found' }, { status: 404 });
     }
 
-    aeCase.workflow = aeCase.workflow || {};
-    aeCase.workflow.assignedTo = assignedTo;
-    aeCase.auditTrail.push({
-      action: 'Case Assigned',
-      performedBy: payload.userId,
-      timestamp: new Date(),
-      details: `Case assigned to ${assignedTo}`,
-    });
+    const updatedCase = {
+      ...aeCase,
+      workflow: {
+        ...(aeCase.workflow || {}),
+        assignedTo,
+      },
+      auditTrail: [
+        ...(aeCase.auditTrail || []),
+        {
+          action: 'Case Assigned',
+          performedBy: payload.userId,
+          timestamp: new Date(),
+          details: `Case assigned to ${assignedTo}`,
+        },
+      ],
+    };
 
+    if (db && typeof db.updateCase === 'function') {
+      const savedCase = await db.updateCase(params.id, updatedCase);
+      return NextResponse.json(savedCase);
+    }
+
+    Object.assign(aeCase, updatedCase);
     await aeCase.save();
 
     return NextResponse.json(aeCase);

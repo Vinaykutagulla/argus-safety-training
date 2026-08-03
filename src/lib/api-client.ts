@@ -1,4 +1,6 @@
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000');
+const API_BASE = typeof window !== 'undefined'
+  ? window.location.origin
+  : (process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:3001');
 
 // Get stored token from localStorage (client-side)
 function getStoredToken(): string | null {

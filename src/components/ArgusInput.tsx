@@ -13,7 +13,7 @@ export default function ArgusInput({
   ...props
 }: ArgusInputProps) {
   const baseClass =
-    'border border-argus-border px-1 py-0.5 text-11 font-sans h-5 focus:outline-none focus:border-argus-light';
+    'border border-argus-border rounded-sm px-3 py-2 text-sm font-sans h-10 transition focus:outline-none focus:border-argus-light focus:ring-1 focus:ring-argus-light';
   const invalidClass = invalid ? 'border-red-600 bg-red-50' : '';
 
   return (

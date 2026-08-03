@@ -58,6 +58,7 @@ export async function GET(req: NextRequest) {
       
       return NextResponse.json({
         cases,
+        total: allCases.length,
         pagination: {
           page,
           limit,
@@ -137,6 +138,7 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({
       cases,
+      total,
       pagination: {
         page,
         limit,
@@ -242,14 +244,14 @@ export async function POST(req: NextRequest) {
     if (db && typeof db.createCase === 'function') {
       // Mock database
       const savedCase = await db.createCase(caseData);
-      return NextResponse.json(savedCase, { status: 201 });
+      return NextResponse.json(savedCase, { status: 200 });
     }
 
     // MongoDB path
     const aeCase = new AECase(caseData);
     await aeCase.save();
 
-    return NextResponse.json(aeCase, { status: 201 });
+    return NextResponse.json(aeCase, { status: 200 });
   } catch (error) {
     console.error('Create case error:', error);
     

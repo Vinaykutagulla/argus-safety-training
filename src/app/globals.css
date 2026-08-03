@@ -1,3 +1,6 @@
+/* Load Inter from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -13,13 +16,40 @@ html {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  /* Use Inter for a clean, professional UI */
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #f0f4f8;
   color: #1a1a1a;
+}
+
+
+/* Argus design tokens as CSS variables for easier theming */
+:root {
+  --argus-navy: #1a3a5c;
+  --argus-blue: #2d6da3;
+  --argus-light: #4a90d9;
+  /* Classic Argus palette */
+  --argus-classic-top: #dbe9fb; /* very light blue */
+  --argus-classic-bar: #9bb6df; /* mid blue bar */
+  --argus-classic-tab: #bcd4f0; /* tab background */
+  --argus-classic-login-bg: #d6cfee; /* pale lavender */
+  --argus-classic-login-panel: #bfb3e6; /* lavender panel */
+  --argus-classic-footer: #6b5fa8; /* dark purple footer */
+  --argus-orange: #f5a623;
+  --argus-bg: #f0f4f8;
+  --argus-bg-panel: #ffffff;
+  --argus-bg-sidebar: #2c4a6e;
+  --argus-bg-row-alt: #eef3f8;
+  --argus-border: #b0c4d8;
+  --argus-border-dark: #7a9abb;
+  --argus-border-section: #2d6da3;
+  --argus-text-primary: #1a1a1a;
+  --argus-text-header: #ffffff;
+  --argus-text-muted: #666666;
 }
 
 /* Custom scrollbar */
@@ -62,12 +92,26 @@ textarea:focus {
 }
 
 /* Button hover effects */
+button {
+  transition: transform 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+
 button:hover:not(:disabled) {
-  transform: translateY(-1px);
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 6px 14px rgba(16, 24, 40, 0.06);
 }
 
 button:active:not(:disabled) {
-  transform: translateY(0);
+  transform: translateY(0) scale(0.995);
+}
+
+/* Dense variant uses subtler interactions */
+.argus-dense button:hover:not(:disabled) {
+  transform: translateY(0) scale(1.01);
+  box-shadow: 0 4px 8px rgba(16, 24, 40, 0.04);
+}
+.argus-dense button:active:not(:disabled) {
+  transform: translateY(0) scale(0.995);
 }
 
 /* Table styling */
@@ -176,4 +220,21 @@ label {
     background-color: white;
   }
 }
+
+/* Dense Argus compact styles - apply with `.argus-dense` on a wrapper */
+.argus-dense label { font-size: 12px; }
+.argus-dense .text-11 { font-size: 11px; }
+.argus-dense .text-10 { font-size: 10px; }
+.argus-dense input,
+.argus-dense select,
+.argus-dense textarea {
+  padding: 4px 6px;
+  font-size: 12px;
+  height: auto;
+}
+.argus-dense .argus-card { padding: 8px; border-radius: 2px; }
+.argus-dense .tabs-sm button { padding: 4px 8px; font-size: 12px; }
+.argus-dense .form-row { gap: 6px; }
+.argus-dense .label-right { width: 9rem; text-align: right; }
+
 

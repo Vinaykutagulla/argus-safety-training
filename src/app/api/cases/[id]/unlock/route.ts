@@ -5,9 +5,11 @@ import { AECase } from '@/models/AECase';
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
+
     // Try to get token from cookies first, then from Authorization header
     let token = req.cookies.get('auth-token')?.value;
     
@@ -31,24 +33,44 @@ export async function POST(
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    await dbConnect();
+    const db = await dbConnect();
 
-    const aeCase = await AECase.findById(params.id);
+    let aeCase = null;
+    if (db && typeof db.getCaseById === 'function') {
+      aeCase = await db.getCaseById(id);
+    } else {
+      aeCase = await AECase.findById(id);
+    }
+
     if (!aeCase) {
       return NextResponse.json({ error: 'Case not found' }, { status: 404 });
     }
 
-    aeCase.workflow = aeCase.workflow || {};
-    aeCase.workflow.lockedBy = undefined;
-    aeCase.workflow.lockedAt = undefined;
-    aeCase.status = 'Open';
-    aeCase.auditTrail.push({
-      action: 'Case Unlocked',
-      performedBy: payload.userId,
-      timestamp: new Date(),
-      details: 'Case unlocked for further editing',
-    });
+    const updatedCase = {
+      ...aeCase,
+      workflow: {
+        ...(aeCase.workflow || {}),
+        lockedBy: undefined,
+        lockedAt: undefined,
+      },
+      status: 'Open',
+      auditTrail: [
+        ...(aeCase.auditTrail || []),
+        {
+          action: 'Case Unlocked',
+          performedBy: payload.userId,
+          timestamp: new Date(),
+          details: 'Case unlocked for further editing',
+        },
+      ],
+    };
 
+    if (db && typeof db.updateCase === 'function') {
+      const savedCase = await db.updateCase(params.id, updatedCase);
+      return NextResponse.json(savedCase);
+    }
+
+    Object.assign(aeCase, updatedCase);
     await aeCase.save();
 
     return NextResponse.json(aeCase);

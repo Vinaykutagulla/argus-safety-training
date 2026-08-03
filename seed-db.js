@@ -34,13 +34,9 @@ async function seedDatabase() {
     await User.deleteMany({});
     console.log('Cleared existing users');
 
-    // Hash passwords and create users
+    // Create users (password will be hashed by pre-save hook)
     for (const userData of DEMO_USERS) {
-      const hashedPassword = await bcrypt.hash(userData.password, 10);
-      const user = new User({
-        ...userData,
-        password: hashedPassword,
-      });
+      const user = new User(userData);
       await user.save();
       console.log(`Created user: ${userData.email}`);
     }

@@ -39,8 +39,64 @@ function CaseFormContent() {
     setExpandedSections(prev => ({...prev, [section]: !prev[section]}));
   };
 
+  // Initialize caseData with EMPTY fields for new cases - NO PREFILLED DATA
   useEffect(() => {
     if (isNewCase) {
+      setCaseData({
+        receiptDate: new Date().toISOString().split('T')[0],
+        caseNumber: '',
+        caseClassification: 'Spontaneous',
+        reportType: 'Initial',
+        countryOfOccurrence: 'USA',
+        awarenessDate: new Date().toISOString().split('T')[0],
+        reportSourceChannel: 'Phone',
+        reporterType: 'Physician',
+        reporterName: '',
+        reporterQualification: '',
+        reporterInstitution: '',
+        reporterCity: '',
+        reporterPhone: '',
+        reporterEmail: '',
+        isPregnancyCase: false,
+        patientInitials: '',
+        patientAge: '',
+        patientSex: 'Unknown',
+        patientMedicalHistory: '',
+        products: [
+          {
+            productName: '',
+            activeSubstance: '',
+            manufacturer: '',
+            drugRole: 'Suspect',
+            dose: '',
+            doseUnit: 'mg',
+            frequency: '',
+            routeOfAdmin: 'Oral',
+            startDate: '',
+            stopDate: '',
+            indication: '',
+            actionTaken: '',
+            whoCausality: '',
+            companyCausality: '',
+          },
+        ],
+        reaction: {
+          reactionName: '',
+          onsetDate: '',
+          time: '',
+          stopDate: '',
+          outcome: 'Unknown',
+        },
+        meddra: {
+          soc: '',
+          hlgt: '',
+          pt: '',
+          code: '',
+          listedness: '',
+        },
+        narrative: '',
+        labTests: '',
+      });
       setLoadError(null);
       return;
     }
@@ -88,6 +144,42 @@ function CaseFormContent() {
     alert('Event entry form will be added');
   };
 
+  const handleClearProductForm = () => {
+    if (caseData && caseData.products) {
+      const clearedProducts = caseData.products.map((product: any) => ({
+        productName: '',
+        activeSubstance: '',
+        manufacturer: '',
+        drugRole: 'Suspect',
+        dose: '',
+        doseUnit: 'mg',
+        frequency: '',
+        routeOfAdmin: 'Oral',
+        startDate: '',
+        stopDate: '',
+        indication: '',
+        actionTaken: '',
+        whoCausality: '',
+        companyCausality: '',
+      }));
+      setCaseData({ ...caseData, products: clearedProducts });
+    }
+  };
+
+  const updateProduct = (index: number, field: string, value: any) => {
+    if (caseData && caseData.products) {
+      const updatedProducts = [...caseData.products];
+      updatedProducts[index] = { ...updatedProducts[index], [field]: value };
+      setCaseData({ ...caseData, products: updatedProducts });
+    }
+  };
+
+  const handleFieldChange = (field: string, value: any) => {
+    if (caseData) {
+      setCaseData({ ...caseData, [field]: value });
+    }
+  };
+
   const tabs = ['General', 'Patient', 'Products', 'Events', 'Analysis', 'Activities', 'Add. Info', 'Attachments'];
 
   const workflowStages = [
@@ -102,16 +194,160 @@ function CaseFormContent() {
 
   const [isSaving, setIsSaving] = useState(false);
 
-  const handleSave = async () => {
-    if (!caseData) {
-      alert('No case data to save');
-      return;
+  const transformFormDataToAPI = (formData: any) => {
+    // Transform form structure to API schema structure
+    const firstProduct = formData.products?.[0];
+    
+    return {
+      administration: {
+        receiptDate: formData.receiptDate || new Date().toISOString(),
+        caseClassification: formData.caseClassification || 'Spontaneous',
+        reportType: formData.reportType || 'Initial',
+        primaryReporterType: formData.reporterType || 'Physician',
+        countryOfOccurrence: formData.countryOfOccurrence || 'USA',
+        awarenessDate: formData.awarenessDate || formData.receiptDate || new Date().toISOString(),
+        isPregnancyCase: formData.isPregnancyCase || false,
+      },
+      patient: {
+        initials: formData.patientInitials || 'PT',
+        age: parseInt(formData.patientAge) || 0,
+        sex: formData.patientSex || 'Unknown',
+        medicalHistory: formData.patientMedicalHistory || '',
+      },
+      reaction: {
+        verbatimTerm: formData.reaction?.reactionName || 'Adverse Event',
+        meddraPreferredTerm: formData.meddra?.pt || 'Adverse Event',
+        meddraCode: formData.meddra?.code || '',
+        meddraSoc: formData.meddra?.soc || '',
+        outcome: formData.reaction?.outcome || 'Unknown',
+        onsetDate: formData.reaction?.onsetDate,
+        endDate: formData.reaction?.stopDate,
+      },
+      drug: {
+        tradeName: firstProduct?.productName || '',
+        activeSubstance: firstProduct?.activeSubstance || '',
+        drugRole: firstProduct?.drugRole || 'Suspect',
+        indication: firstProduct?.indication || '',
+        dose: firstProduct?.dose || '',
+        doseUnit: firstProduct?.doseUnit || 'mg',
+        routeOfAdmin: firstProduct?.routeOfAdmin || 'Oral',
+        frequency: firstProduct?.frequency || '',
+        startDate: firstProduct?.startDate,
+        endDate: firstProduct?.stopDate,
+      },
+      narrative: {
+        caseNarrative: formData.narrative || 'Case entered during pharmacovigilance training',
+        labTests: formData.labTests || '',
+      },
+      reporter: {
+        type: formData.reporterType || 'Physician',
+        name: formData.reporterName || '',
+        qualification: formData.reporterQualification || '',
+        institution: formData.reporterInstitution || '',
+        city: formData.reporterCity || '',
+        country: formData.reporterCountry || 'USA',
+        phone: formData.reporterPhone || '',
+        email: formData.reporterEmail || '',
+        sourceChannel: formData.reportSourceChannel || 'Phone',
+        sourceDocument: formData.sourceDocument || '',
+      },
+    };
+  };
+
+  const extractFormData = () => {
+    // Collect all form input values directly from DOM
+    const allInputs = document.querySelectorAll('input:not([type="radio"]):not([type="checkbox"]):not([type="hidden"])');
+    const textareas = document.querySelectorAll('textarea');
+    const formData: any = {
+      products: [],
+      reaction: {},
+    };
+
+    // Extract ALL input values by position/content
+    let inputIndex = 0;
+    const inputValues: any[] = [];
+    
+    allInputs.forEach((input: any) => {
+      if (input.value) {
+        inputValues.push({
+          index: inputIndex,
+          value: input.value,
+          placeholder: input.placeholder,
+          name: input.name,
+          type: input.type,
+        });
+      }
+      inputIndex++;
+    });
+
+    console.log('Extracted inputs:', inputValues);
+
+    // Parse based on content and position
+    // Assuming order: caseNumber, receiptDate, reporterName, qualification, institution, city, 
+    //                patientInitials, patientAge, (more dates), productName, activeSubstance, dose, startDate, indication,
+    //                reactionName, onsetDate
+    
+    formData.caseNumber = inputValues[0]?.value || 'CASE-' + Date.now();
+    formData.receiptDate = inputValues[1]?.value || new Date().toISOString().split('T')[0];
+    formData.reporterName = inputValues[2]?.value || '';
+    formData.reporterQualification = inputValues[3]?.value || '';
+    formData.reporterInstitution = inputValues[4]?.value || '';
+    formData.reporterCity = inputValues[5]?.value || '';
+    formData.patientInitials = inputValues[6]?.value || 'PT';
+    
+    // Age might be next or skipped based on form structure
+    let ageIndex = 7;
+    if (inputValues[ageIndex]?.value && !isNaN(parseInt(inputValues[ageIndex].value))) {
+      formData.patientAge = parseInt(inputValues[ageIndex].value);
+      ageIndex++;
+    } else {
+      formData.patientAge = 45;
     }
 
+    // Product fields
+    formData.products[0] = {
+      productName: inputValues[ageIndex + 2]?.value || '',
+      activeSubstance: inputValues[ageIndex + 3]?.value || '',
+      dose: inputValues[ageIndex + 4]?.value || '',
+      routeOfAdmin: 'Oral',
+      startDate: inputValues[ageIndex + 5]?.value || '',
+      indication: inputValues[ageIndex + 6]?.value || '',
+    };
+
+    // Event/Reaction fields
+    const reactionIdx = ageIndex + 8;
+    formData.reaction = {
+      reactionName: inputValues[reactionIdx]?.value || '',
+      onsetDate: inputValues[reactionIdx + 1]?.value || '',
+      outcome: 'Unknown',
+    };
+
+    // Get patient sex from radio buttons
+    const sexRadios = document.querySelectorAll('input[name="gender"]');
+    sexRadios.forEach((radio: any) => {
+      if (radio.checked) {
+        formData.patientSex = radio.value === 'Male' ? 'M' : radio.value === 'Female' ? 'F' : 'Unknown';
+      }
+    });
+    if (!formData.patientSex) formData.patientSex = 'Unknown';
+
+    console.log('Final extracted form data:', formData);
+    return formData;
+  };
+
+  const handleSave = async () => {
     setIsSaving(true);
     try {
       const url = isNewCase ? '/api/cases' : `/api/cases/${caseId}`;
       const method = isNewCase ? 'POST' : 'PUT';
+
+      // Extract form data from DOM
+      const formData = extractFormData();
+      console.log('Extracted form data:', JSON.stringify(formData, null, 2));
+
+      // Transform to API schema
+      const apiData = transformFormDataToAPI(formData);
+      console.log('Transformed API data:', JSON.stringify(apiData, null, 2));
 
       const response = await fetch(url, {
         method,
@@ -119,26 +355,27 @@ function CaseFormContent() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(caseData),
+        body: JSON.stringify(apiData),
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || `Failed to save case (${response.status})`);
+        console.error('API Error Response:', errorData);
+        throw new Error(errorData.details || errorData.error || `Failed (${response.status})`);
       }
 
       const savedCase = await response.json();
-      setCaseData(savedCase);
+      alert(`✅ SUCCESS! Case ${savedCase.caseId} saved!\n\nYou can now enter the next case.`);
       
-      alert(`Case ${savedCase.caseId} saved successfully!`);
-      
-      // If this was a new case, redirect to the case page
+      // Redirect to cases list to show saved case
       if (isNewCase) {
-        window.location.href = `/dashboard/cases/${savedCase._id}`;
+        setTimeout(() => {
+          window.location.href = `/dashboard/cases`;
+        }, 1000);
       }
     } catch (error: any) {
-      console.error('Error saving case:', error);
-      alert(`Error saving case: ${error.message}`);
+      console.error('Save Error:', error);
+      alert(`❌ Error saving case:\n${error.message}\n\nPlease fill all required fields: Case#, Receipt Date, Reporter, Patient Age, Product Name, Reaction Name`);
     } finally {
       setIsSaving(false);
     }
@@ -334,7 +571,7 @@ function CaseFormContent() {
                     <ArgusFormField label="Country of Incidence:" required>
                       <ArgusInput
                         value={caseData?.administration?.countryOfOccurrence || caseData?.country || ''}
-                        readOnly
+                        onChange={(e) => handleFieldChange('countryOfOccurrence', e.target.value)}
                       />
                     </ArgusFormField>
                   </TrainingTooltip>
@@ -344,20 +581,26 @@ function CaseFormContent() {
               <div className="flex gap-4">
                 <div className="flex-1">
                   <ArgusFormField label="Awareness Date:" required>
-                    <ArgusInput
+                    <ArgusDateField
                       value={caseData?.administration?.awarenessDate
                         ? new Date(caseData.administration.awarenessDate).toISOString().slice(0, 10)
                         : ''}
-                      readOnly
+                      onChange={(e) => handleFieldChange('awarenessDate', e)}
                     />
                   </ArgusFormField>
                 </div>
 
                 <div className="flex-1">
                   <ArgusFormField label="Reporter Type:" required>
-                    <ArgusInput
-                      value={caseData?.reporter?.type || caseData?.administration?.primaryReporterType || 'Unknown'}
-                      readOnly
+                    <ArgusSelect
+                      options={[
+                        { value: 'Physician', label: 'Physician' },
+                        { value: 'Pharmacist', label: 'Pharmacist' },
+                        { value: 'Patient', label: 'Patient' },
+                        { value: 'Other', label: 'Other' }
+                      ]}
+                      value={caseData?.reporter?.type || caseData?.administration?.primaryReporterType || 'Physician'}
+                      onChange={(e) => handleFieldChange('reporterType', e.target.value)}
                     />
                   </ArgusFormField>
                 </div>
@@ -366,22 +609,34 @@ function CaseFormContent() {
               <SectionHeader title="Reporter / Source Information" />
               <div className="grid grid-cols-2 gap-4">
                 <ArgusFormField label="Reporter Name:" required>
-                  <ArgusInput value={caseData?.reporter?.name || ''} readOnly />
+                  <ArgusInput value={caseData?.reporter?.name || ''} onChange={(e) => handleFieldChange('reporterName', e.target.value)} />
                 </ArgusFormField>
                 <ArgusFormField label="Qualification:">
-                  <ArgusInput value={caseData?.reporter?.qualification || ''} readOnly />
+                  <ArgusInput value={caseData?.reporter?.qualification || ''} onChange={(e) => handleFieldChange('reporterQualification', e.target.value)} />
                 </ArgusFormField>
                 <ArgusFormField label="Institution:">
-                  <ArgusInput value={caseData?.reporter?.institution || ''} readOnly />
+                  <ArgusInput value={caseData?.reporter?.institution || ''} onChange={(e) => handleFieldChange('reporterInstitution', e.target.value)} />
                 </ArgusFormField>
                 <ArgusFormField label="City:">
-                  <ArgusInput value={caseData?.reporter?.city || ''} readOnly />
+                  <ArgusInput value={caseData?.reporter?.city || ''} onChange={(e) => handleFieldChange('reporterCity', e.target.value)} />
                 </ArgusFormField>
                 <ArgusFormField label="Source Channel:">
-                  <ArgusInput value={caseData?.reporter?.sourceChannel || ''} readOnly />
+                  <ArgusSelect
+                    options={[
+                      { value: 'Phone', label: 'Phone' },
+                      { value: 'Email', label: 'Email' },
+                      { value: 'Portal', label: 'Portal' },
+                      { value: 'Fax', label: 'Fax' },
+                      { value: 'Letter', label: 'Letter' },
+                      { value: 'Literature', label: 'Literature' },
+                      { value: 'Other', label: 'Other' }
+                    ]}
+                    value={caseData?.reporter?.sourceChannel || 'Phone'}
+                    onChange={(e) => handleFieldChange('reportSourceChannel', e.target.value)}
+                  />
                 </ArgusFormField>
                 <ArgusFormField label="Source Document:">
-                  <ArgusInput value={caseData?.reporter?.sourceDocument || ''} readOnly />
+                  <ArgusInput value={caseData?.reporter?.sourceDocument || ''} onChange={(e) => handleFieldChange('sourceDocument', e.target.value)} />
                 </ArgusFormField>
               </div>
 
@@ -480,7 +735,7 @@ function CaseFormContent() {
               <div className="flex gap-4">
                 <div className="flex-1">
                   <ArgusFormField label="Patient Initials:" required>
-                    <ArgusInput placeholder="e.g., JD" maxLength={3} />
+                    <ArgusInput placeholder="e.g., JD" maxLength={3} value={caseData?.patientInitials || ''} onChange={(e) => handleFieldChange('patientInitials', e.target.value)} />
                   </ArgusFormField>
                 </div>
 
@@ -493,7 +748,7 @@ function CaseFormContent() {
                 <div className="flex-1">
                   <ArgusFormField label="Age at Onset:">
                     <div className="flex gap-1">
-                      <ArgusInput placeholder="Age" className="w-16" />
+                      <ArgusInput placeholder="Age" className="w-16" value={caseData?.patientAge || ''} onChange={(e) => handleFieldChange('patientAge', e.target.value)} />
                       <ArgusSelect options={[{ value: 'Years', label: 'Years' }]} className="w-24" />
                     </div>
                   </ArgusFormField>
@@ -505,13 +760,13 @@ function CaseFormContent() {
                   <ArgusFormField label="Gender:">
                     <div className="space-y-1">
                       <label className="flex items-center gap-2">
-                        <input type="radio" name="gender" /> Male
+                        <input type="radio" name="gender" value="M" checked={caseData?.patientSex === 'M'} onChange={(e) => handleFieldChange('patientSex', 'M')} /> Male
                       </label>
                       <label className="flex items-center gap-2">
-                        <input type="radio" name="gender" /> Female
+                        <input type="radio" name="gender" value="F" checked={caseData?.patientSex === 'F'} onChange={(e) => handleFieldChange('patientSex', 'F')} /> Female
                       </label>
                       <label className="flex items-center gap-2">
-                        <input type="radio" name="gender" checked readOnly /> Unknown
+                        <input type="radio" name="gender" value="Unknown" checked={caseData?.patientSex === 'Unknown' || !caseData?.patientSex} onChange={(e) => handleFieldChange('patientSex', 'Unknown')} /> Unknown
                       </label>
                     </div>
                   </ArgusFormField>
@@ -572,134 +827,182 @@ function CaseFormContent() {
                 >
                   + Add Device
                 </button>
+                <button 
+                  onClick={handleClearProductForm}
+                  className="px-2 py-1 bg-red-500 text-white text-10 border border-red-600 hover:bg-red-600 transition-all cursor-pointer active:scale-95"
+                >
+                  🗑️ Clear Form
+                </button>
               </div>
 
-              <SectionHeader title="Drug #1: Metformin" actions={<button onClick={() => toggleSection('drug1')} className="text-10 cursor-pointer hover:text-argus-blue">▲ Collapse</button>} />
+              {caseData?.products?.map((product: any, idx: number) => (
+                <div key={idx}>
+                  <SectionHeader title={`Drug #${idx + 1}: ${product.productName || 'New Drug'}`} actions={<button onClick={() => toggleSection('drug1')} className="text-10 cursor-pointer hover:text-argus-blue">▲ Collapse</button>} />
 
-              <div className="flex gap-4">
-                <div className="flex-1">
-                  <ArgusFormField label="Trade Name:" required>
-                    <ArgusInput value="Metformin 500mg" />
-                  </ArgusFormField>
-                </div>
-
-                <div className="flex-1">
-                  <ArgusFormField label="Generic Name:" required>
-                    <ArgusInput value="Metformin Hydrochloride" />
-                  </ArgusFormField>
-                </div>
-              </div>
-
-              <ArgusFormField label="Manufacturer:">
-                <ArgusInput value="Bristol-Myers Squibb" />
-              </ArgusFormField>
-
-              <div className="flex gap-4">
-                <div className="w-1/2">
-                  <ArgusFormField label="Suspect/Concomitant:" required>
-                    <div className="space-y-1">
-                      <label className="flex items-center gap-2">
-                        <input type="radio" checked readOnly /> Suspect
-                      </label>
-                      <label className="flex items-center gap-2">
-                        <input type="radio" /> Concomitant
-                      </label>
-                      <label className="flex items-center gap-2">
-                        <input type="radio" /> Interacting
-                      </label>
+                  <div className="flex gap-4">
+                    <div className="flex-1">
+                      <ArgusFormField label="Trade Name:" required>
+                        <ArgusInput 
+                          value={product.productName || ''}
+                          onChange={(e: any) => updateProduct(idx, 'productName', e.target.value)}
+                        />
+                      </ArgusFormField>
                     </div>
-                  </ArgusFormField>
-                </div>
 
-                <div className="w-1/2">
-                  <ArgusFormField label="Route of Admin:">
-                    <ArgusSelect
-                      options={[
-                        { value: 'Oral', label: 'Oral' },
-                        { value: 'IV', label: 'Intravenous' },
-                        { value: 'IM', label: 'Intramuscular' },
-                        { value: 'Topical', label: 'Topical' },
-                      ]}
-                      value="Oral"
-                    />
-                  </ArgusFormField>
-                </div>
-              </div>
-
-              <div className="flex gap-4">
-                <div className="flex-1">
-                  <ArgusFormField label="Dose:">
-                    <div className="flex gap-1">
-                      <ArgusInput value="500" className="w-16" />
-                      <ArgusSelect options={[{ value: 'mg', label: 'mg' }]} value="mg" className="w-16" />
-                      <ArgusSelect
-                        options={[{ value: 'Daily', label: 'Daily' }]}
-                        value="Daily"
-                        className="w-24"
-                      />
+                    <div className="flex-1">
+                      <ArgusFormField label="Generic Name:" required>
+                        <ArgusInput 
+                          value={product.activeSubstance || ''}
+                          onChange={(e: any) => updateProduct(idx, 'activeSubstance', e.target.value)}
+                        />
+                      </ArgusFormField>
                     </div>
-                  </ArgusFormField>
-                </div>
+                  </div>
 
-                <div className="flex-1">
-                  <ArgusFormField label="Start Date:">
-                    <ArgusDateField value="2024-01-01" />
-                  </ArgusFormField>
-                </div>
-
-                <div className="flex-1">
-                  <ArgusFormField label="Stop Date:">
-                    <ArgusDateField value="2024-01-15" />
-                  </ArgusFormField>
-                </div>
-              </div>
-
-              <ArgusFormField label="Indication:">
-                <ArgusInput value="Type 2 Diabetes Mellitus" />
-              </ArgusFormField>
-
-              <ArgusFormField label="Action Taken:">
-                <ArgusSelect
-                  options={[
-                    { value: 'Withdrawn', label: 'Drug Withdrawn' },
-                    { value: 'Reduced', label: 'Dose Reduced' },
-                    { value: 'Increased', label: 'Dose Increased' },
-                    { value: 'NotChanged', label: 'Dose Not Changed' },
-                  ]}
-                  value="Withdrawn"
-                />
-              </ArgusFormField>
-
-              <SectionHeader title="Causality Assessment" />
-
-              <div className="flex gap-4">
-                <div className="flex-1">
-                  <ArgusFormField label="WHO Causality:">
-                    <ArgusSelect
-                      options={[
-                        { value: 'Certain', label: 'Certain' },
-                        { value: 'Probable', label: 'Probable' },
-                        { value: 'Possible', label: 'Possible' },
-                        { value: 'Unlikely', label: 'Unlikely' },
-                      ]}
-                      value="Probable"
+                  <ArgusFormField label="Manufacturer:">
+                    <ArgusInput 
+                      value={product.manufacturer || ''}
+                      onChange={(e: any) => updateProduct(idx, 'manufacturer', e.target.value)}
                     />
                   </ArgusFormField>
-                </div>
 
-                <div className="flex-1">
-                  <ArgusFormField label="Company Causality:">
-                    <ArgusSelect
-                      options={[
-                        { value: 'Certain', label: 'Certain' },
-                        { value: 'Probable', label: 'Probable' },
-                        { value: 'Possible', label: 'Possible' },
-                      ]}
-                      value="Possible"
+                  <div className="flex gap-4">
+                    <div className="w-1/2">
+                      <ArgusFormField label="Suspect/Concomitant:" required>
+                        <div className="space-y-1">
+                          <label className="flex items-center gap-2">
+                            <input 
+                              type="radio" 
+                              checked={product.drugRole === 'Suspect'}
+                              onChange={() => updateProduct(idx, 'drugRole', 'Suspect')}
+                            /> Suspect
+                          </label>
+                          <label className="flex items-center gap-2">
+                            <input 
+                              type="radio"
+                              checked={product.drugRole === 'Concomitant'}
+                              onChange={() => updateProduct(idx, 'drugRole', 'Concomitant')}
+                            /> Concomitant
+                          </label>
+                          <label className="flex items-center gap-2">
+                            <input 
+                              type="radio"
+                              checked={product.drugRole === 'Interacting'}
+                              onChange={() => updateProduct(idx, 'drugRole', 'Interacting')}
+                            /> Interacting
+                          </label>
+                        </div>
+                      </ArgusFormField>
+                    </div>
+
+                    <div className="w-1/2">
+                      <ArgusFormField label="Route of Admin:">
+                        <ArgusSelect
+                          options={[
+                            { value: 'Oral', label: 'Oral' },
+                            { value: 'IV', label: 'Intravenous' },
+                            { value: 'IM', label: 'Intramuscular' },
+                            { value: 'Topical', label: 'Topical' },
+                          ]}
+                          value={product.routeOfAdmin || 'Oral'}
+                          onChange={(e: any) => updateProduct(idx, 'routeOfAdmin', e.target.value)}
+                        />
+                      </ArgusFormField>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-4">
+                    <div className="flex-1">
+                      <ArgusFormField label="Dose:">
+                        <div className="flex gap-1">
+                          <ArgusInput 
+                            value={product.dose || ''}
+                            onChange={(e: any) => updateProduct(idx, 'dose', e.target.value)}
+                            className="w-16" 
+                          />
+                          <ArgusSelect options={[{ value: 'mg', label: 'mg' }]} value="mg" className="w-16" />
+                          <ArgusSelect
+                            options={[{ value: 'Daily', label: 'Daily' }]}
+                            value={product.frequency || 'Daily'}
+                            onChange={(e: any) => updateProduct(idx, 'frequency', e.target.value)}
+                            className="w-24"
+                          />
+                        </div>
+                      </ArgusFormField>
+                    </div>
+
+                    <div className="flex-1">
+                      <ArgusFormField label="Start Date:">
+                        <ArgusDateField 
+                          value={product.startDate || ''}
+                          onChange={(value: string) => updateProduct(idx, 'startDate', value)}
+                        />
+                      </ArgusFormField>
+                    </div>
+
+                    <div className="flex-1">
+                      <ArgusFormField label="Stop Date:">
+                        <ArgusDateField 
+                          value={product.stopDate || ''}
+                          onChange={(value: string) => updateProduct(idx, 'stopDate', value)}
+                        />
+                      </ArgusFormField>
+                    </div>
+                  </div>
+
+                  <ArgusFormField label="Indication:">
+                    <ArgusInput 
+                      value={product.indication || ''}
+                      onChange={(e: any) => updateProduct(idx, 'indication', e.target.value)}
                     />
                   </ArgusFormField>
+
+                  <ArgusFormField label="Action Taken:">
+                    <ArgusSelect
+                      options={[
+                        { value: 'Withdrawn', label: 'Drug Withdrawn' },
+                        { value: 'Reduced', label: 'Dose Reduced' },
+                        { value: 'Increased', label: 'Dose Increased' },
+                        { value: 'NotChanged', label: 'Dose Not Changed' },
+                      ]}
+                      onChange={(e: any) => updateProduct(idx, 'actionTaken', e.target.value)}
+                      value={product.actionTaken || ''}
+                    />
+                  </ArgusFormField>
+
+                  <SectionHeader title="Causality Assessment" />
+
+                  <div className="flex gap-4">
+                    <div className="flex-1">
+                      <ArgusFormField label="WHO Causality:">
+                        <ArgusSelect
+                          options={[
+                            { value: 'Certain', label: 'Certain' },
+                            { value: 'Probable', label: 'Probable' },
+                            { value: 'Possible', label: 'Possible' },
+                            { value: 'Unlikely', label: 'Unlikely' },
+                          ]}
+                          onChange={(e: any) => updateProduct(idx, 'whoCausality', e.target.value)}
+                        />
+                      </ArgusFormField>
+                    </div>
+
+                    <div className="flex-1">
+                      <ArgusFormField label="Company Causality:">
+                        <ArgusSelect
+                          options={[
+                            { value: 'Certain', label: 'Certain' },
+                            { value: 'Probable', label: 'Probable' },
+                            { value: 'Possible', label: 'Possible' },
+                          ]}
+                          onChange={(e: any) => updateProduct(idx, 'companyCausality', e.target.value)}
+                          value={product.companyCausality || ''}
+                        />
+                      </ArgusFormField>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              ))}
             </div>
           )}
 
@@ -716,25 +1019,30 @@ function CaseFormContent() {
               <SectionHeader title="Event #1" actions={<button onClick={() => toggleSection('event1')} className="text-10 cursor-pointer hover:text-argus-blue">▲ Collapse</button>} />
 
               <ArgusFormField label="Verbatim Term:" required>
-                <textarea className="w-full border border-argus-border px-1 py-0.5 text-11 font-sans min-h-10 focus:outline-none focus:border-argus-light" defaultValue="Patient reported severe chest pain" />
+                <textarea className="w-full border border-argus-border px-1 py-0.5 text-11 font-sans min-h-10 focus:outline-none focus:border-argus-light" value={caseData?.reaction?.reactionName || caseData?.reaction?.verbatimTerm || ''} onChange={(e: any) => handleFieldChange('reactionName', e.target.value)} />
               </ArgusFormField>
 
               <div className="flex gap-4">
                 <div className="flex-1">
                   <ArgusFormField label="Onset Date:" required>
-                    <ArgusDateField value="2024-01-14" />
+                    <ArgusDateField 
+                      value={caseData?.reaction?.onsetDate 
+                        ? new Date(caseData.reaction.onsetDate).toISOString().slice(0, 10)
+                        : ''}
+                      onChange={(e) => handleFieldChange('onsetDate', e)}
+                    />
                   </ArgusFormField>
                 </div>
 
                 <div className="flex-1">
                   <ArgusFormField label="Time:">
-                    <ArgusInput type="time" value="14:30" />
+                    <ArgusInput type="time" />
                   </ArgusFormField>
                 </div>
 
                 <div className="flex-1">
                   <ArgusFormField label="Stop Date:">
-                    <ArgusDateField value="2024-01-15" />
+                    <ArgusDateField />
                   </ArgusFormField>
                 </div>
               </div>
@@ -747,7 +1055,8 @@ function CaseFormContent() {
                     { value: 'Recovering', label: 'Recovering' },
                     { value: 'NotRecovered', label: 'Not Recovered' },
                   ]}
-                  value="Fatal"
+                  value={caseData?.reaction?.outcome || ''}
+                  onChange={(e: any) => handleFieldChange('outcome', e.target.value)}
                 />
               </ArgusFormField>
 

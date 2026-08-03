@@ -17,7 +17,7 @@ export default function ArgusSelect({
   ...props
 }: ArgusSelectProps) {
   const baseClass =
-    'border border-argus-border px-1 py-0.5 text-11 font-sans h-5 focus:outline-none focus:border-argus-light bg-white';
+    'border border-argus-border rounded-sm px-3 py-2 text-sm font-sans h-10 transition focus:outline-none focus:border-argus-light focus:ring-1 focus:ring-argus-light bg-white';
   const invalidClass = invalid ? 'border-red-600 bg-red-50' : '';
 
   return (

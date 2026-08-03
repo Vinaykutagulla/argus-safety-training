@@ -7,7 +7,7 @@ export default {
   ],
   theme: {
     fontFamily: {
-      sans: ['Arial', 'Helvetica', 'sans-serif'],
+      sans: ['Inter', 'Arial', 'Helvetica', 'sans-serif'],
       mono: ['Courier New', 'monospace'],
     },
     fontSize: {

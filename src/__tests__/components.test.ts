@@ -86,12 +86,13 @@ describe('CaseHeader Component', () => {
 });
 
 describe('WorkflowBar Component', () => {
+  const stages = [
+    { name: 'Intake', completed: true, current: false },
+    { name: 'Data Entry', completed: false, current: true },
+    { name: 'Medical Review', completed: false, current: false },
+  ];
+
   it('should display workflow stages', () => {
-    const stages = [
-      { name: 'Intake', completed: true, current: false },
-      { name: 'Data Entry', completed: false, current: true },
-      { name: 'Medical Review', completed: false, current: false },
-    ];
     expect(stages.length).toBe(3);
   });
 

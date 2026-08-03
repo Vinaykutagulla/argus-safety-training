@@ -1,9 +1,15 @@
-'use client';
+"use client";
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { api } from '@/lib/api-client';
 import ArgusLayout from '@/components/ArgusLayout';
+import PageHeader from '@/components/PageHeader';
+import { Button } from '@/components/Button';
+import IconSave from '@/components/icons/Save';
+import IconCheck from '@/components/icons/Check';
+import IconArrowLeft from '@/components/icons/ArrowLeft';
+import IconPlus from '@/components/icons/Plus';
 
 export default function NewCasePage() {
   const router = useRouter();
@@ -267,10 +273,10 @@ export default function NewCasePage() {
   const TabButton = ({ id, label }: { id: string; label: string }) => (
     <button
       onClick={() => setActiveTab(id)}
-      className={`px-3 py-1 text-11 font-bold border-b-2 transition-colors ${
+      className={`px-2 py-1 text-xs font-semibold transition-colors mr-1 ${
         activeTab === id
-          ? 'bg-argus-bg-tab-active text-argus-navy border-b-argus-section'
-          : 'bg-argus-bg-tab-inactive text-argus-text-muted border-b-argus-border hover:bg-white'
+          ? 'bg-[color:var(--argus-classic-tab)] text-argus-navy border-b-0'
+          : 'text-argus-text-muted hover:text-argus-navy hover:bg-white'
       }`}
     >
       {label}
@@ -279,23 +285,21 @@ export default function NewCasePage() {
 
   return (
     <ArgusLayout>
-      <div className="bg-argus-bg p-3 space-y-3 text-11 font-sans">
-        {/* Title */}
-        <div className="flex justify-between items-center mb-4">
-          <div className="text-13 font-bold text-argus-navy">
-            NEW CASE ENTRY
-          </div>
-          <button
-            onClick={() => router.back()}
-            className="px-2 py-1 bg-argus-bg-tab-inactive hover:bg-argus-blue text-argus-text-primary text-10 border border-argus-border"
-          >
-            Cancel
-          </button>
-        </div>
+      <div className="space-y-4">
+        <PageHeader
+          title="New Case Entry"
+          description="Create or save case drafts quickly. Fields marked * are required."
+          actions={(
+            <div className="flex items-center gap-2">
+              <Button variant="secondary" size="sm" icon={<IconArrowLeft />} onClick={() => router.back()}>Cancel</Button>
+              <Button variant="secondary" size="sm" icon={<IconSave />} onClick={handleSaveDraft}>Save</Button>
+              <Button type="submit" form="case-form" variant="primary" size="sm" icon={<IconCheck />}>Submit</Button>
+            </div>
+          )}
+        />
 
-        {/* Tab Navigation */}
-        <div className="border-2 border-argus-border bg-white">
-          <div className="bg-argus-bg-tab-inactive border-b border-argus-border flex">
+        <div className="bg-white border border-argus-border rounded-lg overflow-hidden">
+          <div className="flex bg-argus-bg px-2"> 
             <TabButton id="general" label="General" />
             <TabButton id="patient" label="Patient" />
             <TabButton id="products" label="Products" />
@@ -305,11 +309,11 @@ export default function NewCasePage() {
           </div>
 
           {/* Form Content */}
-          <form onSubmit={handleSubmit} className="p-3 space-y-2">
+          <form id="case-form" onSubmit={handleSubmit} className="p-2 space-y-3">
             {/* General Tab */}
             {activeTab === 'general' && (
               <div className="space-y-3">
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-2">
                   <div>
                     <label className="block text-10 font-bold text-argus-text-label mb-1">
                       Case Number: <span className="text-red-600">*</span>
@@ -339,7 +343,7 @@ export default function NewCasePage() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-2">
                   <div>
                     <label className="block text-10 font-bold text-argus-text-label mb-1">Case Classification:</label>
                     <select
@@ -366,7 +370,7 @@ export default function NewCasePage() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-2">
                   <div>
                     <label className="block text-10 font-bold text-argus-text-label mb-1">Country of Occurrence:</label>
                     <select
@@ -394,9 +398,9 @@ export default function NewCasePage() {
                   </div>
                 </div>
 
-                <div className="border-t border-argus-border pt-3">
-                  <div className="text-11 font-bold text-argus-navy mb-2">Report Source / Reporter Details</div>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="border-t border-argus-border pt-2">
+                  <div className="text-11 font-bold text-argus-navy mb-1">Report Source / Reporter Details</div>
+                  <div className="grid grid-cols-2 gap-2">
                     <div>
                       <label className="block text-10 font-bold text-argus-text-label mb-1">Awareness Date:</label>
                       <input
@@ -675,13 +679,9 @@ export default function NewCasePage() {
                   </div>
                 ))}
 
-                <button
-                  type="button"
-                  onClick={addProduct}
-                  className="px-3 py-1 bg-argus-blue text-white text-10 font-bold border border-argus-border-dark hover:bg-argus-light"
-                >
-                  ➕ Add Another Product
-                </button>
+                <Button type="button" size="sm" variant="primary" icon={<IconPlus />} onClick={addProduct}>
+                  Add Another Product
+                </Button>
               </div>
             )}
 

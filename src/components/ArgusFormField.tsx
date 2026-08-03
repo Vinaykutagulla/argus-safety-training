@@ -28,11 +28,11 @@ export default function ArgusFormField({
   }[width];
 
   return (
-    <div className={`${widthClass} flex gap-2 items-start py-1`}>
-      {/* Right-aligned label (Oracle style) */}
+    <div className={`${widthClass} form-row flex items-start py-0.5`}>
+      {/* Right-aligned label (compact) */}
       <label
         htmlFor={htmlFor}
-        className="text-11 font-bold text-argus-text-label pt-0.5 w-40 text-right flex-shrink-0"
+        className="text-xs font-semibold text-argus-text-label pt-0.5 label-right flex-shrink-0"
       >
         {label}
         {required && <span className="text-red-600 ml-1">*</span>}
@@ -41,8 +41,8 @@ export default function ArgusFormField({
       {/* Input container */}
       <div className="flex-1">
         {children}
-        {error && <div className="text-10 text-red-600 mt-0.5">{error}</div>}
-        {help && !error && <div className="text-10 text-argus-text-muted mt-0.5">{help}</div>}
+        {error && <div className="text-xs text-red-600 mt-0.5">{error}</div>}
+        {help && !error && <div className="text-xs text-argus-text-muted mt-0.5">{help}</div>}
       </div>
     </div>
   );

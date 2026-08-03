@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -8,6 +8,7 @@ import ArgusInput from '@/components/ArgusInput';
 import ArgusSelect from '@/components/ArgusSelect';
 import ArgusDateField from '@/components/ArgusDateField';
 import { api } from '@/lib/api-client';
+import { Button } from '@/components/Button';
 
 interface Case {
   _id?: string;
@@ -42,21 +43,11 @@ export default function CaseSearchPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  const fetchCases = async (filters?: typeof searchFilters) => {
+  const fetchCases = async (params: Record<string, string> = {}) => {
     setLoadingCases(true);
     try {
-      const filtersToUse = filters || searchFilters;
       const query: Record<string, string> = { page: '1', limit: '50' };
-
-      // Add search filters
-      if (filtersToUse.caseId) query.caseId = filtersToUse.caseId;
-      if (filtersToUse.product) query.product = filtersToUse.product;
-      if (filtersToUse.country && filtersToUse.country !== 'All') query.country = filtersToUse.country;
-      if (filtersToUse.workflowState && filtersToUse.workflowState !== 'All') query.status = filtersToUse.workflowState;
-      if (filtersToUse.seriousness && filtersToUse.seriousness !== 'All') query.seriousness = filtersToUse.seriousness;
-      if (filtersToUse.reportType && filtersToUse.reportType !== 'All') query.reportType = filtersToUse.reportType;
-      if (filtersToUse.fromDate) query.fromDate = filtersToUse.fromDate;
-      if (filtersToUse.toDate) query.toDate = filtersToUse.toDate;
+      if (params.search) query.search = params.search;
 
       const data = await api.cases.list(query);
       const mappedCases = (data.cases || []).map((c: any) => ({
@@ -84,7 +75,8 @@ export default function CaseSearchPage() {
   };
 
   const handleSearch = async () => {
-    await fetchCases();
+    const searchValue = searchFilters.caseId || searchFilters.product || searchFilters.reporter || '';
+    await fetchCases({ search: searchValue });
   };
 
   const handleClear = () => {
@@ -127,9 +119,9 @@ export default function CaseSearchPage() {
 
   return (
     <ArgusLayout>
-      <div className="bg-argus-bg p-3 space-y-3 text-11 font-sans">
+      <div className="space-y-6">
         {/* Page Title */}
-        <div className="text-13 font-bold text-argus-navy uppercase mb-4">
+        <div className="text-sm font-bold text-argus-navy uppercase">
           CASE SEARCH &amp; WORKLIST
         </div>
 
@@ -237,22 +229,10 @@ export default function CaseSearchPage() {
             </div>
 
             {/* Action Buttons */}
-            <div className="flex gap-2 mt-3">
-              <button
-                onClick={handleSearch}
-                className="px-4 py-1 bg-argus-blue text-white text-10 border border-argus-border-dark hover:bg-argus-light"
-              >
-                Search
-              </button>
-              <button
-                onClick={handleClear}
-                className="px-4 py-1 bg-gray-400 text-white text-10 border border-gray-600 hover:bg-gray-500"
-              >
-                Clear
-              </button>
-              <button className="px-4 py-1 bg-argus-orange text-white text-10 border border-yellow-600 hover:bg-yellow-500">
-                Export
-              </button>
+            <div className="flex gap-3 mt-3">
+              <Button onClick={handleSearch} variant="primary">Search</Button>
+              <Button onClick={handleClear} variant="secondary">Clear</Button>
+              <Button variant="warning">Export</Button>
             </div>
           </div>
         </div>

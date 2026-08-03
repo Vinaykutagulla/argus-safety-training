@@ -14,26 +14,14 @@ export default function PageHeader({
   actions,
 }: PageHeaderProps) {
   return (
-    <div className="border-b-2 border-argus-border-section bg-gradient-to-r from-argus-bg to-white mb-4 p-3">
-      <div className="flex justify-between items-start gap-3">
-        <div className="flex-1">
-          <div className="flex items-center gap-2 mb-1">
-            {icon && <span className="text-16">{icon}</span>}
-            <h1 className="text-14 font-bold text-argus-navy uppercase tracking-wide">
-              {title}
-            </h1>
-          </div>
-          {description && (
-            <p className="text-11 text-argus-text-muted ml-6">
-              {description}
-            </p>
-          )}
+    <div className="mb-4">
+      <div className="max-w-7xl mx-auto px-4 py-2 border-b border-argus-border-section bg-[color:var(--argus-classic-top)] flex items-center justify-between">
+        <div>
+          <div className="text-xs uppercase tracking-wider text-gray-700">Safety Operations Center</div>
+          <h1 className="text-2xl font-bold text-argus-navy">{title}</h1>
+          {description && <p className="text-sm text-gray-700 mt-1">{description}</p>}
         </div>
-        {actions && (
-          <div className="flex gap-2 items-center">
-            {actions}
-          </div>
-        )}
+        {actions && <div className="flex items-center gap-3">{actions}</div>}
       </div>
     </div>
   );

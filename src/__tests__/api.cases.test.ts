@@ -1,14 +1,21 @@
+import { startNextTestServer, stopNextTestServer } from './helpers/startTestServer';
+
 /**
  * Case API Integration Tests
  * Tests all case CRUD operations and filtering
  */
 
 describe('Cases API', () => {
-  const API_URL = 'http://localhost:3000/api';
+  jest.setTimeout(180000);
+
+  let API_URL = 'http://127.0.0.1:3000/api';
   let authToken: string;
   let testCaseId: string;
 
   beforeAll(async () => {
+    const server = await startNextTestServer();
+    API_URL = `http://127.0.0.1:${server.port}/api`;
+
     // Login to get auth token
     const loginRes = await fetch(`${API_URL}/auth/login`, {
       method: 'POST',
@@ -18,8 +25,18 @@ describe('Cases API', () => {
         password: 'demo123',
       }),
     });
+
+    if (!loginRes.ok) {
+      const errorText = await loginRes.text();
+      throw new Error(`Login failed: ${loginRes.status} ${errorText}`);
+    }
+
     const loginData = await loginRes.json();
     authToken = loginData.token || loginData.auth_token;
+  });
+
+  afterAll(async () => {
+    await stopNextTestServer();
   });
 
   describe('POST /api/cases - Create Case', () => {

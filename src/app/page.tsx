@@ -3,19 +3,29 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
+function getAuthToken() {
+  if (typeof window === 'undefined') return null;
+
+  const localToken = window.localStorage.getItem('auth-token');
+  if (localToken) return localToken;
+
+  const cookieToken = document.cookie
+    .split('; ')
+    .find((row) => row.startsWith('auth-token='));
+
+  return cookieToken ? cookieToken.split('=')[1] : null;
+}
+
 export default function RootPage() {
   const router = useRouter();
 
   useEffect(() => {
-    // Check if user is logged in
-    const token = typeof window !== 'undefined' ? localStorage.getItem('auth-token') : null;
-    
+    const token = getAuthToken();
+
     if (token) {
-      // Redirect logged-in users to dashboard
-      router.push('/dashboard');
+      router.replace('/dashboard');
     } else {
-      // Redirect non-logged-in users to login
-      router.push('/login');
+      router.replace('/login');
     }
   }, [router]);
 

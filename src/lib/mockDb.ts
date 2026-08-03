@@ -29,7 +29,7 @@ let isConnected = false;
 
 // Initialize with demo data
 async function initializeMockData() {
-  const hashedPassword = await bcrypt.hash('password123', 10);
+  const hashedPassword = await bcrypt.hash('demo123', 10);
   
   const demoUsers: MockUser[] = [
     {
@@ -107,6 +107,13 @@ export const mockDb = {
     if (!existingCase) return null;
     
     const updated = { ...existingCase, ...caseData };
+    cases.set(id, updated);
+    return updated;
+  },
+
+  async upsertCase(id: string, caseData: any) {
+    const existingCase = cases.get(id) || { _id: id };
+    const updated = { ...existingCase, ...caseData, _id: id };
     cases.set(id, updated);
     return updated;
   },

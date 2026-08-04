@@ -1,0 +1,2059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Argus Safety Web - Complete Training Simulation</title>
+    <style>
+        /* ============ RESET & BASE ============ */
+        * { box-sizing: border-box; }
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+            background: #dfe6ee;
+            color: #000;
+        }
+        /* ============ LOGIN SCREEN ============ */
+        #loginScreen {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0d2340, #1c3a5e 60%, #274a73);
+        }
+        .login-card {
+            background: #fff;
+            width: 400px;
+            border-radius: 4px;
+            box-shadow: 0 10px 40px rgba(0,0,0,.35);
+            overflow: hidden;
+            display: flex;
+        }
+        .login-art { width: 90px; background: linear-gradient(#555, #222); flex-shrink: 0; }
+        .login-main { flex: 1; }
+        .login-card .lc-header { background: #fff; padding: 16px 20px 8px 20px; }
+        .login-card .oracle-logo {
+            color: #c74634;
+            font-weight: bold;
+            font-style: italic;
+            font-size: 20px;
+            letter-spacing: -1px;
+        }
+        .login-card .app-sub {
+            color: #111;
+            font-size: 22px;
+            font-weight: 900;
+            margin-top: 2px;
+            letter-spacing: -0.5px;
+        }
+        .login-card .lc-body { padding: 4px 20px 14px 20px; }
+        .login-row { margin-bottom: 12px; }
+        .login-row label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 4px;
+            font-size: 13px;
+        }
+        .login-row input, .login-row select {
+            width: 100%;
+            height: 26px;
+            border: 1px solid #8a99ab;
+            padding: 0 8px;
+            font-size: 13px;
+            border-radius: 1px;
+        }
+        #loginError {
+            color: #b00020;
+            font-size: 11.5px;
+            margin-bottom: 10px;
+            display: none;
+        }
+        .lc-btn-row {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 8px;
+            margin-top: 6px;
+        }
+        .btn-jp {
+            background: linear-gradient(#fdfdfd, #d8d8d8);
+            border: 1px solid #8a8a8a;
+            border-radius: 2px;
+            padding: 5px 10px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background: linear-gradient(#7d9cc4, #5f81ad);
+            color: #fff;
+            border: 1px solid #4a6488;
+            border-radius: 3px;
+            padding: 6px 20px;
+            font-size: 13px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .btn-primary:hover { filter: brightness(1.05); }
+        .login-timestamp { font-size: 11px; color: #a03; padding: 0 20px 10px 20px; }
+        .lc-footer {
+            background: #7f8ea3;
+            color: #eef2f7;
+            padding: 6px 20px;
+            font-size: 10.5px;
+        }
+        .lc-modules {
+            background: #7f8ea3;
+            color: #fff;
+            font-size: 11px;
+            padding: 8px 20px;
+            line-height: 1.7;
+        }
+        .hint { font-size: 10.5px; color: #888; margin: -4px 0 10px 0; }
+
+        /* ============ APP SHELL ============ */
+        #appScreen { display: none; min-height: 100%; }
+        .app-border {
+            border: 1px solid #6b8ab3;
+            max-width: 1200px;
+            margin: 10px auto;
+            background: #fff;
+        }
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 6px 10px;
+            background: #fff;
+            border-bottom: 1px solid #6b8ab3;
+        }
+        .topbar-left { display: flex; align-items: center; gap: 8px; }
+        .oracle-logo {
+            color: #c74634;
+            font-weight: bold;
+            font-size: 20px;
+            font-style: italic;
+            letter-spacing: -1px;
+        }
+        .app-title { color: #444; font-size: 13px; }
+        .topbar-right {
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .topbar-right .btns { display: flex; gap: 2px; }
+        .topbar-right .btns span, .topbar-right .btns a {
+            background: linear-gradient(#7996b8, #5c7ba3);
+            color: #fff;
+            padding: 3px 10px;
+            border: 1px solid #4a6488;
+            border-radius: 2px;
+            font-size: 11px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .topbar-right .btns span:hover, .topbar-right .btns a:hover { filter: brightness(1.08); }
+
+        /* ============ NAVBAR ============ */
+        .navbar {
+            display: flex;
+            background: linear-gradient(#e8edf3, #c9d6e6);
+            border-bottom: 1px solid #6b8ab3;
+            flex-wrap: wrap;
+            position: relative;
+        }
+        .tab-wrap { flex: 1; min-width: 90px; position: relative; }
+        .navbar .tab {
+            text-align: center;
+            padding: 6px 4px;
+            font-size: 12px;
+            font-weight: bold;
+            color: #1c3a5e;
+            border-right: 1px solid #a9bcd6;
+            cursor: pointer;
+            user-select: none;
+        }
+        .tab-wrap:last-child .tab { border-right: none; }
+        .navbar .tab:hover { background: #d7e2ef; }
+        .navbar .tab.active {
+            background: linear-gradient(#7d9cc4, #5f81ad);
+            color: #fff;
+        }
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            left: 0;
+            top: 100%;
+            z-index: 500;
+            min-width: 220px;
+            background: #fdfdc8;
+            border: 1px solid #8a8a6a;
+            box-shadow: 2px 4px 10px rgba(0,0,0,.3);
+        }
+        .tab-wrap:hover>.dropdown-menu, .tab-wrap.menu-open>.dropdown-menu { display: block; }
+        .dd-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            padding: 5px 12px;
+            font-size: 11.5px;
+            font-weight: normal;
+            text-align: left;
+            color: #000;
+            cursor: pointer;
+            white-space: nowrap;
+            position: relative;
+        }
+        .dd-item:hover { background: #fdf07a; }
+        .dd-shortcut { color: #555; font-size: 10.5px; }
+        .dd-arrow { color: #555; font-size: 10px; margin-left: 6px; }
+        .dd-item.has-submenu { position: relative; }
+        .dropdown-menu.nested { left: 100%; top: -1px; }
+        .dd-item.has-submenu:hover>.dropdown-menu.nested { display: block; }
+
+        /* ============ BREADCRUMB ============ */
+        .breadcrumb {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 10px;
+            font-size: 12px;
+            color: #1c3a5e;
+            border-bottom: 1px solid #d5d5d5;
+        }
+        .toolbar-icons { display: flex; gap: 3px; align-items: center; }
+        .icon-btn {
+            width: 22px;
+            height: 20px;
+            border: 1px solid #b7b7b7;
+            border-radius: 2px;
+            background: linear-gradient(#fdfdfd, #e4e4e4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            cursor: pointer;
+            color: #33507a;
+            line-height: 1;
+        }
+        .icon-btn:hover {
+            background: linear-gradient(#eef4fb, #cfe0f2);
+            border-color: #5f81ad;
+        }
+        .icon-btn.txt { font-size: 8.5px; font-weight: bold; width: 26px; }
+        .icon-sep { width: 1px; height: 16px; background: #c3c9d3; margin: 0 3px; }
+
+        /* ============ CONTENT ============ */
+        .content-area { min-height: 480px; }
+        .page-title { font-size: 18px; font-weight: bold; color: #222; padding: 8px 10px 4px 10px; }
+        .page-sub {
+            font-size: 12px;
+            color: #555;
+            padding: 0 10px 8px 10px;
+            max-width: 800px;
+            line-height: 1.5;
+        }
+        .section-wrap { margin: 10px 10px 0 10px; }
+        .section-header {
+            background: linear-gradient(#7d9cc4, #5f81ad);
+            color: #fff;
+            font-weight: bold;
+            padding: 5px 8px;
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .radio-toggle {
+            font-weight: normal;
+            font-size: 11.5px;
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+        .radio-toggle label {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+            cursor: pointer;
+        }
+        .search-case-body {
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            border: 1px solid #b9c6d9;
+            border-top: none;
+        }
+        .search-case-body label { font-weight: bold; }
+        .search-case-body input[type=text] {
+            flex: 0 0 300px;
+            border: 1px solid #8a99ab;
+            padding: 3px;
+            height: 20px;
+        }
+        .btn-open {
+            background: linear-gradient(#fdfdfd, #d8d8d8);
+            border: 1px solid #8a8a8a;
+            border-radius: 2px;
+            padding: 2px 14px;
+            font-size: 11px;
+            cursor: pointer;
+        }
+        .btn-open:hover { filter: brightness(.97); }
+        .panel-header {
+            background: linear-gradient(#7d9cc4, #5f81ad);
+            color: #fff;
+            font-weight: bold;
+            padding: 4px 8px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid #4a6488;
+            cursor: pointer;
+        }
+        .panel-header label { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+        .panel-body { border: 1px solid #b9c6d9; border-top: none; }
+        table.data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table.data-table thead th {
+            background: #dbe6f2;
+            text-align: left;
+            font-size: 11px;
+            font-weight: bold;
+            padding: 4px 6px;
+            border-bottom: 1px solid #b9c6d9;
+            border-right: 1px solid #cddaea;
+            cursor: pointer;
+        }
+        table.data-table thead th:last-child { border-right: none; }
+        table.data-table tbody td {
+            padding: 4px 6px;
+            font-size: 11.5px;
+            border-bottom: 1px solid #eef1f5;
+            border-right: 1px solid #eef1f5;
+        }
+        table.data-table tbody td:last-child { border-right: none; }
+        table.data-table tbody tr:hover { background: #f2f7fc; }
+        table.data-table tbody a { color: #0645AD; cursor: pointer; }
+        .grid-empty-msg {
+            padding: 30px;
+            text-align: center;
+            color: #888;
+            font-size: 11.5px;
+        }
+        .placeholder-page {
+            padding: 40px 20px;
+            text-align: center;
+            color: #777;
+        }
+        .placeholder-page h2 { color: #1c3a5e; font-size: 16px; margin-bottom: 6px; }
+        .placeholder-page p {
+            font-size: 12px;
+            max-width: 480px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+        .placeholder-icon { font-size: 40px; margin-bottom: 10px; }
+
+        /* ============ CASE FORM ============ */
+        .case-detail-tabs {
+            display: flex;
+            background: #e8edf3;
+            border-bottom: 1px solid #6b8ab3;
+            margin: 10px 10px 0 10px;
+            flex-wrap: wrap;
+        }
+        .case-detail-tabs .cdt {
+            padding: 6px 14px;
+            font-size: 11.5px;
+            font-weight: bold;
+            color: #1c3a5e;
+            border-right: 1px solid #c9d6e6;
+            cursor: pointer;
+        }
+        .case-detail-tabs .cdt.active {
+            background: #fff;
+            border-bottom: 2px solid #5f81ad;
+        }
+        .back-link {
+            display: inline-block;
+            margin: 10px 10px 0 10px;
+            color: #0645AD;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .cf-titlebar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            padding: 6px 10px 2px 10px;
+            gap: 10px;
+        }
+        .cf-titlebar .cf-title-left {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #1c3a5e;
+        }
+        .cf-titlebar .cf-title-right {
+            font-size: 12px;
+            color: #1c3a5e;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .cf-titlebar .cf-title-right b { color: #000; }
+        .lock-icon { font-size: 14px; }
+        .cf-status-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            align-items: center;
+            background: #eef3f9;
+            border: 1px solid #b9c6d9;
+            border-bottom: none;
+            margin: 10px 10px 0 10px;
+            padding: 6px 10px;
+            font-size: 11.5px;
+        }
+        .cf-status-bar .cf-stat {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+        .cf-status-bar .cf-stat b { color: #1c3a5e; }
+        .cf-light {
+            display: inline-block;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            margin-right: 3px;
+        }
+        .cf-light.green { background: #3a9d3a; }
+        .cf-light.yellow { background: #d6a017; }
+        .cf-light.red { background: #c0392b; }
+        .cf-light.grey { background: #999; }
+        .cf-body {
+            margin: 0 10px 14px 10px;
+            border: 1px solid #b9c6d9;
+            border-top: none;
+            background: #fff;
+            padding: 12px;
+        }
+        .cf-subtabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #b9c6d9;
+        }
+        .cf-subtabs .cf-subtab {
+            padding: 4px 12px;
+            font-size: 11px;
+            font-weight: bold;
+            color: #1c3a5e;
+            cursor: pointer;
+            background: #e8edf3;
+            border: 1px solid #c9d6e6;
+            border-bottom: none;
+            border-radius: 3px 3px 0 0;
+            position: relative;
+            top: 1px;
+        }
+        .cf-subtabs .cf-subtab.active {
+            background: #fff;
+            border-bottom: 1px solid #fff;
+            color: #0d2340;
+        }
+        .cf-subtabs .cf-subtab .cf-primary-flag { color: #c74634; margin-right: 3px; }
+        .cf-subtabs .cf-subtab-add {
+            padding: 4px 10px;
+            font-size: 11px;
+            font-weight: bold;
+            color: #0645AD;
+            cursor: pointer;
+            align-self: flex-end;
+        }
+        .cf-section {
+            border: 1px solid #d7e0ea;
+            margin-bottom: 12px;
+        }
+        .cf-section-hd {
+            background: linear-gradient(#eaf0f8, #dbe6f2);
+            color: #1c3a5e;
+            font-weight: bold;
+            font-size: 11.5px;
+            padding: 5px 8px;
+            border-bottom: 1px solid #d7e0ea;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .cf-section-body { padding: 10px; }
+        .cf-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 9px 16px;
+        }
+        .cf-grid.cols2 { grid-template-columns: repeat(2, 1fr); }
+        .cf-grid.cols4 { grid-template-columns: repeat(4, 1fr); }
+        .cf-item {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+        .cf-item label {
+            font-size: 10.5px;
+            font-weight: bold;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .cf-item input[type=text], .cf-item input[type=date], .cf-item select {
+            border: 1px solid #8a99ab;
+            padding: 3px 5px;
+            font-size: 11.5px;
+            height: 22px;
+            background: #fff;
+        }
+        .cf-item input:disabled, .cf-item textarea:disabled {
+            background: #eef1f5;
+            color: #777;
+        }
+        .cf-item textarea {
+            border: 1px solid #8a99ab;
+            padding: 5px;
+            font-size: 11.5px;
+            font-family: Arial, sans-serif;
+            resize: vertical;
+        }
+        .cf-item.span2 { grid-column: span 2; }
+        .cf-item.span3 { grid-column: span 3; }
+        .cf-checkline {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 11px;
+            font-weight: normal !important;
+        }
+        .cf-toolbar-row {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+        .cf-mini-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 4px;
+        }
+        .cf-mini-table th {
+            background: #eaf0f8;
+            text-align: left;
+            font-size: 10.5px;
+            padding: 4px 6px;
+            border: 1px solid #d7e0ea;
+        }
+        .cf-mini-table td {
+            font-size: 11px;
+            padding: 4px 6px;
+            border: 1px solid #eef1f5;
+        }
+        .cf-seriousness {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            font-size: 11px;
+        }
+        .cf-seriousness label {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+        .cf-narrative-box {
+            border: 1px solid #8a99ab;
+            padding: 8px;
+            font-size: 11.5px;
+            line-height: 1.6;
+            min-height: 110px;
+            background: #fffef8;
+            white-space: pre-wrap;
+        }
+        .cf-empty { color: #888; font-size: 11px; padding: 14px; text-align: center; }
+
+        /* ============ ARGUS PANELS ============ */
+        .ap-panel { border: 1px solid #4a6488; margin-bottom: 1px; }
+        .ap-panel-hd {
+            background: linear-gradient(#7d9cc4, #5f81ad);
+            color: #fff;
+            font-weight: bold;
+            font-size: 11.5px;
+            padding: 4px 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            user-select: none;
+        }
+        .ap-panel-hd .ap-hd-left { display: flex; align-items: center; gap: 8px; }
+        .ap-panel-hd .ap-hd-right { display: flex; align-items: center; gap: 6px; }
+        .ap-collapse-box {
+            width: 14px;
+            height: 14px;
+            background: #fff;
+            border: 1px solid #2a4568;
+            color: #2a4568;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
+            line-height: 1;
+        }
+        .ap-panel-body {
+            background: #eef3f9;
+            padding: 8px 10px;
+            border: 1px solid #b9c6d9;
+            border-top: none;
+        }
+        .ap-panel-body.collapsed { display: none; }
+        .ap-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 7px 14px;
+        }
+        .ap-grid.cols2 { grid-template-columns: repeat(2, 1fr); }
+        .ap-grid.cols3 { grid-template-columns: repeat(3, 1fr); }
+        .ap-grid.cols5 { grid-template-columns: repeat(5, 1fr); }
+        .ap-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            min-width: 0;
+        }
+        .ap-item.span2 { grid-column: span 2; }
+        .ap-item.span3 { grid-column: span 3; }
+        .ap-item.span4 { grid-column: span 4; }
+        .ap-item label {
+            font-size: 10px;
+            font-weight: bold;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
+        }
+        .ap-item input[type=text], .ap-item select {
+            border: 1px solid #8a99ab;
+            padding: 2px 5px;
+            font-size: 11px;
+            height: 20px;
+            background: #fff;
+            width: 100%;
+        }
+        .ap-item input:disabled { background: #e3e9f0; color: #666; }
+        .ap-item .ap-with-btn { display: flex; gap: 3px; }
+        .ap-item .ap-with-btn input { flex: 1; }
+        .ap-checkline {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 10.5px;
+            font-weight: normal !important;
+            white-space: nowrap;
+        }
+        .ap-panel-hd-btn {
+            background: linear-gradient(#fdfdfd, #d8d8d8);
+            border: 1px solid #8a8a8a;
+            border-radius: 2px;
+            color: #000;
+            font-weight: normal;
+            padding: 1px 10px;
+            font-size: 10.5px;
+            cursor: pointer;
+        }
+        .ap-mini-actions { display: flex; gap: 4px; }
+        .ap-mini-actions .ap-panel-hd-btn { padding: 1px 8px; }
+        .ap-flag-icons { display: flex; gap: 2px; align-items: center; }
+        .ap-flag-icons .flag {
+            width: 16px;
+            height: 11px;
+            display: inline-block;
+            border: 1px solid #999;
+            background: #c8d4e0;
+            font-size: 7px;
+            text-align: center;
+            line-height: 11px;
+            color: #333;
+        }
+        .ap-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+        }
+        .ap-table th {
+            background: #dbe6f2;
+            text-align: left;
+            font-size: 10px;
+            padding: 3px 5px;
+            border: 1px solid #c3d2e4;
+            white-space: nowrap;
+        }
+        .ap-table td {
+            font-size: 10.5px;
+            padding: 3px 5px;
+            border: 1px solid #e3e9f0;
+        }
+        .ap-table input[type=text] {
+            border: 1px solid #b9c6d9;
+            font-size: 10.5px;
+            height: 18px;
+            padding: 1px 3px;
+            width: 100%;
+        }
+        .ap-empty-row td { text-align: center; color: #999; padding: 10px; }
+        .pp-toggle {
+            display: flex;
+            border-bottom: 1px solid #6b8ab3;
+            margin-bottom: 0;
+        }
+        .pp-toggle .ppt {
+            padding: 5px 16px;
+            font-size: 11.5px;
+            font-weight: bold;
+            color: #1c3a5e;
+            cursor: pointer;
+            background: #e8edf3;
+            border: 1px solid #b9c6d9;
+            border-bottom: none;
+            margin-right: 2px;
+            border-radius: 2px 2px 0 0;
+        }
+        .pp-toggle .ppt.active {
+            background: #5f81ad;
+            color: #fff;
+        }
+        .ap-subtab-row {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 6px;
+            background: #eef3f9;
+            border: 1px solid #b9c6d9;
+            border-bottom: none;
+            flex-wrap: wrap;
+        }
+        .ap-subtab-row .ap-subtab-pill {
+            background: linear-gradient(#fdfdfd, #dfe4ea);
+            border: 1px solid #8a99ab;
+            border-radius: 2px;
+            padding: 3px 12px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #1c3a5e;
+        }
+        .ap-subtab-row .ap-subtab-pill.active {
+            background: linear-gradient(#7d9cc4, #5f81ad);
+            color: #fff;
+            border-color: #4a6488;
+        }
+        .ap-subtab-row .ap-subtab-addbtn {
+            margin-left: auto;
+            background: linear-gradient(#fdfdfd, #d8d8d8);
+            border: 1px solid #8a8a8a;
+            border-radius: 2px;
+            padding: 3px 10px;
+            font-size: 10.5px;
+            cursor: pointer;
+        }
+        .subtab-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 10px 10px 0 10px;
+            border-bottom: 1px solid #b9c6d9;
+        }
+        .subtab-row .st {
+            padding: 6px 12px;
+            font-size: 11.5px;
+            font-weight: bold;
+            color: #1c3a5e;
+            cursor: pointer;
+            border: 1px solid #b9c6d9;
+            border-bottom: none;
+            background: #e8edf3;
+            margin-right: 2px;
+            border-radius: 3px 3px 0 0;
+        }
+        .subtab-row .st.active {
+            background: #fff;
+            color: #0d2340;
+            border-bottom: 1px solid #fff;
+            position: relative;
+            top: 1px;
+        }
+        .filter-form {
+            border: 1px solid #b9c6d9;
+            border-top: none;
+            padding: 10px;
+            display: grid;
+            grid-template-columns: 100px 1fr 100px 1fr;
+            gap: 8px 10px;
+            align-items: center;
+        }
+        .filter-form label {
+            font-weight: bold;
+            text-align: right;
+            font-size: 11.5px;
+        }
+        .filter-form input, .filter-form select {
+            border: 1px solid #8a99ab;
+            padding: 3px 5px;
+            font-size: 11.5px;
+            height: 22px;
+        }
+        .filter-actions {
+            grid-column: 1 / -1;
+            text-align: right;
+            padding-top: 4px;
+        }
+        .case-form-section-label {
+            font-weight: bold;
+            color: #1c3a5e;
+            font-size: 12px;
+            padding: 6px 8px 2px 8px;
+            border: 1px solid #b9c6d9;
+            border-top: none;
+            border-bottom: none;
+            background: #f4f7fb;
+        }
+        .case-form-grid {
+            border: 1px solid #b9c6d9;
+            border-top: none;
+            padding: 10px 10px 14px 10px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px 16px;
+        }
+        .cf-field {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+        .cf-field label {
+            font-weight: bold;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .cf-field input, .cf-field select {
+            border: 1px solid #8a99ab;
+            padding: 3px 5px;
+            font-size: 11.5px;
+            height: 22px;
+        }
+        .cf-field input:disabled {
+            background: #eceff3;
+            color: #888;
+        }
+        .cf-field .cf-with-btn { display: flex; gap: 4px; }
+        .cf-field .cf-with-btn input { flex: 1; }
+        .req-flag { color: #c02828; font-size: 11px; }
+        .badge-e2b {
+            background: #2f6fb0;
+            color: #fff;
+            font-size: 8.5px;
+            font-weight: bold;
+            border-radius: 8px;
+            padding: 1px 5px;
+        }
+        .justify-dot {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            background: #3a9d3a;
+            border: 1px solid #2a7a2a;
+            display: inline-block;
+            cursor: pointer;
+            margin-left: 2px;
+        }
+        .clear-x {
+            color: #b00020;
+            font-size: 11px;
+            cursor: pointer;
+            margin-left: 4px;
+        }
+        .case-form-actions {
+            text-align: right;
+            padding: 10px;
+            border: 1px solid #b9c6d9;
+            border-top: none;
+        }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 10px;
+            padding: 10px;
+        }
+        .menu-card {
+            border: 1px solid #b9c6d9;
+            border-radius: 3px;
+            padding: 10px 12px;
+            cursor: pointer;
+            background: #f7fafd;
+        }
+        .menu-card:hover {
+            background: #eaf1f9;
+            border-color: #5f81ad;
+        }
+        .menu-card .mc-title {
+            font-weight: bold;
+            color: #1c3a5e;
+            font-size: 12.5px;
+            margin-bottom: 3px;
+        }
+        .menu-card .mc-desc {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.4;
+        }
+        .badge {
+            display: inline-block;
+            padding: 1px 6px;
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: bold;
+            color: #fff;
+        }
+        .badge-de { background: #3a7d3a; }
+        .badge-mr { background: #a8781f; }
+        .badge-qc { background: #7b4fa0; }
+        .badge-closed { background: #888; }
+
+        /* ============ TOAST ============ */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #1c3a5e;
+            color: #fff;
+            padding: 10px 16px;
+            border-radius: 4px;
+            font-size: 12px;
+            box-shadow: 0 4px 14px rgba(0,0,0,.3);
+            display: none;
+            z-index: 999;
+        }
+
+        /* ============ MODALS ============ */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(20,30,45,.45);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal-box {
+            background: #fff;
+            width: 420px;
+            max-width: 92vw;
+            border: 1px solid #4a6488;
+            box-shadow: 0 12px 40px rgba(0,0,0,.4);
+        }
+        .modal-box.wide { width: 700px; max-width: 94vw; }
+        .modal-header {
+            background: linear-gradient(#7d9cc4, #5f81ad);
+            color: #fff;
+            font-weight: bold;
+            padding: 6px 10px;
+            font-size: 12.5px;
+        }
+        .modal-body { padding: 14px 16px; font-size: 12px; }
+        .modal-body textarea {
+            width: 100%;
+            height: 90px;
+            border: 1px solid #8a99ab;
+            padding: 6px;
+            font-size: 12px;
+            resize: vertical;
+            font-family: Arial, sans-serif;
+        }
+        .modal-listbox {
+            border: 1px solid #8a99ab;
+            margin-top: 4px;
+        }
+        .modal-listbox .lb-item {
+            padding: 5px 8px;
+            font-size: 11.5px;
+            cursor: pointer;
+        }
+        .modal-listbox .lb-item.selected { background: #fdf07a; }
+        .modal-field-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .modal-field-row label {
+            width: 150px;
+            font-weight: bold;
+            font-size: 11.5px;
+        }
+        .modal-field-row input {
+            flex: 1;
+            border: 1px solid #8a99ab;
+            padding: 4px 6px;
+            font-size: 12px;
+            height: 22px;
+        }
+        .modal-footer {
+            padding: 8px 12px 12px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            border-top: 1px solid #eee;
+        }
+        .modal-footer .btn-open { padding: 4px 16px; }
+        .print-tabs {
+            display: flex;
+            border-bottom: 1px solid #b9c6d9;
+            margin: 10px 10px 0 10px;
+        }
+        .print-tabs .pt {
+            padding: 5px 12px;
+            background: #e8edf3;
+            border: 1px solid #b9c6d9;
+            border-bottom: none;
+            margin-right: 2px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 11px;
+        }
+        .print-tabs .pt.active {
+            background: #fff;
+            border-bottom: 1px solid #fff;
+        }
+        .print-body {
+            margin: 0 10px 10px 10px;
+            border: 1px solid #b9c6d9;
+            padding: 12px;
+            border-top: none;
+        }
+        .advcond-container {
+            display: flex;
+            gap: 16px;
+            margin-top: 8px;
+        }
+        .advcond-left {
+            flex: 0 0 280px;
+            border: 1px solid #b9c6d9;
+            padding: 8px;
+            max-height: 300px;
+            overflow-y: auto;
+            background: #f9fafb;
+        }
+        .advcond-left .tree-item {
+            font-size: 11px;
+            padding: 2px 4px;
+            cursor: pointer;
+        }
+        .advcond-left .tree-item:hover { background: #eaf1f9; }
+        .advcond-left .tree-item .caret {
+            display: inline-block;
+            width: 12px;
+            text-align: center;
+        }
+        .advcond-left .tree-item .caret.expanded::before { content: "\25BC"; }
+        .advcond-left .tree-item .caret.collapsed::before { content: "\25BA"; }
+        .advcond-left .tree-item .leaf { padding-left: 16px; }
+        .advcond-right {
+            flex: 1;
+            border: 1px solid #b9c6d9;
+            padding: 10px;
+            background: #f9fafb;
+        }
+        .advcond-conditions { margin-top: 10px; }
+        .advcond-conditions .condition-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 6px;
+            flex-wrap: wrap;
+        }
+        .advcond-conditions .condition-row .btn-remove {
+            color: #b00020;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            line-height: 1;
+        }
+        .advcond-hitlist {
+            margin-top: 12px;
+            border-top: 1px solid #d7e0ea;
+            padding-top: 10px;
+        }
+        .advcond-hitlist .hitlist-actions {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+        .advcond-hitlist table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .advcond-hitlist th {
+            background: #dbe6f2;
+            text-align: left;
+            font-size: 10px;
+            padding: 3px 6px;
+            border: 1px solid #c3d2e4;
+        }
+        .advcond-hitlist td {
+            font-size: 10.5px;
+            padding: 3px 6px;
+            border: 1px solid #e3e9f0;
+        }
+        .advcond-hitlist .hitlist-empty {
+            padding: 20px;
+            text-align: center;
+            color: #888;
+        }
+
+        /* ============ HELP MODAL SPECIFIC ============ */
+        .help-content {
+            font-size: 12px;
+            line-height: 1.6;
+            max-height: 70vh;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+        .help-content h1 {
+            font-size: 18px;
+            color: #1c3a5e;
+            border-bottom: 2px solid #7d9cc4;
+            padding-bottom: 4px;
+            margin: 16px 0 8px 0;
+        }
+        .help-content h2 {
+            font-size: 16px;
+            color: #1c3a5e;
+            margin: 14px 0 6px 0;
+        }
+        .help-content h3 {
+            font-size: 14px;
+            color: #1c3a5e;
+            margin: 12px 0 4px 0;
+        }
+        .help-content h4 {
+            font-size: 13px;
+            color: #1c3a5e;
+            margin: 10px 0 4px 0;
+        }
+        .help-content ul {
+            margin: 4px 0 8px 20px;
+            list-style: disc;
+        }
+        .help-content ol {
+            margin: 4px 0 8px 20px;
+            list-style: decimal;
+        }
+        .help-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 8px 0 12px 0;
+            font-size: 11px;
+        }
+        .help-content table th {
+            background: #dbe6f2;
+            border: 1px solid #b9c6d9;
+            padding: 4px 6px;
+            text-align: left;
+            font-weight: bold;
+        }
+        .help-content table td {
+            border: 1px solid #b9c6d9;
+            padding: 4px 6px;
+            vertical-align: top;
+        }
+        .help-content .note {
+            background: #f9f9f9;
+            border-left: 4px solid #7d9cc4;
+            padding: 6px 10px;
+            margin: 8px 0;
+        }
+        .help-content .tip {
+            background: #f0f7e6;
+            border-left: 4px solid #3a7d3a;
+            padding: 6px 10px;
+            margin: 8px 0;
+        }
+        .help-content .warning {
+            background: #fff3e0;
+            border-left: 4px solid #d6a017;
+            padding: 6px 10px;
+            margin: 8px 0;
+        }
+        .help-content .icon-desc {
+            display: inline-block;
+            background: #eef3f9;
+            border: 1px solid #b9c6d9;
+            padding: 2px 6px;
+            font-size: 10px;
+            border-radius: 3px;
+            margin: 0 2px;
+        }
+
+        /* ============ ACTIVE CASES DROPDOWN ============ */
+        .recent-dropdown-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 10px;
+            background: #f5f8fc;
+            border-bottom: 1px solid #b9c6d9;
+        }
+        .recent-dropdown-row label {
+            font-weight: bold;
+            font-size: 12px;
+            color: #1c3a5e;
+        }
+        .recent-dropdown-row select {
+            flex: 1;
+            max-width: 400px;
+            border: 1px solid #8a99ab;
+            padding: 3px 5px;
+            height: 22px;
+            font-size: 11px;
+        }
+        .recent-dropdown-row .btn-open { padding: 2px 14px; }
+    </style>
+</head>
+<body>
+
+    <!-- ================= LOGIN SCREEN ================= -->
+    <div id="loginScreen">
+        <div class="login-card">
+            <div class="login-art"></div>
+            <div class="login-main">
+                <div class="lc-header">
+                    <div class="oracle-logo">ORACLE<sup style="font-size:9px;">&reg;</sup> <span style="color:#444;font-weight:normal;font-style:normal;font-size:11px;">HEALTH SCIENCES</span></div>
+                    <div class="app-sub">ARGUS SAFETY</div>
+                </div>
+                <div class="lc-body">
+                    <div id="loginError">Invalid username or password. Please try again.</div>
+                    <div class="login-row">
+                        <label>Username</label>
+                        <input type="text" id="username" placeholder="e.g. margarete" autocomplete="off">
+                    </div>
+                    <div class="login-row">
+                        <label>Password</label>
+                        <input type="password" id="password" placeholder="Password">
+                    </div>
+                    <div class="login-row">
+                        <label>Database</label>
+                        <select id="database">
+                            <option>ARNIS01 - Production</option>
+                            <option>ARNIS02 - Training</option>
+                            <option>ARNIS03 - Validation</option>
+                        </select>
+                    </div>
+                    <div class="hint">Training simulation — enter any username &amp; password to log in.</div>
+                    <div class="lc-btn-row">
+                        <button class="btn-jp" onclick="showToast('Japanese interface would load here.')">&#26085;&#26412;&#31278;</button>
+                        <button class="btn-primary" onclick="doLogin()">Login</button>
+                    </div>
+                </div>
+                <div class="login-timestamp" id="loginTimestamp"></div>
+                <div class="lc-modules">
+                    The following modules are enabled:<br>
+                    <b>- Argus &nbsp; - Interchange &nbsp; - Insight &nbsp; - Dossier</b><br>
+                    <b>- Reconciliation &nbsp; - Perceptive &nbsp; - Argus J</b>
+                </div>
+                <div class="lc-footer">Argus Safety Web &copy; Training Simulation Build. Copyright Oracle Corporation. All rights reserved.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= APP SCREEN ================= -->
+    <div id="appScreen">
+        <div class="app-border">
+            <!-- Top bar -->
+            <div class="topbar">
+                <div class="topbar-left">
+                    <span class="oracle-logo">ORACLE<sup style="font-size:8px;">&reg;</sup></span>
+                    <span class="app-title">Argus Safety Web</span>
+                </div>
+                <div class="topbar-right">
+                    <span>Welcome <b id="welcomeUser">margarete</b>, <span id="todayDate"></span> (<span id="dbLabel">ARNIS01</span>)</span>
+                    <div class="btns">
+                        <span onclick="goTo('home')">Home</span>
+                        <span onclick="openHelpModal()">Help</span>
+                        <a onclick="doLogout()">Logout</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nav tabs -->
+            <div class="navbar" id="navbar"></div>
+
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <div id="breadcrumbText">Home &gt; Personal Argus Status</div>
+                <div class="toolbar-icons" id="breadcrumbRight"></div>
+            </div>
+
+            <!-- Content -->
+            <div class="content-area" id="contentArea"></div>
+        </div>
+    </div>
+
+    <!-- ================= MODALS ================= -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-box" id="modalBox"></div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // ============================================================
+        // ARGUS SAFETY WEB — COMPLETE TRAINING SIMULATION
+        // All 13 Chapters included in Help Modal
+        // ============================================================
+
+        // ============ DATA ============
+        const ALL_CASES = [
+            { country: 'US', num: '2010-00118', reportType: 'Expedited', product: 'ProductX 50mg', workflow: 'Data Entry',
+                event: 'Nausea', receipt: '05-Mar-2010', initials: 'MK' },
+            { country: 'DE', num: '2010-00092', reportType: 'Periodic', product: 'ProductY 10mg', workflow: 'Medical Review',
+                event: 'Headache', receipt: '02-Mar-2010', initials: 'JS' },
+            { country: 'FR', num: '2010-00071', reportType: 'Expedited', product: 'ProductZ Inj.', workflow: 'QC Review',
+                event: 'Rash', receipt: '26-Feb-2010', initials: 'AL' },
+            { country: 'JP', num: '2010-00034', reportType: 'Expedited', product: 'ProductX 50mg', workflow: 'Closed',
+                event: 'Dizziness', receipt: '14-Feb-2010', initials: 'MK' },
+            { country: 'US', num: '2010-00060', reportType: 'Periodic', product: 'ProductY 10mg', workflow: 'Data Entry',
+                event: 'Fatigue', receipt: '20-Feb-2010', initials: 'MK' },
+            { country: 'GB', num: '2010-00045', reportType: 'Expedited', product: 'ProductW 5mg', workflow: 'Medical Review',
+                event: 'Vomiting', receipt: '15-Feb-2010', initials: 'JS' },
+            { country: 'JP', num: '2010-00028', reportType: 'Expedited', product: 'ProductZ Inj.', workflow: 'Coding Review',
+                event: 'Injection site pain', receipt: '10-Feb-2010', initials: 'AL' },
+            { country: 'US', num: '2010-00011', reportType: 'Periodic', product: 'ProductX 50mg', workflow: 'Closed',
+                event: 'Insomnia', receipt: '03-Feb-2010', initials: 'MK' },
+        ];
+
+        const WORKFLOW_BADGE = {
+            'Data Entry': 'badge-de',
+            'Medical Review': 'badge-mr',
+            'QC Review': 'badge-qc',
+            'Coding Review': 'badge-qc',
+            'Closed': 'badge-closed',
+        };
+
+        const CASE_FORM_TABS = [
+            { id: 'general', label: 'General' },
+            { id: 'patient', label: 'Patient' },
+            { id: 'products', label: 'Products' },
+            { id: 'events', label: 'Events' },
+            { id: 'analysis', label: 'Analysis' },
+            { id: 'activities', label: 'Activities' },
+            { id: 'additionalinfo', label: 'Additional Information' },
+            { id: 'regreports', label: 'Regulatory Reports' },
+            { id: 'pmda', label: 'PMDA' },
+        ];
+
+        // ============ MENUS ============
+        const WORKLIST_MENU = [
+            { label: 'New and Open', action: "goTo('worklist_newopen')" },
+            { label: 'Action Items', action: "goTo('worklist_actionitems')" },
+            { label: 'Coding Action Items', action: "goTo('worklist_codingactionitems')" },
+            { label: 'Contacts', action: "goTo('worklist_contacts')" },
+            { label: 'Reports', action: "goTo('worklist_reports')" },
+            { label: 'Bulk Transmit', action: "goTo('worklist_bulktransmit')" },
+            { label: 'Bulk Print', action: "goTo('worklist_bulkprint')" },
+            { label: 'Coding Review', action: "showToast('Coding Review would open here.')" },
+            { label: 'Bulk E2B Transmit', action: "goTo('worklist_bulke2b')" },
+            { label: 'Local Labeling', action: "showToast('Local Labeling would open here.')" },
+            { label: 'Coding Status', action: "goTo('worklist_codingstatus')" },
+            { label: 'Letters', action: "goTo('worklist_letters')" },
+        ];
+
+        const CASE_ACTIONS_MENU = [
+            { label: 'Open', shortcut: '(Ctrl+Alt+O)', action: "goTo('caseactions')" },
+            { label: 'New', shortcut: '(Ctrl+Alt+N)', action: "openCaseSearchForm()" },
+            { label: 'New Case from Image', shortcut: '(Ctrl+Alt+G)', action: "showToast('New Case from Image wizard would open here.')" },
+            { label: 'Save', shortcut: '(Ctrl+Alt+S)', action: "showToast('Case saved.')" },
+            { label: 'Copy', shortcut: '(Ctrl+Alt+C)', action: "openCopyModal()" },
+            { label: 'Medical Review', shortcut: '(Ctrl+Alt+M)', action: "openMedicalReviewModal()" },
+            { label: 'Coding Review', shortcut: '(Ctrl+Alt+K)', action: "openCodingReviewModal()" },
+            { label: 'Print', shortcut: '(Ctrl+Alt+P)', action: "openPrintModal()" },
+            { label: 'Delete', shortcut: '(Ctrl+Alt+D)', action: "openDeleteModal()" },
+            { label: 'Case Revisions', shortcut: '(Ctrl+Alt+R)', action: "openCaseRevisionsModal()" },
+            { label: 'Advanced Conditions', shortcut: '(Ctrl+Alt+A)', action: "openAdvancedConditionsModal()" },
+        ];
+
+        const UTILITIES_MENU = [
+            { label: 'Change Password', action: "openChangePasswordModal()" },
+            { label: 'MedDRA Browser', action: "showToast('MedDRA Browser would open here.')" },
+            { label: 'User Login List', action: "showToast('User Login List would open here.')" },
+            { label: 'Logs', arrow: true, action: "showToast('Logs submenu would open here.')" },
+            { label: 'E2B', arrow: true, action: "showToast('E2B submenu would open here.')" },
+            { label: 'Reconciliation', arrow: true, action: "showToast('Reconciliation submenu would open here.')" },
+            { label: 'Case Undelete', action: "showToast('Case Undelete would open here.')" },
+            { label: 'Batch Reports', action: "showToast('Batch Reports would open here.')" },
+            { label: 'Blank Report Forms', action: "showToast('Blank Report Forms would open here.')" },
+            { label: 'End Of Study', action: "showToast('End Of Study would open here.')" },
+            { label: 'Clear Cache', action: "showToast('Cache cleared for this session.')" },
+            { label: 'Advanced Condition Library', action: "openAdvancedConditionsModal()" },
+        ];
+
+        const DROPDOWN_MENUS = {
+            worklist: WORKLIST_MENU,
+            caseactions: CASE_ACTIONS_MENU,
+            utilities: UTILITIES_MENU,
+        };
+
+        const TOOLBAR_ICONS = [
+            { glyph: '&#9993;', title: 'Email Case' },
+            { glyph: '&#128196;', title: 'New Case' },
+            { glyph: '&#128194;', title: 'Open Case' },
+            { glyph: '&#128203;', title: 'Case List' },
+            { sep: true },
+            { glyph: '&#10001;', title: 'Print' },
+            { glyph: '&#128190;', title: 'Save' },
+            { glyph: '&#8617;', title: 'Undo' },
+            { sep: true },
+            { glyph: '&#128465;', title: 'Delete Case' },
+            { glyph: '&#128221;', title: 'Add Note' },
+            { text: 'E2B', title: 'E2B Export' },
+            { text: 'Val', title: 'Validate Case' },
+            { sep: true },
+            { glyph: '&#11088;', title: 'Priority Flag' },
+        ];
+
+        const TABS = [
+            { id: 'activecases', label: 'Active Cases', dropdown: 'ACTIVE_CASES_MENU' },
+            { id: 'worklist', label: 'Worklist', dropdown: 'worklist' },
+            { id: 'caseactions', label: 'Case Actions', dropdown: 'caseactions' },
+            { id: 'reports', label: 'Reports' },
+            { id: 'localaffiliate', label: 'Local Affiliate' },
+            { id: 'utilities', label: 'Utilities', dropdown: 'utilities' },
+            { id: 'dashboards', label: 'Dashboards' },
+            { id: 'argusconsole', label: 'Argus Console' },
+            { id: 'argusinsight', label: 'Argus Insight' },
+            { id: 'argusperceptive', label: 'Argus Perceptive' },
+        ];
+
+        // ============ STATE ============
+        let recentCases = [ALL_CASES[0], ALL_CASES[1], ALL_CASES[2], ALL_CASES[3], ALL_CASES[4]].map((c, i) => ({ ...c,
+            accessedLabel: ['09:41 AM', 'Yesterday', '2 days ago', '3 days ago', '1 week ago'][i] }));
+        let currentTab = 'home';
+        let currentWorklistSub = 'newopen';
+        let savedAdvancedConditions = [];
+        let advancedConditionQuery = [];
+
+        let cfState = {
+            caseKey: null,
+            tab: 'general',
+            reporterIdx: 0,
+            productIdx: 0,
+            eventIdx: 0,
+            patientSub: 'patient',
+            collapsed: {},
+        };
+
+        const CASE_DETAIL_CACHE = {};
+
+        // ============ HELPERS ============
+        function formatArgusCaseNumber(c) {
+            const yy = c.num.slice(2, 4);
+            const seq = c.num.split('-')[1] || '';
+            return yy + c.country + '0000' + seq;
+        }
+
+        function findCaseByLabel(label) {
+            const m = label.match(/\(([A-Z]+)\)\s*([\d-]+)/);
+            if (!m) return null;
+            return ALL_CASES.find(c => c.country === m[1] && c.num === m[2]) || null;
+        }
+
+        function trackCaseAccess(caseLabel) {
+            const c = findCaseByLabel(caseLabel);
+            if (!c) return;
+            recentCases = recentCases.filter(rc => !(rc.country === c.country && rc.num === c.num));
+            recentCases.unshift({ ...c, accessedLabel: 'Just now' });
+            if (recentCases.length > 10) recentCases = recentCases.slice(0, 10);
+            buildNavbar();
+            setActiveTab('activecases');
+        }
+
+        function currentOpenCaseLabel() {
+            const crumb = document.getElementById('breadcrumbText').textContent;
+            const m = crumb.match(/\(([A-Z]+)\)\s*([\d-]+)/);
+            return m ? `(${m[1]}) ${m[2]}` : '';
+        }
+
+        function buildCaseDetail(c) {
+            const key = `${c.country}-${c.num}`;
+            if (CASE_DETAIL_CACHE[key]) return CASE_DETAIL_CACHE[key];
+
+            const detail = {
+                key,
+                priority: ['High', 'Medium', 'Low'][c.num.length % 3],
+                caseOwner: c.initials === 'MK' ? 'Margarete K.' : (c.initials === 'JS' ? 'John S.' : 'Anna L.'),
+                locked: c.workflow === 'Closed',
+                general: {
+                    reportType: c.reportType,
+                    countryOfIncidence: c.country,
+                    initialReceiptDate: c.receipt,
+                    centralReceiptDate: c.receipt,
+                    awareDate: c.receipt,
+                    initialJustification: 'Not specified',
+                    followUps: c.workflow === 'Closed' ? 1 : 0,
+                    classification: c.reportType === 'Expedited' ? 'Serious, Unlisted' : 'Non-Serious, Listed',
+                    caseRequiresFollowUp: c.workflow !== 'Closed',
+                    study: (c.reportType === 'Periodic') ? {
+                        projectId: 'PRJ-' + c.num.slice(-4),
+                        studyId: 'STU-' + c.num.slice(-3),
+                        centerId: 'CTR-' + c.country + '01',
+                        phase: 'Phase III',
+                        studyName: c.product.split(' ')[0] + ' Long-Term Safety Study',
+                        studyType: 'Interventional',
+                        blindingStatus: 'Not Blinded',
+                    } : null,
+                    reporters: [{
+                        primary: true,
+                        salutation: 'Dr.',
+                        firstName: 'Reporter',
+                        lastName: c.initials + '-1',
+                        hcp: 'Yes',
+                        occupation: 'Physician',
+                        reporterType: 'Physician',
+                        institution: 'General Hospital',
+                        city: 'Sample City',
+                        country: c.country,
+                        reportMedia: 'Email',
+                        confidential: false,
+                    }, ],
+                    literature: c.reportType === 'Periodic' ? {
+                        journal: 'Journal of Clinical Safety',
+                        author: 'Smith et al.',
+                        title: 'Post-marketing observations of ' + c.product,
+                        volume: '14',
+                        year: '2010',
+                        pages: '112-118',
+                    } : null,
+                },
+                patient: {
+                    initials: c.initials + '.X.',
+                    dob: '??-???-1975',
+                    age: 35,
+                    ageUnits: 'Years',
+                    gender: c.event === 'Fatigue' || c.event === 'Headache' ? 'Female' : 'Male',
+                    ethnicity: 'Not Reported',
+                    weight: 70,
+                    weightUnits: 'kg',
+                    height: 170,
+                    heightUnits: 'cm',
+                    pregnant: 'Unknown',
+                    confidential: false,
+                    otherHistory: [
+                        { start: '2005', stop: 'Ongoing', ongoing: true, type: 'Medical History Episode',
+                            term: 'Hypertension', notes: 'Managed with lifestyle changes.' },
+                    ],
+                    labData: [
+                        { date: c.receipt, test: 'ALT', result: '38', units: 'U/L', normLow: '7', normHigh: '40',
+                            assessment: 'Normal' },
+                        { date: c.receipt, test: 'Creatinine', result: '1.0', units: 'mg/dL', normLow: '0.6',
+                            normHigh: '1.3', assessment: 'Normal' },
+                    ],
+                },
+                products: [{
+                    role: 'Suspect',
+                    name: c.product,
+                    generic: c.product.split(' ')[0].toLowerCase() + 'ine',
+                    manufacturer: 'Sample Pharma Inc.',
+                    formulation: c.product.includes('Inj') ? 'Solution for Injection' : 'Tablet',
+                    indication: 'Approved indication per label',
+                    dose: c.product.includes('Inj') ? '1 vial' : '1 tablet',
+                    doseUnits: 'per dose',
+                    frequency: 'Once daily',
+                    route: c.product.includes('Inj') ? 'Intramuscular' : 'Oral',
+                    startDate: c.receipt,
+                    stopDate: c.workflow === 'Closed' ? c.receipt : 'Ongoing',
+                    ongoing: c.workflow !== 'Closed',
+                    actionTaken: 'Dose Not Changed',
+                    dechallenge: 'Unknown',
+                    rechallenge: 'Not Applicable',
+                }, {
+                    role: 'Concomitant',
+                    name: 'Multivitamin Tablet',
+                    generic: 'multivitamin',
+                    manufacturer: 'Generic Labs',
+                    formulation: 'Tablet',
+                    indication: 'Dietary supplement',
+                    dose: '1 tablet',
+                    doseUnits: 'per dose',
+                    frequency: 'Once daily',
+                    route: 'Oral',
+                    startDate: '01-Jan-2010',
+                    stopDate: 'Ongoing',
+                    ongoing: true,
+                    actionTaken: 'Unknown',
+                    dechallenge: 'Not Applicable',
+                    rechallenge: 'Not Applicable',
+                }, ],
+                events: [{
+                    term: c.event,
+                    verbatim: c.event.toLowerCase(),
+                    onset: c.receipt,
+                    resolution: c.workflow === 'Closed' ? c.receipt : 'Ongoing',
+                    outcome: c.workflow === 'Closed' ? 'Recovered/Resolved' : 'Not Recovered/Not Resolved',
+                    seriousness: c.reportType === 'Expedited' ? ['Medically Significant'] : [],
+                    serious: c.reportType === 'Expedited',
+                    causality: 'Possibly Related',
+                    intensity: 'Moderate',
+                }, ],
+                analysis: {
+                    narrative: `This ${c.reportType.toLowerCase()} case concerns a ${c.country}-based patient (initials ${c.initials}.X.) who experienced ${c.event.toLowerCase()} following treatment with ${c.product}. Event onset was reported on ${c.receipt}. The reporter classified the event as ${c.reportType === 'Expedited' ? 'serious' : 'non-serious'}. Follow-up ${c.workflow !== 'Closed' ? 'is pending' : 'has been completed'} at this time.`,
+                    companyComment: 'Case reviewed per standard operating procedure. Causality assessment pending Medical Review sign-off.',
+                    causalityCompany: 'Possible',
+                    causalityReporter: 'Possible',
+                    listednessDetermination: c.reportType === 'Expedited' ? 'Unlisted' : 'Listed',
+                },
+                activities: {
+                    contactLog: [
+                        { date: c.receipt, type: 'Phone', description: 'Initial contact with reporter to confirm case details.' },
+                    ],
+                    actionItems: [
+                        { due: '18-Mar-2010', assignedTo: c.initials,
+                            description: 'Obtain follow-up questionnaire from site.',
+                            status: c.workflow === 'Closed' ? 'Completed' : 'Open' },
+                    ],
+                    routing: [
+                        { date: c.receipt, from: 'Data Entry', to: c.workflow,
+                        comment: 'Routed per standard workflow.' },
+                    ],
+                },
+                additionalInfo: {
+                    attachments: [
+                        { name: 'Source_Document_' + c.num + '.pdf', classification: 'Source Document',
+                            addedOn: c.receipt },
+                    ],
+                    notes: [
+                        { date: c.receipt, author: c.initials,
+                            text: 'Case booked in from ' + (c.reportType === 'Periodic' ? 'clinical study report.' :
+                                'spontaneous report.') },
+                    ],
+                },
+                regulatoryReports: [
+                    { report: c.reportType === 'Expedited' ? 'CIOMS I' : 'PSUR Line Listing',
+                        dueDate: '15-Mar-2010', status: c.workflow === 'Closed' ? 'Submitted' : 'Not Started' },
+                    { report: c.country === 'US' ? 'MedWatch 3500A' : 'EU EVCTM', dueDate: '17-Mar-2010',
+                        status: c.workflow === 'Closed' ? 'Submitted' : 'Draft' },
+                ],
+                pmda: c.country === 'JP' ? {
+                    reportRoute: 'PMDA Expedited (15-day)',
+                    dueDate: '19-Mar-2010',
+                    status: 'Not Started',
+                    psrResdApplicable: false,
+                } : null,
+            };
+
+            CASE_DETAIL_CACHE[key] = detail;
+            return detail;
+        }
+
+        // ============ UI FUNCTIONS ============
+        function toggleApPanel(id) {
+            cfState.collapsed[id] = !cfState.collapsed[id];
+            const body = document.getElementById(id);
+            const box = document.getElementById(id + '_box');
+            if (body) body.classList.toggle('collapsed', !!cfState.collapsed[id]);
+            if (box) box.textContent = cfState.collapsed[id] ? '+' : '\u2212';
+        }
+
+        function apPanel(id, title, bodyHtml, headerRightHtml) {
+            const isCollapsed = !!cfState.collapsed[id];
+            return `
+                <div class="ap-panel">
+                  <div class="ap-panel-hd" onclick="toggleApPanel('${id}')">
+                    <div class="ap-hd-left"><span>${title}</span></div>
+                    <div class="ap-hd-right" onclick="event.stopPropagation()">
+                      ${headerRightHtml || ''}
+                      <span class="ap-collapse-box" id="${id}_box" onclick="toggleApPanel('${id}')">${isCollapsed ? '+' : '\u2212'}</span>
+                    </div>
+                  </div>
+                  <div class="ap-panel-body${isCollapsed ? ' collapsed' : ''}" id="${id}">
+                    ${bodyHtml}
+                  </div>
+                </div>`;
+        }
+
+        function togglePanel(id) {
+            const body = document.getElementById(id);
+            body.style.display = (body.style.display === 'none') ? '' : 'none';
+        }
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.style.display = 'block';
+            clearTimeout(window._toastTimer);
+            window._toastTimer = setTimeout(() => t.style.display = 'none', 2200);
+        }
+
+        function quickLaunch() {
+            const val = document.getElementById('quickLaunchInput').value.trim();
+            if (!val) { showToast('Enter a case number to search.'); return; }
+            const match = ALL_CASES.find(c => c.num.toLowerCase() === val.toLowerCase() || c.num.toLowerCase().includes(val.toLowerCase()));
+            if (match) {
+                goTo('casedetail', `(${match.country}) ${match.num}`);
+            } else {
+                goTo('casedetail', val);
+            }
+        }
+
+        // ============ LOGIN / LOGOUT ============
+        function doLogin() {
+            const u = document.getElementById('username').value.trim();
+            const p = document.getElementById('password').value.trim();
+            const errorBox = document.getElementById('loginError');
+            if (!u || !p) {
+                errorBox.style.display = 'block';
+                return;
+            }
+            errorBox.style.display = 'none';
+            document.getElementById('welcomeUser').textContent = u;
+            document.getElementById('dbLabel').textContent = document.getElementById('database').value.split(' - ')[0];
+            document.getElementById('todayDate').textContent = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('appScreen').style.display = 'block';
+            buildNavbar();
+            buildToolbarIcons();
+            goTo('home');
+        }
+
+        function doLogout() {
+            document.getElementById('appScreen').style.display = 'none';
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        }
+
+        // ============ NAVBAR ============
+        function buildActiveCasesMenuHtml() {
+            const top = recentCases.slice(0, 2);
+            const rest = recentCases.slice(2);
+            const caseLink = c => `
+                <div class="dd-item" onclick="event.stopPropagation();goTo('casedetail','(${c.country}) ${c.num}')">
+                  <span>${formatArgusCaseNumber(c)}</span>
+                </div>`;
+            const topItems = top.map(caseLink).join('');
+            const restItems = rest.length ?
+                rest.map(caseLink).join('') :
+                `<div class="dd-item" style="color:#888;cursor:default;">No additional recent cases</div>`;
+            return `
+                <div class="dropdown-menu">
+                  ${topItems}
+                  <div class="dd-item has-submenu">
+                    <span>Last Access Cases</span>
+                    <span class="dd-arrow">&#9656;</span>
+                    <div class="dropdown-menu nested">${restItems}</div>
+                  </div>
+                </div>`;
+        }
+
+        function buildNavbar() {
+            const nav = document.getElementById('navbar');
+            nav.innerHTML = TABS.map(tab => {
+                let menuHtml = '';
+                if (tab.id === 'activecases') {
+                    menuHtml = buildActiveCasesMenuHtml();
+                } else if (tab.dropdown && DROPDOWN_MENUS[tab.dropdown]) {
+                    const menu = DROPDOWN_MENUS[tab.dropdown];
+                    menuHtml = `
+                        <div class="dropdown-menu">
+                          ${menu.map(item => `
+                            <div class="dd-item" onclick="event.stopPropagation();${item.action}">
+                              <span>${item.label}</span>
+                              ${item.shortcut ? `<span class="dd-shortcut">${item.shortcut}</span>` : (item.arrow ? `<span class="dd-arrow">&#9656;</span>` : '')}
+                            </div>`).join('')}
+                        </div>`;
+                }
+                return `
+                    <div class="tab-wrap">
+                      <div class="tab" data-tab-id="${tab.id}" onclick="goTo('${tab.id}')">${tab.label}</div>
+                      ${menuHtml}
+                    </div>`;
+            }).join('');
+        }
+
+        function setActiveTab(tabId) {
+            document.querySelectorAll('.navbar .tab').forEach(el => {
+                el.classList.toggle('active', el.dataset.tabId === tabId);
+            });
+        }
+
+        function buildToolbarIcons() {
+            const bar = document.getElementById('breadcrumbRight');
+            bar.innerHTML = TOOLBAR_ICONS.map(ic => {
+                if (ic.sep) return '<div class="icon-sep"></div>';
+                if (ic.text) return `<div class="icon-btn txt" title="${ic.title}" onclick="showToast('${ic.title} would run here.')">${ic.text}</div>`;
+                return `<div class="icon-btn" title="${ic.title}" onclick="showToast('${ic.title} would run here.')">${ic.glyph}</div>`;
+            }).join('');
+        }
+
+        // ============ ROUTER ============
+        function goTo(page, param) {
+            currentTab = page;
+            setActiveTab(page === 'casedetail' ? 'activecases' : (page === 'home' ? 'home' : page));
+            const content = document.getElementById('contentArea');
+            const crumb = document.getElementById('breadcrumbText');
+
+            if (page === 'home') {
+                setActiveTab('home');
+                crumb.innerHTML = 'Home &gt; Personal Argus Status';
+                content.innerHTML = renderHome();
+            } else if (page === 'activecases') {
+                crumb.innerHTML = 'Home &gt; Active Cases';
+                content.innerHTML = renderActiveCases();
+            } else if (page.startsWith('worklist_')) {
+                const sub = page.replace('worklist_', '');
+                crumb.innerHTML = `Home &gt; Worklist &gt; ${sub.charAt(0).toUpperCase() + sub.slice(1)}`;
+                content.innerHTML = renderWorklistPage(sub);
+            } else if (page === 'caseactions') {
+                crumb.innerHTML = 'Home &gt; Case Actions &gt; Case Open';
+                content.innerHTML = renderCaseActions();
+            } else if (page === 'newcaseform') {
+                crumb.innerHTML = 'Home &gt; Case Actions &gt; Case Open &gt; Case Search Criteria';
+                content.innerHTML = renderNewCaseForm();
+            } else if (page === 'reports') {
+                crumb.innerHTML = 'Home &gt; Reports';
+                content.innerHTML = renderReports();
+            } else if (page === 'dashboards') {
+                crumb.innerHTML = 'Home &gt; Dashboards';
+                content.innerHTML = renderDashboards();
+            } else if (page === 'utilities') {
+                crumb.innerHTML = 'Home &gt; Utilities';
+                content.innerHTML = renderUtilities();
+            } else if (page === 'casedetail') {
+                crumb.innerHTML = 'Home &gt; Case Actions &gt; Case Form &gt; ' + param;
+                trackCaseAccess(param);
+                const cKey = (findCaseByLabel(param) || {}).country + '-' + (findCaseByLabel(param) || {}).num;
+                if (cfState.caseKey !== cKey) {
+                    cfState = { caseKey: cKey, tab: 'general', reporterIdx: 0, productIdx: 0, eventIdx: 0,
+                        patientSub: 'patient', collapsed: {} };
+                }
+                content.innerHTML = renderCaseDetail(param);
+            } else {
+                const tabInfo = TABS.find(t => t.id === page);
+                crumb.innerHTML = 'Home &gt; ' + (tabInfo ? tabInfo.label : page);
+                content.innerHTML = renderPlaceholder(tabInfo ? tabInfo.label : page);
+            }
+            window.scrollTo(0, 0);
+        }
+
+        function renderPlaceholder(label) {
+            const desc = {
+                localaffiliate: 'The Local Affiliate Module lets regional affiliates review and route case information.',
+                argusconsole: 'Argus Console is the system administration workbench.',
+                argusinsight: 'Argus Insight is the separate business-intelligence and signal-analysis application.',
+                argusperceptive: 'Argus Perceptive is the intelligent document-processing module for case intake.',
+            } [label] || 'This module is part of the Argus Safety Web training simulation.';
+            return `
+                <div class="placeholder-page">
+                  <div class="placeholder-icon">&#128203;</div>
+                  <h2>${label}</h2>
+                  <p>${desc}</p>
+                </div>`;
+        }
+
+        function renderHome() {
+            return `
+                <div class="page-title">Personal Argus Status</div>
+                <div class="section-wrap">
+                  <div class="section-header">Search Case</div>
+                  <div class="search-case-body">
+                    <label>Case Quick Launch</label>
+                    <input type="text" id="quickLaunchInput" placeholder="Enter case number, e.g. 2010-00118">
+                    <button class="btn-open" onclick="quickLaunch()">Open</button>
+                  </div>
+                </div>
+                <div class="section-wrap">
+                  <div class="panel-header" onclick="togglePanel('panelCases')">
+                    <label><input type="checkbox" checked onclick="event.stopPropagation()"> Cases Assigned (${ALL_CASES.length})</label>
+                    <span>&#8722;</span>
+                  </div>
+                  <div class="panel-body" id="panelCases">
+                    <table class="data-table">
+                      <thead><tr><th>(Country) Case Number</th><th>Report Type</th><th>Product</th><th>Workflow State</th><th>Event</th></tr></thead>
+                      <tbody>
+                        ${ALL_CASES.map(c => `
+                          <tr>
+                            <td><a onclick="goTo('casedetail','(${c.country}) ${c.num}')">(${c.country}) ${c.num}</a></td>
+                            <td>${c.reportType}</td>
+                            <td>${c.product}</td>
+                            <td><span class="badge ${WORKFLOW_BADGE[c.workflow] || ''}">${c.workflow}</span></td>
+                            <td>${c.event}</td>
+                          </tr>`).join('')}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="section-wrap">
+                  <div class="panel-header" onclick="togglePanel('panelContact')">
+                    <label><input type="checkbox" checked onclick="event.stopPropagation()"> Contact Log Entries (2)</label>
+                    <span>&#8722;</span>
+                  </div>
+                  <div class="panel-body" id="panelContact">
+                    <table class="data-table">
+                      <thead><tr><th>(Country) Case Number</th><th>Contact Date</th><th>Description</th></tr></thead>
+                      <tbody>
+                        <tr><td><a onclick="goTo('casedetail','(US) 2010-00118')">(US) 2010-00118</a></td><td>10-Mar-2010</td><td>Called reporter to confirm dosage details.</td></tr>
+                        <tr><td><a onclick="goTo('casedetail','(DE) 2010-00092')">(DE) 2010-00092</a></td><td>08-Mar-2010</td><td>Follow-up email sent requesting lab results.</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="section-wrap" style="margin-bottom:10px;">
+                  <div class="panel-header" onclick="togglePanel('panelAction')">
+                    <label><input type="checkbox" checked onclick="event.stopPropagation()"> Action Item Entries (1)</label>
+                    <span>&#8722;</span>
+                  </div>
+                  <div class="panel-body" id="panelAction">
+                    <table class="data-table">
+                      <thead><tr><th>(Country) Case Number</th><th>Due On</th><th>Description</th></tr></thead>
+                      <tbody>
+                        <tr><td><a onclick="goTo('casedetail','(FR) 2010-00071')">(FR) 2010-00071</a></td><td>18-Mar-2010</td><td>Obtain follow-up questionnaire from site.</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              `;
+        }
+
+        function renderActiveCases() {
+            return `
+                <div class="page-title">Active Cases</div>
+                <div class="page-sub">The system logs any cases you view in the active case list. Select any of the last 10 cases you accessed below to reopen them.</div>
+                <div class="section-wrap" style="margin-bottom:14px;">
+                  <div class="section-header">Last Accessed Cases</div>
+                  <div class="panel-body">
+                    ${recentCases.length === 0 ? '<div class="grid-empty-msg">You have not accessed any cases yet this session.</div>' : `
+                    <table class="data-table">
+                      <thead><tr><th>(Country) Case Number</th><th>Product</th><th>Event</th><th>Workflow State</th><th>Last Accessed</th></tr></thead>
+                      <tbody>
+                        ${recentCases.map(c => `
+                          <tr>
+                            <td><a onclick="goTo('casedetail','(${c.country}) ${c.num}')">(${c.country}) ${c.num}</a></td>
+                            <td>${c.product}</td>
+                            <td>${c.event}</td>
+                            <td><span class="badge ${WORKFLOW_BADGE[c.workflow] || ''}">${c.workflow}</span></td>
+                            <td>${c.accessedLabel}</td>
+                          </tr>`).join('')}
+                      </tbody>
+                    </table>`}
+                  </div>
+                </div>
+              `;
+        }
+
+        function renderCaseActions() {
+            return `
+                <div class="page-title">Case Actions &ndash; Find Cases</div>
+                <div class="page-sub">Search for existing cases by case number, product, or country, then open a result to process it, or start a new case from the Case Actions menu above.</div>
+                <div class="section-wrap">
+                  <div class="section-header">Search Conditions</div>
+                  <div class="filter-form">
+                    <label>Case Number</label><input type="text" id="fCaseNum" placeholder="e.g. 2010-00118">
+                    <label>Country</label>
+                    <select id="fCountry"><option value="">(Any)</option><option>US</option><option>DE</option><option>FR</option><option>JP</option><option>GB</option></select>
+                    <label>Product</label>
+                    <select id="fProduct"><option value="">(Any)</option><option>ProductX 50mg</option><option>ProductY 10mg</option><option>ProductZ Inj.</option><option>ProductW 5mg</option></select>
+                    <label>Workflow State</label>
+                    <select id="fWorkflow"><option value="">(Any)</option><option>Data Entry</option><option>Medical Review</option><option>QC Review</option><option>Coding Review</option><option>Closed</option></select>
+                    <label>Advanced Condition</label>
+                    <select id="fAdvancedCondition">
+                      <option value="">None</option>
+                      ${savedAdvancedConditions.map(ac => `<option value="${ac.name}">${ac.name}</option>`).join('')}
+                    </select>
+                    <div class="filter-actions">
+                      <button class="btn-open" onclick="resetCaseSearch()">Reset</button>
+                      <button class="btn-open" onclick="runCaseSearch()">Search</button>
+                      <button class="btn-open" onclick="openCaseSearchForm()">New Case&hellip;</button>
+                      <button class="btn-open" onclick="openAdvancedConditionsModal()">Advanced Conditions</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="section-wrap" style="margin-bottom:14px;">
+                  <div class="section-header">Search Results</div>
+                  <div class="panel-body" id="caseSearchResults">
+                    ${renderCaseSearchRows(ALL_CASES)}
+                  </div>
+                </div>
+              `;
+        }
+
+        function renderCaseSearchRows(rows) {
+            if (rows.length === 0) return '<div class="grid-empty-msg">No cases matched your search conditions.</div>';
+            return `
+                <table class="data-table">
+                  <thead><tr><th>(Country) Case Number</th><th>Report Type</th><th>Product</th><th>Event</th><th>Workflow State</th><th>Receipt Date</th><th>Assigned To</th></tr></thead>
+                  <tbody>
+                    ${rows.map(c => `
+                      <tr>
+                        <td><a onclick="goTo('casedetail','(${c.country}) ${c.num}')">(${c.country}) ${c.num}</a></td>
+                        <td>${c.reportType}</td>
+                        <td>${c.product}</td>
+                        <td>${c.event}</td>
+                        <td><span class="badge ${WORKFLOW_BADGE[c.workflow] || ''}">${c.workflow}</span></td>
+                        <td>${c.receipt}</td>
+                        <td>${c.initials}</td>
+                      </tr>`).join('')}
+                  </tbody>
+                </table>`;
+        }
+
+        function runCaseSearch() {
+            const num = document.getElementById('fCaseNum').value.trim().toLowerCase();
+            const country = document.getElementById('fCountry').value;
+            const product = document.getElementById('fProduct').value;
+            const workflow = document.getElementById('fWorkflow').value;
+            const advCond = document.getElementById('fAdvancedCondition').value;
+
+            let rows = ALL_CASES.filter(c =>
+                (!num || c.num.toLowerCase().includes(num)) &&
+                (!country || c.country === country) &&
+                (!product || c.product === product) &&
+                (!workflow || c.workflow === workflow)
+            );
+
+            if (advCond) {
+                const condition = savedAdvancedConditions.find(ac => ac.name === advCond);
+                if (condition && condition.query) {
+                    rows = rows.filter(c => {
+                        return condition.query.every(q => {
+                            const prop = q.property;
+                            const op = q.operator;
+                            const value = q.value;
+                            if (prop === 'Case Number') return op === 'equal to' ? c.num === value : c.num.includes(value);
+                            if (prop === 'Country') return op === 'equal to' ? c.country === value : c.country.includes(value);
+                            if (prop === 'Product') return op === 'equal to' ? c.product === value : c.product.includes(value);
+                            if (prop === 'W...
